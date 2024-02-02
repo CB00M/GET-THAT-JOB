@@ -1,8 +1,20 @@
+"use client";
 import Image from "next/image";
 import "tailwindcss/tailwind.css";
-import Header from "@/app/components/header";
+import Header from "@/app/components/Header";
+import { useState, useEffect } from "react";
+import Link from "next/link";
 
 export default function RegisterPage() {
+  const [companyName, setCompanyName] = useState("");
+  const [companyEmail, setCompanyEmail] = useState("");
+  const [companyPassword, setCompanyPassword] = useState("");
+  const [companyPasswordConfirm, setCompanyPasswordConfirm] = useState("");
+
+  const handleInputCompanyLogin = async (event) => {
+    event.preventDefault();
+  };
+
   return (
     <>
       <Header />
@@ -45,59 +57,89 @@ export default function RegisterPage() {
             />
           </div>
         </div>
-        <div className="input-information">
-          <p>COMPANY NAME</p>
-          <input
-            className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
-            type="text"
-            id="company-name"
-            name="company-name"
-            placeholder="My Company S.A"
-          />
-          <p>EMAIL</p>
-          <input
-            className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
-            type="email"
-            id="email"
-            name="email"
-            placeholder="some.user@mail.com"
-          />
-          <p>PASSWORD</p>
-          <input
-            className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
-            type="password"
-            id="password"
-            name="password"
-            placeholder="******"
-          />
-          <p>PASSWORD CONFIRMATION</p>
-          <input
-            className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
-            type="password"
-            id="password"
-            name="password"
-            placeholder="******"
-          />
-        </div>
-        <button
-          type="submit"
-          className="p-2 w-20 h-10 bg-[#F48FB1] text-white mt-4  rounded-2xl text-sm relative ml-[120px] "
-        >
-          NEXT
-          <Image
-            src="/arrow-right.png"
-            width={20}
-            height={20}
-            alt="arrow"
-            className="absolute right-[2px] bottom-[10px]"
-          />
-        </button>
+        <form>
+          <div className="input-information">
+            <p>COMPANY NAME</p>
+            <input
+              className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
+              type="text"
+              id="companyName"
+              name="companyName"
+              placeholder="My Company S.A"
+              onChange={(event) => {
+                setCompanyName(event.target.value);
+              }}
+              value={companyName}
+            />
+            <p>EMAIL</p>
+            <input
+              className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
+              type="email"
+              id="companyEmail"
+              name="companyEmail"
+              placeholder="some.user@mail.com"
+              onChange={(event) => {
+                setCompanyEmail(event.target.value);
+              }}
+              value={companyEmail}
+            />
+            <p>PASSWORD</p>
+            <input
+              className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
+              type="password"
+              id="companyPassword"
+              name="companyPassword"
+              placeholder="******"
+              onChange={(event) => {
+                setCompanyPassword(event.target.value);
+              }}
+              value={companyPassword}
+            />
+            <p>PASSWORD CONFIRMATION</p>
+            <input
+              className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
+              type="password"
+              id="companyPasswordConfirm"
+              name="companyPasswordConfirm"
+              placeholder="******"
+              onChange={(event) => {
+                setCompanyPasswordConfirm(event.target.value);
+              }}
+              value={companyPasswordConfirm}
+            />
+          </div>
+          <Link
+            href={{
+              pathname: "/pages/recruiterRegisterPage2",
+              query: {
+                companyName,
+                companyEmail,
+                companyPassword,
+                companyPasswordConfirm,
+              },
+            }}
+          >
+            <button
+              type="button"
+              className="p-2 w-20 h-10 bg-[#F48FB1] text-white mt-4  rounded-2xl text-sm relative ml-[120px] "
+            >
+              NEXT
+              <Image
+                src="/arrow-right.png"
+                width={20}
+                height={20}
+                alt="arrow"
+                className="absolute right-[2px] bottom-[10px]"
+              />
+            </button>
+          </Link>
+        </form>
         <Image
           src="/woman.png"
           width={400}
           height={400}
           alt="woman"
-          className="absolute right-[200px] top-[275px]"
+          className="absolute top-[275px] ml-[550px] "
         />
       </div>
     </>
