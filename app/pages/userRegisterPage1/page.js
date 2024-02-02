@@ -4,32 +4,16 @@ import Image from "next/image";
 import "tailwindcss/tailwind.css";
 import Header from "@/app/components/Header";
 import { useState } from "react";
-import { supabase } from "@/utils/supabase";
+import Link from "next/link";
+import { useEffect } from "react";
 
 export default function RegisterPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
 
-  const handleRegister = async (event) => {
-    event.preventDefault();
-    try {
-      const { user, error } = await supabase.from("user").insert([
-        {
-          email,
-          password,
-        },
-      ]);
-      // console.log(email, password);
-
-      if (error) {
-        console.error("Error registering user", error.message);
-        return false;
-      }
-      console.log("User registered successfully:", user);
-    } catch (error) {
-      console.error("Error registering user", error.message);
-    }
-  };
+  // useEffect(() => {
+  //   setEmail(null), setPassword(null);
+  // }, [handleNext]);
 
   return (
     <>
@@ -113,10 +97,13 @@ export default function RegisterPage() {
             name="password"
           />
         </div>
-        <button
+        <Link
+          href={{
+            pathname: "/pages/userRegisterPage2",
+            query: { email, password },
+          }}
           type="submit"
           className="p-2 w-20 h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
-          onClick={handleRegister}
         >
           NEXT
           <Image
@@ -126,7 +113,7 @@ export default function RegisterPage() {
             alt="arrow"
             className="absolute right-[2px] bottom-[10px]"
           />
-        </button>
+        </Link>
         <Image
           src="/woman.png"
           width={400}

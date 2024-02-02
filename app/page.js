@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import "tailwindcss/tailwind.css";
 import Header from "@/app/components/Header.jsx";
 import Icons from "@/app/components/Icons.jsx";
+import Link from "next/link";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -30,12 +31,13 @@ export default function Page() {
           in no time. We promise you! Just give us the money and we <br />
           will take care of it.
           <br />
-          <button
+          <Link
+            href={"pages/userLogin"}
             style={montserrat.style}
             className="text-sm inline-block border-pink-300 border border-solid p-6 my-8 rounded-3xl text-white bg-[#F48FB1] hover:bg-[#BF5F82] active:bg-[#FFC1E3]"
           >
             CREATE AN ACCOUNT NOW
-          </button>
+          </Link>
         </p>
         <div className="inline-block ">
           <Image src="/images/humen-group.png" width={1062} height={350} />
