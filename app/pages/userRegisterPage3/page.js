@@ -6,15 +6,33 @@ import { useState, useEffect } from "react";
 import React from "react";
 import { createClient } from "@/utils/supabase/server";
 import { register } from "./action.js";
+import Link from "next/link.js";
 
 // import { cookies } from "next/headers";
 
 export default function RegisterPage() {
-  const [title, setTitle] = useState("");
-  const [experience, setExperience] = useState("");
-  const [education, setEducation] = useState("");
+  const [title, setTitle] = useState(null);
+  const [experience, setExperience] = useState(null);
+  const [education, setEducation] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [name, setName] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState(null);
+  const [birthdate, setBirthdate] = useState(null);
+  const [linkedin, setLinkedin] = useState(null);
   // const cookiesStore = cookies();
   // const supabase = createClient(cookiesStore);
+
+  useEffect(() => {
+    // เมื่อหน้า load จะดึงข้อมูลจาก URL
+    const urlParams = new URLSearchParams(window.location.search);
+    setEmail(urlParams.get("email"));
+    setPassword(urlParams.get("password"));
+    setName(urlParams.get("name"));
+    setPhoneNumber(urlParams.get("phoneNumber"));
+    setBirthdate(urlParams.get("birthdate"));
+    setLinkedin(urlParams.get("linkein"));
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -43,6 +61,7 @@ export default function RegisterPage() {
   return (
     <>
       <Header />
+
       <div className="wrapper ml-[400px] relative ">
         <h1 className="text-[48px] mb-4">Good choice!</h1>
         <h2 className="text-[20px] mb-8">Create a new account as...</h2>
@@ -166,19 +185,21 @@ export default function RegisterPage() {
           </div>
           <p className="text-[10px] text-[#8E8E8E] ">Only PDF.Max size 5MB</p>
           <div className="change-page ">
-            <button
-              type="submit"
-              className="m-5 p-2 w-[120px] h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
-            >
-              PREVIOUS
-              <Image
-                src="/arrow-left.png"
-                width={20}
-                height={20}
-                alt="arrow"
-                className="absolute left-[2px] bottom-[10px]"
-              />
-            </button>
+            <Link href="/pages/userRegisterPage1">
+              <button
+                type="submit"
+                className="m-5 p-2 w-[120px] h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
+              >
+                PREVIOUS
+                <Image
+                  src="/arrow-left.png"
+                  width={20}
+                  height={20}
+                  alt="arrow"
+                  className="absolute left-[2px] bottom-[10px]"
+                />
+              </button>
+            </Link>
             <button
               type="submit"
               className="m-5 p-2 w-[120px] h-10 border border-[#F48FB1] mt-4 ml-auto rounded-2xl text-sm relative "

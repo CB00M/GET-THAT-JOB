@@ -74,6 +74,8 @@ export default function RegisterPage() {
           <input
             className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
             type="email"
+            name="email"
+            id="email"
             value={email}
             onChange={(event) => {
               setEmail(event.target.value);
@@ -84,6 +86,7 @@ export default function RegisterPage() {
           <input
             className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
             type="password"
+            name="password"
             value={password}
             onChange={(event) => {
               setPassword(event.target.value);
@@ -93,8 +96,8 @@ export default function RegisterPage() {
           <input
             className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
             type="password"
-            id="password"
-            name="password"
+            id="passwordConfirmation"
+            name="passwordConfirmation"
           />
         </div>
         <Link
@@ -102,17 +105,20 @@ export default function RegisterPage() {
             pathname: "/pages/userRegisterPage2",
             query: { email, password },
           }}
-          type="submit"
-          className="p-2 w-20 h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
         >
-          NEXT
-          <Image
-            src="/arrow-right.png"
-            width={20}
-            height={20}
-            alt="arrow"
-            className="absolute right-[2px] bottom-[10px]"
-          />
+          <button
+            type="submit"
+            className="p-2 w-20 h-10  bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
+          >
+            NEXT
+            <Image
+              src="/arrow-right.png"
+              width={20}
+              height={20}
+              alt="arrow"
+              className="absolute right-[2px] bottom-[10px]"
+            />
+          </button>
         </Link>
         <Image
           src="/woman.png"

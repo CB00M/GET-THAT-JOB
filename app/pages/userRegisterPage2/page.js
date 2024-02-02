@@ -3,30 +3,26 @@ import Image from "next/image";
 import "tailwindcss/tailwind.css";
 import Header from "@/app/components/Header";
 import { Montserrat } from "next/font/google";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export default function RegisterPage2() {
-  const { email, password } = useRouter().query;
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
   const [name, setName] = useState(null);
-  const [phone, setPhone] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState(null);
   const [birthdate, setBirthdate] = useState(null);
   const [linkedin, setLinkedin] = useState(null);
 
   useEffect(() => {
-    // ทำการส่งข้อมูลไปที่ server ตรงนี้
-    if (email && password && phoneNumber && height) {
-      console.log("Sending data to server:", {
-        email,
-        password,
-        phoneNumber,
-        height,
-      });
-    }
-  }, [email, password, phoneNumber, height]);
+    // เมื่อหน้า load จะดึงข้อมูลจาก URL
+    const urlParams = new URLSearchParams(window.location.search);
+    setEmail(urlParams.get("email"));
+    setPassword(urlParams.get("password"));
+  }, []);
+
   // const handleRegister = async (event) => {
   //   event.preventDefault();
   //   try {
@@ -153,9 +149,9 @@ export default function RegisterPage2() {
             id="number"
             name="telephone"
             placeholder="+XXXXXXXX"
-            value={phone}
+            value={phoneNumber}
             onChange={(event) => {
-              setPhone(event.target.value);
+              setPhoneNumber(event.target.value);
             }}
             style={montserrat.style}
           />
@@ -231,23 +227,20 @@ export default function RegisterPage2() {
                 linkedin,
               },
             }}
-            className="p-2 w-[100px] h-10 bg-[#F48FB1] mt-4  rounded-2xl text-sm flex align-middle"
           >
-            <a
+            <button
               type="submit"
-              className=" w-[100px] h-10  text-white rounded-2xl text-sm ml-1 "
-              style={montserrat.style}
-              onClick={handleRegister}
+              className="p-2 w-20 h-10  bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
             >
               NEXT
-            </a>
-            <Image
-              src="/arrow-right.png"
-              width={40}
-              height={20}
-              alt="arrow"
-              className=" mr-2 mb-1 "
-            />
+              <Image
+                src="/arrow-right.png"
+                width={20}
+                height={20}
+                alt="arrow"
+                className="absolute right-[2px] bottom-[10px]"
+              />
+            </button>
           </Link>
         </div>
         <Image
