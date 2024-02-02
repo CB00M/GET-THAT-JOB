@@ -1,11 +1,30 @@
+"use client";
 import Image from "next/image";
 import "tailwindcss/tailwind.css";
 import Header from "@/app/components/Header";
+import { useState, useEffect } from "react";
 
 export default function RegisterPage() {
+  const [companyName, setCompanyName] = useState("");
+  const [companyEmail, setCompanyEmail] = useState("");
+  const [companyPassword, setCompanyPassword] = useState("");
+  const [companyPasswordConfirm, setCompanyPasswordConfirm] = useState("");
+
+  useEffect(() => {
+    // เมื่อหน้า load จะดึงข้อมูลจาก URL
+    const urlParams = new URLSearchParams(window.location.search);
+    setCompanyName(urlParams.get("companyName"));
+    setCompanyEmail(urlParams.get("companyEmail"));
+    setCompanyPassword(urlParams.get("companyPassword"));
+    setCompanyPasswordConfirm(urlParams.get("companyPasswordConfirm"));
+  }, []);
   return (
     <>
       <Header />
+      <p>Company Name: {companyName}</p>
+      <p>Company Email: {companyEmail}</p>
+      <p>Company Password: {companyPassword}</p>
+      <p>Company Password Confirm: {companyPasswordConfirm}</p>
       <div className="wrapper ml-[400px] ">
         <h1 className="text-[48px] mb-4">Good choice!</h1>
         <h2 className="text-[20px] mb-8">Create a new account as...</h2>
