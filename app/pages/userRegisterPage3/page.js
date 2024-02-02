@@ -1,8 +1,45 @@
+"use client";
 import Image from "next/image";
 import "tailwindcss/tailwind.css";
 import Header from "@/app/components/Header";
+import { useState, useEffect } from "react";
+import React from "react";
+import { createClient } from "@/utils/supabase/server";
+import { register } from "./action.js";
+
+// import { cookies } from "next/headers";
 
 export default function RegisterPage() {
+  const [title, setTitle] = useState("");
+  const [experience, setExperience] = useState("");
+  const [education, setEducation] = useState("");
+  // const cookiesStore = cookies();
+  // const supabase = createClient(cookiesStore);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    registerClient();
+  };
+
+  const registerClient = async (req) => {
+    try {
+      const req = {
+        title: title,
+        experience: experience,
+        education: education,
+      };
+
+      console.log("ลงทะเบียนผู้ใช้เรียบร้อยแล้ว!", req);
+    } catch (error) {
+      // จัดการข้อผิดพลาดอย่างเป็นระเบียบ
+
+      console.error("ข้อผิดพลาดในการลงทะเบียนผู้ใช้:", error);
+
+      // คุณอาจต้องการแสดงข้อความผิดพลาดแก่ผู้ใช้
+      // หรือดำเนินการอื่นๆ ตามสถานการณ์
+    }
+  };
+
   return (
     <>
       <Header />
@@ -57,101 +94,120 @@ export default function RegisterPage() {
             />
           </div>
         </div>
-        <div className="input-information">
-          <p className="text-[10px] mb-5 text-[#616161]">
-            YOU CAN COMPLETE THIS INFORMATION LATER BUT WE <br /> RECCOMEND YOU
-            TO DO IT NOW
-          </p>
-          <p className="text-[10px] text-[#616161]">TITLE</p>
-          <input
-            className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1 mb-2"
-            type="text"
-            id="title"
-            name="title"
-            placeholder="Mechanical administrator..."
-          />
-          <p className="text-[10px] text-[#616161]">PROFESSIONAL EXPERIENCE</p>
-          <textarea
-            className="w-[500px] h-[80px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
-            type="text"
-            id="experience"
-            name="experience"
-            placeholder="Work 6 year in a bitcoin farm until I decide to change me life.... "
-          />
-          <p className="text-[10px] text-[#8E8E8E]">
-            Between 100 and 2000 characters
-          </p>
-          <p className="text-[10px] text-[#616161] mt-2">EDUCATION</p>
-          <textarea
-            className="w-[500px] h-[80px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Major in life experiences with a PHD in procrastination... "
-          />
-          <p className="text-[10px] text-[#8E8E8E] mb-2">
-            Between 100 and 2000 characters
-          </p>
-        </div>
-        <p className="text-[10px] text-[#616161] ">UPLOAD/UPDATE YOUR CV</p>
-        <div className="flex flex-row items-center">
-          <button
-            type="submit"
-            className="p-2 w-[150px] h-[50px] bg-[#F48FB1] text-white rounded-2xl text-sm pr-0 relative"
-          >
-            Choose a file
-            <Image
-              src="/upload-icon.png"
-              width={20}
-              height={20}
-              alt="arrow"
-              className="absolute left-[10px] bottom-[15px]"
+        <form action={register}>
+          <div className="input-information">
+            <p className="text-[10px] mb-5 text-[#616161]">
+              YOU CAN COMPLETE THIS INFORMATION LATER BUT WE <br /> RECCOMEND
+              YOU TO DO IT NOW
+            </p>
+            <p className="text-[10px] text-[#616161]">TITLE</p>
+            <input
+              className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1 mb-2"
+              type="text"
+              id="title"
+              name="title"
+              placeholder="Mechanical administrator..."
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+              value={title}
             />
-          </button>
-          <p className="text-[10px] text-[#616161] ml-[10px]">No file chose</p>
-        </div>
-        <p className="text-[10px] text-[#8E8E8E] ">Only PDF.Max size 5MB</p>
-        <div className="change-page ">
-          <button
-            type="submit"
-            className="m-5 p-2 w-[120px] h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
-          >
-            PREVIOUS
-            <Image
-              src="/arrow-left.png"
-              width={20}
-              height={20}
-              alt="arrow"
-              className="absolute left-[2px] bottom-[10px]"
+            <p className="text-[10px] text-[#616161]">
+              PROFESSIONAL EXPERIENCE
+            </p>
+            <textarea
+              className="w-[500px] h-[80px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
+              type="text"
+              id="experience"
+              name="experience"
+              placeholder="Work 6 year in a bitcoin farm until I decide to change me life.... "
+              onChange={(e) => {
+                setExperience(e.target.value);
+              }}
+              value={experience}
             />
-          </button>
-          <button
-            type="submit"
-            className="m-5 p-2 w-[120px] h-10 border border-[#F48FB1] mt-4 ml-auto rounded-2xl text-sm relative "
-          >
-            SKIP THIS!
-            <Image
-              src="/arrow-right.png"
-              width={20}
-              height={20}
-              alt="arrow"
-              className="absolute right-[2px] bottom-[10px]"
+            <p className="text-[10px] text-[#8E8E8E]">
+              Between 100 and 2000 characters
+            </p>
+            <p className="text-[10px] text-[#616161] mt-2">EDUCATION</p>
+            <textarea
+              className="w-[500px] h-[80px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
+              type="password"
+              id="education"
+              name="education"
+              placeholder="Major in life experiences with a PHD in procrastination... "
+              onChange={(e) => {
+                setEducation(e.target.value);
+              }}
+              value={education}
             />
-          </button>
-          <button
-            type="submit"
-            className="m-5 p-2 w-[120px] h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
-          >
-            FINISH
-            <Image
-              src="/arrow-right.png"
-              width={20}
-              height={20}
-              alt="arrow"
-              className="absolute right-[2px] bottom-[10px]"
-            />
-          </button>
-        </div>
+            <p className="text-[10px] text-[#8E8E8E] mb-2">
+              Between 100 and 2000 characters
+            </p>
+          </div>
+          <p className="text-[10px] text-[#616161] ">UPLOAD/UPDATE YOUR CV</p>
+          <div className="flex flex-row items-center">
+            <button
+              type="submit"
+              className="p-2 w-[150px] h-[50px] bg-[#F48FB1] text-white rounded-2xl text-sm pr-0 relative"
+            >
+              Choose a file
+              <Image
+                src="/upload-icon.png"
+                width={20}
+                height={20}
+                alt="arrow"
+                className="absolute left-[10px] bottom-[15px]"
+              />
+            </button>
+            <p className="text-[10px] text-[#616161] ml-[10px]">
+              No file chose
+            </p>
+          </div>
+          <p className="text-[10px] text-[#8E8E8E] ">Only PDF.Max size 5MB</p>
+          <div className="change-page ">
+            <button
+              type="submit"
+              className="m-5 p-2 w-[120px] h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
+            >
+              PREVIOUS
+              <Image
+                src="/arrow-left.png"
+                width={20}
+                height={20}
+                alt="arrow"
+                className="absolute left-[2px] bottom-[10px]"
+              />
+            </button>
+            <button
+              type="submit"
+              className="m-5 p-2 w-[120px] h-10 border border-[#F48FB1] mt-4 ml-auto rounded-2xl text-sm relative "
+            >
+              SKIP THIS!
+              <Image
+                src="/arrow-right.png"
+                width={20}
+                height={20}
+                alt="arrow"
+                className="absolute right-[2px] bottom-[10px]"
+              />
+            </button>
+            <button
+              onClick={handleSubmit}
+              type="submit"
+              className="m-5 p-2 w-[120px] h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
+            >
+              FINISH
+              <Image
+                src="/arrow-right.png"
+                width={20}
+                height={20}
+                alt="arrow"
+                className="absolute right-[2px] bottom-[10px]"
+              />
+            </button>
+          </div>
+        </form>
         <Image
           src="/woman.png"
           width={400}
