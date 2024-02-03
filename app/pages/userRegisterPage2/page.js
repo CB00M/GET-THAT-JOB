@@ -58,10 +58,12 @@ export default function RegisterPage2() {
             <hr className="w-[112px] border-b-[1px] border-[#F48FB1] " />
           </div>
           <div>
-            <p className="text-[#bdbdbd]" style={montserrat.style}>
-              RECRUITER
-            </p>
-            <hr className="w-[83px] border-b-[1px] border-[#bdbdbd]" />
+            <Link href="/pages/recruiterRegisterPage1">
+              <p className="text-[#bdbdbd]" style={montserrat.style}>
+                RECRUITER
+              </p>
+              <hr className="w-[83px] border-b-[1px] border-[#bdbdbd]" />
+            </Link>
           </div>
         </div>
         <div className="status-login flex flex-row mb-5">

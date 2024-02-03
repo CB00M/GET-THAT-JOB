@@ -3,6 +3,7 @@ import Image from "next/image";
 import "tailwindcss/tailwind.css";
 import Header from "@/app/components/Header";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 export default function RegisterPage() {
   const [companyName, setCompanyName] = useState("");
@@ -30,8 +31,10 @@ export default function RegisterPage() {
         <h2 className="text-[20px] mb-8">Create a new account as...</h2>
         <div className="status-user text-[14px] flex gap-[6px] mb-[36px]">
           <div className="mr-1 text-[#bdbdbd]">
-            <p>PROFESSIONAL</p>
-            <hr className="w-[100px] border-b-[3px]  border-[#bdbdbd]" />
+            <Link href="/pages/userRegisterPage1">
+              <p>PROFESSIONAL</p>
+              <hr className="w-[100px] border-b-[3px]  border-[#bdbdbd]" />
+            </Link>
           </div>
           <div>
             <p>RECRUITER</p>
