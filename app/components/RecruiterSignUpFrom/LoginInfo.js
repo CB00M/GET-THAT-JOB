@@ -1,10 +1,13 @@
 import "tailwindcss/tailwind.css";
 import Image from "next/image";
+import { Inter } from "next/font/google";
+
+const inter = Inter({ weight: "400", preload: false });
 
 function LoginInfo() {
   return (
     <>
-      <div className="status-login flex flex-row mb-5">
+      <div style={inter.style} className="status-login flex flex-row mb-5">
         <div className="first-status relative pl-[45px] ">
           <p className="text-[10px] ">IN PROGRESS</p>
           <p className="text-[18px]">Login</p>
@@ -30,8 +33,8 @@ function LoginInfo() {
           />
         </div>
       </div>
-      <div className="input-information">
-        <p>COMPANY NAME</p>
+      <div style={inter.style} className="input-information">
+        <p className="text-[10px]">COMPANY NAME</p>
         <input
           className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
           type="text"
@@ -39,7 +42,7 @@ function LoginInfo() {
           name="company-name"
           placeholder="My Company S.A"
         />
-        <p>EMAIL</p>
+        <p className="text-[10px]"> EMAIL </p>
         <input
           className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
           type="email"
@@ -47,7 +50,7 @@ function LoginInfo() {
           name="email"
           placeholder="some.user@mail.com"
         />
-        <p>PASSWORD</p>
+        <p className="text-[10px]"> PASSWORD</p>
         <input
           className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
           type="password"
@@ -55,7 +58,7 @@ function LoginInfo() {
           name="password"
           placeholder="******"
         />
-        <p>PASSWORD CONFIRMATION</p>
+        <p className="text-[10px]">PASSWORD CONFIRMATION</p>
         <input
           className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
           type="password"

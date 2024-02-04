@@ -1,38 +1,46 @@
 "use client";
 import Image from "next/image";
 import "tailwindcss/tailwind.css";
-import Header from "@/app/components/Header";
+import Header from "@/app/components/Navbar/Header";
 import { Montserrat } from "next/font/google";
-import { useState } from "react";
-import { supabase } from "@/utils/supabase";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export default function RegisterPage2() {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [birthdate, setBirthdate] = useState("");
-  const [linkedin, setLinkedin] = useState("");
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [name, setName] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState(null);
+  const [birthdate, setBirthdate] = useState(null);
+  const [linkedin, setLinkedin] = useState(null);
 
-  const handleRegister = async (event) => {
-    event.preventDefault();
-    try {
-      const { data, error } = await supabase
-        .from("professional information")
-        .insert([{ name, phone, birthdate, linkedin }]);
+  useEffect(() => {
+    // เมื่อหน้า load จะดึงข้อมูลจาก URL
+    const urlParams = new URLSearchParams(window.location.search);
+    setEmail(urlParams.get("email"));
+    setPassword(urlParams.get("password"));
+  }, []);
 
-      // console.log(name, phone, birthdate, linkedin);
+  // const handleRegister = async (event) => {
+  //   event.preventDefault();
+  //   try {
+  //     const { data, error } = await supabase
+  //       .from("professional information")
+  //       .insert([{ name, phone, birthdate, linkedin }]);
 
-      if (error) {
-        console.error("Error registering user", error.message);
-        return false;
-      }
-      console.log("User registered successfully:", data);
-    } catch (error) {
-      console.error("Error registering user", error.message);
-    }
-  };
+  //     // console.log(name, phone, birthdate, linkedin);
+
+  //     if (error) {
+  //       console.error("Error registering user", error.message);
+  //       return false;
+  //     }
+  //     console.log("User registered successfully:", data);
+  //   } catch (error) {
+  //     console.error("Error registering user", error.message);
+  //   }
+  // };
 
   return (
     <>
@@ -50,10 +58,12 @@ export default function RegisterPage2() {
             <hr className="w-[112px] border-b-[1px] border-[#F48FB1] " />
           </div>
           <div>
-            <p className="text-[#bdbdbd]" style={montserrat.style}>
-              RECRUITER
-            </p>
-            <hr className="w-[83px] border-b-[1px] border-[#bdbdbd]" />
+            <Link href="/pages/recruiterRegisterPage1">
+              <p className="text-[#bdbdbd]" style={montserrat.style}>
+                RECRUITER
+              </p>
+              <hr className="w-[83px] border-b-[1px] border-[#bdbdbd]" />
+            </Link>
           </div>
         </div>
         <div className="status-login flex flex-row mb-5">
@@ -141,9 +151,9 @@ export default function RegisterPage2() {
             id="number"
             name="telephone"
             placeholder="+XXXXXXXX"
-            value={phone}
+            value={phoneNumber}
             onChange={(event) => {
-              setPhone(event.target.value);
+              setPhoneNumber(event.target.value);
             }}
             style={montserrat.style}
           />
@@ -188,32 +198,52 @@ export default function RegisterPage2() {
           />
         </div>
         <div className="w-[350px] flex   items-center justify-center ">
-          <Link href="/pages/userRegisterPage3">
+          <Link
+            href={{
+              pathname: "/pages/userRegisterPage3",
+              query: {
+                email,
+                password,
+                name,
+                phoneNumber,
+                birthdate,
+                linkedin,
+              },
+            }}
+            type="submit"
+            className="p-2 w-[100px] h-10  border border-[#F48FB1] mt-4 mx-2 rounded-2xl text-sm hover:bg-[#FFC1E3]"
+            style={montserrat.style}
+          >
+            SKIP THIS!
+          </Link>
+
+          <Link
+            href={{
+              pathname: "/pages/userRegisterPage3",
+              query: {
+                email,
+                password,
+                name,
+                phoneNumber,
+                birthdate,
+                linkedin,
+              },
+            }}
+          >
             <button
               type="submit"
-              className="p-2 w-[100px] h-10  border border-[#F48FB1] mt-4 mx-2 rounded-2xl text-sm hover:bg-[#FFC1E3]"
-              style={montserrat.style}
-            >
-              SKIP THIS!
-            </button>
-          </Link>
-          <button className="p-2 w-[100px] h-10 bg-[#F48FB1] mt-4  rounded-2xl text-sm flex align-middle">
-            <a
-              type="submit"
-              className=" w-[100px] h-10  text-white rounded-2xl text-sm ml-1 "
-              style={montserrat.style}
-              onClick={handleRegister}
+              className="p-2 w-20 h-10  bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
             >
               NEXT
-            </a>
-            <Image
-              src="/arrow-right.png"
-              width={40}
-              height={20}
-              alt="arrow"
-              className=" mr-2 mb-1 "
-            />
-          </button>
+              <Image
+                src="/arrow-right.png"
+                width={20}
+                height={20}
+                alt="arrow"
+                className="absolute right-[2px] bottom-[10px]"
+              />
+            </button>
+          </Link>
         </div>
         <Image
           src="/woman.png"

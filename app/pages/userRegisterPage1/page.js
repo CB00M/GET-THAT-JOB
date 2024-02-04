@@ -2,35 +2,18 @@
 
 import Image from "next/image";
 import "tailwindcss/tailwind.css";
-import Header from "../../components/Navbar/Header";
+import Header from "@/app/components/Navbar/Header";
 import { useState } from "react";
-import supabase from "../../../utils/supabase/supabase";
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function RegisterPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
 
-  const handleRegister = async (event) => {
-    event.preventDefault();
-    try {
-      const { user, error } = await supabase.from("user").insert([
-        {
-          email,
-          password,
-        },
-      ]);
-      // console.log(email, password);
-
-      if (error) {
-        console.error("Error registering user", error.message);
-        return false;
-      }
-      console.log("User registered successfully:", user);
-    } catch (error) {
-      console.error("Error registering user", error.message);
-    }
-  };
+  // useEffect(() => {
+  //   setEmail(null), setPassword(null);
+  // }, [handleNext]);
 
   return (
     <>
@@ -40,10 +23,8 @@ export default function RegisterPage() {
         <h2 className="text-[20px] mb-8">Create a new account as...</h2>
         <div className="status-user text-[14px] flex gap-[6px] mb-[36px]">
           <div className="mr-1">
-            <Link href="/pages/userRegisterPage">
-              <p>PROFESSIONAL</p>
-              <hr className="w-[100px] border-b-[3px] border-[#F48FB1] " />
-            </Link>
+            <p>PROFESSIONAL</p>
+            <hr className="w-[100px] border-b-[3px] border-[#F48FB1] " />
           </div>
           <div>
             <Link href="/pages/recruiterSignUp">
@@ -95,6 +76,8 @@ export default function RegisterPage() {
           <input
             className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
             type="email"
+            name="email"
+            id="email"
             value={email}
             onChange={(event) => {
               setEmail(event.target.value);
@@ -105,7 +88,7 @@ export default function RegisterPage() {
           <input
             className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
             type="password"
-            placeholder="******"
+            name="password"
             value={password}
             onChange={(event) => {
               setPassword(event.target.value);
@@ -113,33 +96,38 @@ export default function RegisterPage() {
           />
           <p>PASSWORD CONFIRMATION</p>
           <input
-            placeholder="******"
             className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
             type="password"
-            id="password"
-            name="password"
+            id="passwordConfirmation"
+            name="passwordConfirmation"
           />
         </div>
-        <button
-          type="submit"
-          className="p-2 w-20 h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
-          onClick={handleRegister}
+        <Link
+          href={{
+            pathname: "/pages/userRegisterPage2",
+            query: { email, password },
+          }}
         >
-          NEXT
-          <Image
-            src="/arrow-right.png"
-            width={20}
-            height={20}
-            alt="arrow"
-            className="absolute right-[2px] bottom-[10px]"
-          />
-        </button>
+          <button
+            type="submit"
+            className="p-2 w-20 h-10  bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
+          >
+            NEXT
+            <Image
+              src="/arrow-right.png"
+              width={20}
+              height={20}
+              alt="arrow"
+              className="absolute right-[2px] bottom-[10px]"
+            />
+          </button>
+        </Link>
         <Image
           src="/woman.png"
-          width={435}
-          height={966}
+          width={400}
+          height={400}
           alt="woman"
-          className="absolute left-[550px] top-[275px]"
+          className="absolute right-[200px] top-[275px]"
         />
       </div>
     </>

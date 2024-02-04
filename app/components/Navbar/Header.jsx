@@ -15,7 +15,11 @@ export default function Header() {
       </Link>
       <div className="flex ml-72 ">
         <div className="mx-2 my-2 p-1">
-          <Link href="/pages/userRegisterPage">
+          <Link
+            href={{
+              pathname: "/pages/recruiterSignUp",
+            }}
+          >
             <Image
               src="/images/signup.png"
               width={127}
@@ -25,7 +29,11 @@ export default function Header() {
           </Link>
         </div>
         <div className="mx-2 my-2 p-1">
-          <Link href="/pages/userLogin">
+          <Link
+            href={{
+              pathname: "/pages/userLogin",
+            }}
+          >
             <Image
               src="/images/login.png"
               height={40}
