@@ -5,17 +5,19 @@ import Link from "next/link";
 export default function Header() {
   return (
     <div className="w-full  flex justify-around shadow-lg shadow-gray-300">
-      <Image
-        src="/images/get-that-job.png"
-        width={160}
-        height={30}
-        className="p-2 mr-68"
-      />
+      <Link href="/">
+        <Image
+          src="/images/get-that-job.png"
+          width={160}
+          height={30}
+          className="p-2 mr-68"
+        />
+      </Link>
       <div className="flex ml-72 ">
         <div className="mx-2 my-2 p-1">
           <Link
             href={{
-              pathname: "/pages/userRegisterPage1",
+              pathname: "/pages/recruiterSignUp",
             }}
           >
             <Image

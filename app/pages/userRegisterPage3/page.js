@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import "tailwindcss/tailwind.css";
-import Header from "@/app/components/Header";
+import Header from "@/app/components/Navbar/Header";
 import { useState, useEffect } from "react";
 import React from "react";
 import { createClient } from "@/utils/supabase/server";

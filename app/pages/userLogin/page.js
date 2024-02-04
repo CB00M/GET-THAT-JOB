@@ -6,7 +6,7 @@ import { Inter } from "next/font/google";
 import Image from "next/image";
 import logo from "../../../public/images/man.svg";
 import Link from "next/link";
-import Header from "@/app/components/Header";
+import Header from "../../components/Navbar/Header";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 const inter = Inter({ weight: "400", preload: false });
