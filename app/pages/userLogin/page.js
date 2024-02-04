@@ -6,12 +6,61 @@ import { Inter } from "next/font/google";
 import Image from "next/image";
 import logo from "../../../public/images/man.svg";
 import Link from "next/link";
+import { headers, cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 import Header from "../../components/Navbar/Header";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 const inter = Inter({ weight: "400", preload: false });
 
-function LoginPage() {
+function LoginPage(searchParams) {
+  const signIn = async (formData) => {
+    "use server";
+
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const cookieStore = cookies();
+    const supabase = createClient(cookieStore);
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      return redirect(
+        "/pages/userRegisterPage?message=Could not authenticate user"
+      );
+    }
+
+    return redirect("/pages/professional");
+  };
+
+  const signUp = async (formData) => {
+    "use server";
+
+    const origin = headers().get("origin");
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const cookieStore = cookies();
+    const supabase = createClient(cookieStore);
+
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${origin}/auth/callback`,
+      },
+    });
+
+    if (error) {
+      return redirect("/login?message=Could not authenticate user");
+    }
+
+    return redirect("/login?message=Check email to continue sign in process");
+  };
+
   return (
     <>
       <Header />
