@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import "tailwindcss/tailwind.css";
-import Header from "@/app/components/Header";
+import Header from "../../components/Navbar/Header";
 import { useState } from "react";
-import { supabase } from "@/utils/supabase";
+import supabase from "../../../utils/supabase/supabase";
+import Link from "next/link";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -39,12 +40,16 @@ export default function RegisterPage() {
         <h2 className="text-[20px] mb-8">Create a new account as...</h2>
         <div className="status-user text-[14px] flex gap-[6px] mb-[36px]">
           <div className="mr-1">
-            <p>PROFESSIONAL</p>
-            <hr className="w-[100px] border-b-[3px] border-[#F48FB1] " />
+            <Link href="/pages/userRegisterPage">
+              <p>PROFESSIONAL</p>
+              <hr className="w-[100px] border-b-[3px] border-[#F48FB1] " />
+            </Link>
           </div>
           <div>
-            <p className="text-[#bdbdbd]">RECRUITER</p>
-            <hr className="w-[70px] border-b-[3px] border-[#bdbdbd]" />
+            <Link href="/pages/recruiterSignUp">
+              <p className="text-[#bdbdbd]">RECRUITER</p>
+              <hr className="w-[70px] border-b-[3px] border-[#bdbdbd]" />
+            </Link>
           </div>
         </div>
         <div className="status-login flex flex-row mb-5">
@@ -100,6 +105,7 @@ export default function RegisterPage() {
           <input
             className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
             type="password"
+            placeholder="******"
             value={password}
             onChange={(event) => {
               setPassword(event.target.value);
@@ -107,6 +113,7 @@ export default function RegisterPage() {
           />
           <p>PASSWORD CONFIRMATION</p>
           <input
+            placeholder="******"
             className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
             type="password"
             id="password"
@@ -129,10 +136,10 @@ export default function RegisterPage() {
         </button>
         <Image
           src="/woman.png"
-          width={400}
-          height={400}
+          width={435}
+          height={966}
           alt="woman"
-          className="absolute right-[200px] top-[275px]"
+          className="absolute left-[550px] top-[275px]"
         />
       </div>
     </>

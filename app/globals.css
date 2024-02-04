@@ -12,3 +12,13 @@ body {
     rgb(var(--background-start-rgb));
   box-sizing: border-box;
 }
+
+.customfile::-webkit-file-upload-button {
+  background: #f48fb1;
+  color: white;
+  width: 134px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
