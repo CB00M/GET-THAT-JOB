@@ -43,15 +43,14 @@ function CompanyInfo() {
           className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1 mb-2"
           type="url"
           id="website"
-          name="companyWebsite"
+          name="company-website"
           placeholder="http://www.mycompany.sa"
         />
         <p className="text-[10px] text-[#616161]">ABOUT THE COMPANY</p>
         <textarea
           className="w-[500px] h-[80px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
-          type="text"
           id="experience"
-          name="aboutCompany"
+          name="about-company"
           placeholder="My Company SA has the vision to change thw way how..."
         />
         <p className="text-[10px] text-[#8E8E8E] mb-2">
