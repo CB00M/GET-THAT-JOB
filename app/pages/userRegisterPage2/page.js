@@ -9,12 +9,12 @@ import Link from "next/link";
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export default function RegisterPage2() {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [name, setName] = useState(null);
-  const [phoneNumber, setPhoneNumber] = useState(null);
-  const [birthdate, setBirthdate] = useState(null);
-  const [linkedin, setLinkedin] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [birthdate, setBirthdate] = useState("");
+  const [linkedin, setLinkedin] = useState("");
 
   useEffect(() => {
     // เมื่อหน้า load จะดึงข้อมูลจาก URL
@@ -22,6 +22,51 @@ export default function RegisterPage2() {
     setEmail(urlParams.get("email"));
     setPassword(urlParams.get("password"));
   }, []);
+
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  //ตรวจว่าใส่ชื่อ
+  const handleFormSubmit = () => {
+    if (!name) {
+      alert("Don't forget to enter your name");
+      return;
+    }
+    //ตรวจว่าเบอร์มี10หลัก
+    if (phoneNumber.length !== 10) {
+      alert("Please enter a valid phone number.");
+      return;
+    }
+    //ตรวจว่าเลือกวันเกิด
+    if (!birthdate) {
+      alert("Please select your birthdate.");
+      return;
+    }
+
+    // ตรวจสอบอายุ 18 ปีขึ้นไป
+    const userBirthdate = new Date(birthdate);
+    const today = new Date();
+
+    const ageDiff = today.getFullYear() - userBirthdate.getFullYear();
+    const monthDiff = today.getMonth() - userBirthdate.getMonth();
+
+    // ตรวจสอบว่าผู้ใช้มีอายุ 18 ปีหรือไม่
+    if (ageDiff < 18 || (ageDiff === 18 && monthDiff < 0)) {
+      alert("You must be at least 18 years old to register.");
+      return;
+    }
+    //ตรวจว่าใส่ลิงค์อิน
+    if (!linkedin) {
+      alert("Don't forget to enter your linkein");
+      return;
+    }
+
+    window.location.href = "/pages/userRegisterPage3";
+  };
 
   // const handleRegister = async (event) => {
   //   event.preventDefault();
@@ -147,7 +192,6 @@ export default function RegisterPage2() {
           <p style={montserrat.style}>PHONE</p>
           <input
             className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
-            type="number"
             id="number"
             name="telephone"
             placeholder="+XXXXXXXX"
@@ -155,6 +199,8 @@ export default function RegisterPage2() {
             onChange={(event) => {
               setPhoneNumber(event.target.value);
             }}
+            type="number"
+            maxLength="10"
             style={montserrat.style}
           />
           <div
@@ -217,33 +263,20 @@ export default function RegisterPage2() {
             SKIP THIS!
           </Link>
 
-          <Link
-            href={{
-              pathname: "/pages/userRegisterPage3",
-              query: {
-                email,
-                password,
-                name,
-                phoneNumber,
-                birthdate,
-                linkedin,
-              },
-            }}
+          <button
+            type="submit"
+            className="p-2 w-20 h-10  bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
+            onClick={handleFormSubmit}
           >
-            <button
-              type="submit"
-              className="p-2 w-20 h-10  bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
-            >
-              NEXT
-              <Image
-                src="/arrow-right.png"
-                width={20}
-                height={20}
-                alt="arrow"
-                className="absolute right-[2px] bottom-[10px]"
-              />
-            </button>
-          </Link>
+            NEXT
+            <Image
+              src="/arrow-right.png"
+              width={20}
+              height={20}
+              alt="arrow"
+              className="absolute right-[2px] bottom-[10px]"
+            />
+          </button>
         </div>
         <Image
           src="/woman.png"

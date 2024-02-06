@@ -6,26 +6,24 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function RegisterPage() {
-  const [companyName, setCompanyName] = useState("");
-  const [companyEmail, setCompanyEmail] = useState("");
-  const [companyPassword, setCompanyPassword] = useState("");
-  const [companyPasswordConfirm, setCompanyPasswordConfirm] = useState("");
+  const [webside, setWebside] = useState("");
+  const [aboutCompany, setAboutCompany] = useState("");
 
-  useEffect(() => {
-    // เมื่อหน้า load จะดึงข้อมูลจาก URL
-    const urlParams = new URLSearchParams(window.location.search);
-    setCompanyName(urlParams.get("companyName"));
-    setCompanyEmail(urlParams.get("companyEmail"));
-    setCompanyPassword(urlParams.get("companyPassword"));
-    setCompanyPasswordConfirm(urlParams.get("companyPasswordConfirm"));
-  }, []);
+  const handleFormSubmit = () => {
+    if (!webside) {
+      alert("Please enter a  webside");
+      return;
+    }
+
+    if (!aboutCompany) {
+      alert("Please enter about your company");
+      return;
+    }
+  };
+
   return (
     <>
       <Header />
-      <p>Company Name: {companyName}</p>
-      <p>Company Email: {companyEmail}</p>
-      <p>Company Password: {companyPassword}</p>
-      <p>Company Password Confirm: {companyPasswordConfirm}</p>
       <div className="wrapper ml-[400px] ">
         <h1 className="text-[48px] mb-4">Good choice!</h1>
         <h2 className="text-[20px] mb-8">Create a new account as...</h2>
@@ -79,6 +77,10 @@ export default function RegisterPage() {
             id="website"
             name="website"
             placeholder="http://www.mycompany.sa"
+            onChange={(event) => {
+              setWebside(event.target.value);
+            }}
+            value={webside}
           />
           <p className="text-[10px] text-[#616161]">ABOUT THE COMPANY</p>
           <textarea
@@ -87,6 +89,10 @@ export default function RegisterPage() {
             id="experience"
             name="experience"
             placeholder="My Company SA has the vision to change thw way how..."
+            onChange={(event) => {
+              setAboutCompany(event.target.value);
+            }}
+            value={aboutCompany}
           />
           <p className="text-[10px] text-[#8E8E8E] mb-2">
             Between 100 and 2000 characters
@@ -125,8 +131,9 @@ export default function RegisterPage() {
             />
           </button>
           <button
-            type="submit"
+            type="button"
             className="m-5 p-2 w-[120px] h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
+            onClick={handleFormSubmit}
           >
             FINISH
             <Image

@@ -8,12 +8,36 @@ import Link from "next/link";
 import { useEffect } from "react";
 
 export default function RegisterPage() {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   // useEffect(() => {
   //   setEmail(null), setPassword(null);
   // }, [handleNext]);
+
+  const handlefromSubmit = () => {
+    if (!email.includes("@") || !email.includes(".")) {
+      alert("The email format is invalid.");
+      return;
+    }
+
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters.");
+      return;
+    }
+
+    if (passwordConfirm.length < 6) {
+      alert("Password confirmation must be at least 6 characters.");
+      return;
+    }
+
+    if (password !== passwordConfirm) {
+      alert("Password and password confirmation do not match.");
+      return;
+    }
+
+    window.location.href = "/pages/userRegisterPage2";
+  };
 
   return (
     <>
@@ -100,28 +124,28 @@ export default function RegisterPage() {
             type="password"
             id="passwordConfirmation"
             name="passwordConfirmation"
+            value={passwordConfirm}
+            onChange={(event) => {
+              setPasswordConfirm(event.target.value);
+            }}
           />
         </div>
-        <Link
-          href={{
-            pathname: "/pages/userRegisterPage2",
-            query: { email, password },
-          }}
+
+        <button
+          type="submit"
+          className="p-2 w-20 h-10  bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
+          onClick={handlefromSubmit}
         >
-          <button
-            type="submit"
-            className="p-2 w-20 h-10  bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
-          >
-            NEXT
-            <Image
-              src="/arrow-right.png"
-              width={20}
-              height={20}
-              alt="arrow"
-              className="absolute right-[2px] bottom-[10px]"
-            />
-          </button>
-        </Link>
+          NEXT
+          <Image
+            src="/arrow-right.png"
+            width={20}
+            height={20}
+            alt="arrow"
+            className="absolute right-[2px] bottom-[10px]"
+          />
+        </button>
+
         <Image
           src="/woman.png"
           width={400}

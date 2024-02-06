@@ -11,8 +11,43 @@ export default function RegisterPage() {
   const [companyPassword, setCompanyPassword] = useState("");
   const [companyPasswordConfirm, setCompanyPasswordConfirm] = useState("");
 
-  const handleInputCompanyLogin = async (event) => {
+  /*const handleInputCompanyLogin = async (event) => {
     event.preventDefault();
+  };*/
+
+  const handleFormSubmit = () => {
+    // Validate company name (3-20 characters)
+    if (companyName.length < 3 || companyName.length > 20) {
+      alert("Company name must be between 3 and 20 characters.");
+      return;
+    }
+
+    // Validate email (contains @ and .com)
+    if (!companyEmail.includes("@") || !companyEmail.includes(".com")) {
+      alert("The email format is invalid.");
+      return;
+    }
+
+    // Validate password (at least 5 characters)
+    if (companyPassword.length < 6) {
+      alert("Password must be at least 6 characters.");
+      return;
+    }
+
+    if (companyPasswordConfirm.length < 6) {
+      alert("Password confirmation must be at least 6 characters.");
+      return;
+    }
+
+    // Validate password confirmation
+    if (companyPassword !== companyPasswordConfirm) {
+      alert("Password and password confirmation do not match.");
+      return;
+    }
+
+    // Proceed to the next page
+    // You can replace "/pages/recruiterRegisterPage2" with the actual path you want to navigate to
+    window.location.href = "/pages/recruiterRegisterPage2";
   };
 
   return (
@@ -72,10 +107,14 @@ export default function RegisterPage() {
                 setCompanyName(event.target.value);
               }}
               value={companyName}
+              minLength="1"
+              maxLength="20"
+              pattern="[a-zA-Z0-9._%+-]"
+              title="Enter your company name"
             />
             <p>EMAIL</p>
             <input
-              className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
+              className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1 "
               type="email"
               id="companyEmail"
               name="companyEmail"
@@ -84,6 +123,8 @@ export default function RegisterPage() {
                 setCompanyEmail(event.target.value);
               }}
               value={companyEmail}
+              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+              title="Enter a valid email address"
             />
             <p>PASSWORD</p>
             <input
@@ -96,6 +137,9 @@ export default function RegisterPage() {
                 setCompanyPassword(event.target.value);
               }}
               value={companyPassword}
+              minLength="6"
+              pattern="[a-zA-Z0-9._%+-]"
+              title="Enter a password with a minimum length of 6 characters."
             />
             <p>PASSWORD CONFIRMATION</p>
             <input
@@ -108,33 +152,27 @@ export default function RegisterPage() {
                 setCompanyPasswordConfirm(event.target.value);
               }}
               value={companyPasswordConfirm}
+              minLength="6"
+              pattern="[a-zA-Z0-9._%+-]"
+              title="Please confirm your password by entering it again."
             />
           </div>
-          <Link
-            href={{
-              pathname: "/pages/recruiterRegisterPage2",
-              query: {
-                companyName,
-                companyEmail,
-                companyPassword,
-                companyPasswordConfirm,
-              },
-            }}
+
+          <button
+            id="nextButton"
+            type="button"
+            className="p-2 w-20 h-10 bg-[#F48FB1] text-white mt-4  rounded-2xl text-sm relative ml-[120px] "
+            onClick={handleFormSubmit}
           >
-            <button
-              type="button"
-              className="p-2 w-20 h-10 bg-[#F48FB1] text-white mt-4  rounded-2xl text-sm relative ml-[120px] "
-            >
-              NEXT
-              <Image
-                src="/arrow-right.png"
-                width={20}
-                height={20}
-                alt="arrow"
-                className="absolute right-[2px] bottom-[10px]"
-              />
-            </button>
-          </Link>
+            NEXT
+            <Image
+              src="/arrow-right.png"
+              width={20}
+              height={20}
+              alt="arrow"
+              className="absolute right-[2px] bottom-[10px]"
+            />
+          </button>
         </form>
         <Image
           src="/woman.png"

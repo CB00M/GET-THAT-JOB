@@ -11,9 +11,9 @@ import Link from "next/link.js";
 // import { cookies } from "next/headers";
 
 export default function RegisterPage() {
-  const [title, setTitle] = useState(null);
-  const [experience, setExperience] = useState(null);
-  const [education, setEducation] = useState(null);
+  const [title, setTitle] = useState("");
+  const [experience, setExperience] = useState("");
+  const [education, setEducation] = useState("");
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [name, setName] = useState(null);
@@ -37,6 +37,31 @@ export default function RegisterPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
     registerClient();
+
+    if (!title) {
+      alert("Please enter a title.");
+      return;
+    }
+
+    if (!experience) {
+      alert("Please enter an experience.");
+      return;
+    }
+
+    if (experience.length < 100 || experience.length > 2000) {
+      alert("experience must be between 100 and 2000 characters.");
+      return;
+    }
+
+    if (!education) {
+      alert("Please enter an education.");
+      return;
+    }
+
+    if (education.length < 100 || education.length > 2000) {
+      alert("education must be between 100 and 2000 characters.");
+      return;
+    }
   };
 
   const registerClient = async (req) => {
