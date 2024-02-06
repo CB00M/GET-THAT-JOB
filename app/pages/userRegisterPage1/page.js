@@ -5,15 +5,18 @@ import "tailwindcss/tailwind.css";
 import Header from "@/app/components/Navbar/Header";
 import { useState } from "react";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useContext } from "react";
+import { ProfessionalContext } from "@/app/context/professionalContext";
 
 export default function RegisterPage() {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const { addEmail, addPassword } = useContext(ProfessionalContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  // useEffect(() => {
-  //   setEmail(null), setPassword(null);
-  // }, [handleNext]);
+  const setStateContext = () => {
+    addEmail(email);
+    addPassword(password);
+  };
 
   return (
     <>
@@ -105,10 +108,10 @@ export default function RegisterPage() {
         <Link
           href={{
             pathname: "/pages/userRegisterPage2",
-            query: { email, password },
           }}
         >
           <button
+            onClick={setStateContext}
             type="submit"
             className="p-2 w-20 h-10  bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
           >

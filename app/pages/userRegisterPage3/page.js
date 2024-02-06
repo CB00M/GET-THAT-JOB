@@ -2,60 +2,26 @@
 import Image from "next/image";
 import "tailwindcss/tailwind.css";
 import Header from "@/app/components/Navbar/Header";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import React from "react";
-import { createClient } from "@/utils/supabase/server";
-import { register } from "./action.js";
+import { register } from "./api/professionalRegister";
 import Link from "next/link.js";
+import { useContext } from "react";
+import { ProfessionalContext } from "@/app/context/professionalContext";
 
 // import { cookies } from "next/headers";
 
 export default function RegisterPage() {
-  const [title, setTitle] = useState(null);
-  const [experience, setExperience] = useState(null);
-  const [education, setEducation] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [name, setName] = useState(null);
-  const [phoneNumber, setPhoneNumber] = useState(null);
-  const [birthdate, setBirthdate] = useState(null);
-  const [linkedin, setLinkedin] = useState(null);
-  // const cookiesStore = cookies();
-  // const supabase = createClient(cookiesStore);
+  const { email, password, name, phoneNumber, birthdate, linkedin } =
+    useContext(ProfessionalContext);
+  const [title, setTitle] = useState("");
+  const [experience, setExperience] = useState("");
+  const [education, setEducation] = useState("");
 
-  useEffect(() => {
-    // เมื่อหน้า load จะดึงข้อมูลจาก URL
-    const urlParams = new URLSearchParams(window.location.search);
-    setEmail(urlParams.get("email"));
-    setPassword(urlParams.get("password"));
-    setName(urlParams.get("name"));
-    setPhoneNumber(urlParams.get("phoneNumber"));
-    setBirthdate(urlParams.get("birthdate"));
-    setLinkedin(urlParams.get("linkein"));
-  }, []);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    registerClient();
-  };
-
-  const registerClient = async (req) => {
-    try {
-      const req = {
-        title: title,
-        experience: experience,
-        education: education,
-      };
-
-      console.log("ลงทะเบียนผู้ใช้เรียบร้อยแล้ว!", req);
-    } catch (error) {
-      // จัดการข้อผิดพลาดอย่างเป็นระเบียบ
-
-      console.error("ข้อผิดพลาดในการลงทะเบียนผู้ใช้:", error);
-
-      // คุณอาจต้องการแสดงข้อความผิดพลาดแก่ผู้ใช้
-      // หรือดำเนินการอื่นๆ ตามสถานการณ์
-    }
+  const handleSubmit = () => {
+    setTitle(title);
+    setExperience(experience);
+    setEducation(education);
   };
 
   return (
@@ -122,6 +88,12 @@ export default function RegisterPage() {
               YOU TO DO IT NOW
             </p>
             <p className="text-[10px] text-[#616161]">TITLE</p>
+            <input name="email" value={email} hidden />
+            <input name="password" value={password} hidden />
+            <input name="name" value={name} hidden />
+            <input name="phoneNumber" value={phoneNumber} hidden />
+            <input name="birthdate" value={birthdate} hidden />
+            <input name="linkedin" value={linkedin} hidden />
             <input
               className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1 mb-2"
               type="text"
@@ -215,6 +187,7 @@ export default function RegisterPage() {
                 className="absolute right-[2px] bottom-[10px]"
               />
             </button>
+
             <button
               onClick={handleSubmit}
               type="submit"
@@ -227,7 +200,7 @@ export default function RegisterPage() {
                 height={20}
                 alt="arrow"
                 className="absolute right-[2px] bottom-[10px]"
-              />
+              />{" "}
             </button>
           </div>
         </form>

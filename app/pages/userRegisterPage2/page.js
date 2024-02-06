@@ -3,44 +3,26 @@ import Image from "next/image";
 import "tailwindcss/tailwind.css";
 import Header from "@/app/components/Navbar/Header";
 import { Montserrat } from "next/font/google";
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import Link from "next/link";
+import { ProfessionalContext } from "@/app/context/professionalContext";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export default function RegisterPage2() {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [name, setName] = useState(null);
-  const [phoneNumber, setPhoneNumber] = useState(null);
-  const [birthdate, setBirthdate] = useState(null);
-  const [linkedin, setLinkedin] = useState(null);
+  const { addName, addPhoneNumber, addBirthdate, addLinkedin } =
+    useContext(ProfessionalContext);
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [birthdate, setBirthdate] = useState("");
+  const [linkedin, setLinkedin] = useState("");
 
-  useEffect(() => {
-    // เมื่อหน้า load จะดึงข้อมูลจาก URL
-    const urlParams = new URLSearchParams(window.location.search);
-    setEmail(urlParams.get("email"));
-    setPassword(urlParams.get("password"));
-  }, []);
-
-  // const handleRegister = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     const { data, error } = await supabase
-  //       .from("professional information")
-  //       .insert([{ name, phone, birthdate, linkedin }]);
-
-  //     // console.log(name, phone, birthdate, linkedin);
-
-  //     if (error) {
-  //       console.error("Error registering user", error.message);
-  //       return false;
-  //     }
-  //     console.log("User registered successfully:", data);
-  //   } catch (error) {
-  //     console.error("Error registering user", error.message);
-  //   }
-  // };
+  const setStateContext = () => {
+    addName(name);
+    addPhoneNumber(phoneNumber);
+    addBirthdate(birthdate);
+    addLinkedin(linkedin);
+  };
 
   return (
     <>
@@ -201,14 +183,6 @@ export default function RegisterPage2() {
           <Link
             href={{
               pathname: "/pages/userRegisterPage3",
-              query: {
-                email,
-                password,
-                name,
-                phoneNumber,
-                birthdate,
-                linkedin,
-              },
             }}
             type="submit"
             className="p-2 w-[100px] h-10  border border-[#F48FB1] mt-4 mx-2 rounded-2xl text-sm hover:bg-[#FFC1E3]"
@@ -220,17 +194,10 @@ export default function RegisterPage2() {
           <Link
             href={{
               pathname: "/pages/userRegisterPage3",
-              query: {
-                email,
-                password,
-                name,
-                phoneNumber,
-                birthdate,
-                linkedin,
-              },
             }}
           >
             <button
+              onClick={setStateContext}
               type="submit"
               className="p-2 w-20 h-10  bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
             >
