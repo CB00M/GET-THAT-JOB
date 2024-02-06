@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import "tailwindcss/tailwind.css";
-import Header from "@/app/components/Header";
+import Header from "@/app/components/Navbar/Header";
 import { useState } from "react";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -51,7 +51,7 @@ export default function RegisterPage() {
             <hr className="w-[100px] border-b-[3px] border-[#F48FB1] " />
           </div>
           <div>
-            <Link href="/pages/recruiterRegisterPage1">
+            <Link href="/pages/recruiterSignUp">
               <p className="text-[#bdbdbd]">RECRUITER</p>
               <hr className="w-[70px] border-b-[3px] border-[#bdbdbd]" />
             </Link>

@@ -23,7 +23,7 @@ export default function RegisterPage() {
     }
 
     // Validate email (contains @ and .com)
-    if (!companyEmail.includes("@") || !companyEmail.includes(".com")) {
+    if (!companyEmail.includes("@") || !companyEmail.includes(".")) {
       alert("The email format is invalid.");
       return;
     }

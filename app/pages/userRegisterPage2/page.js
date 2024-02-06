@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import "tailwindcss/tailwind.css";
-import Header from "@/app/components/Header";
+import Header from "@/app/components/Navbar/Header";
 import { Montserrat } from "next/font/google";
 import { useState, useEffect } from "react";
 import Link from "next/link";
