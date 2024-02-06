@@ -1,7 +1,9 @@
+"use client";
 import { useState } from "react";
 import Image from "next/image";
 import LoginInfo from "./LoginInfo";
 import CompanyInfo from "./CompanyInfo";
+import signUp from "../../pages/recruiterSignUp/api/action";
 
 export default function StepperForm() {
   const [page, setPage] = useState(1);
@@ -28,7 +30,7 @@ export default function StepperForm() {
     }
   }
   return (
-    <div>
+    <form action={signUp}>
       {/* Step 1 */}
       {page === 1 && (
         <>
@@ -53,18 +55,13 @@ export default function StepperForm() {
         <div>
           {/* Step 2 */}
           <div>{getStepContent(page)}</div>
-          <button
-            type="submit"
-            className="m-5 ml-[100px] p-2 w-[120px] h-10 border border-[#F48FB1] mt-4 rounded-2xl text-sm relative"
-            onClick={handleSubmit}
-          >
+          <button className="m-5 ml-[100px] p-2 w-[120px] h-10 border border-[#F48FB1] mt-4 rounded-2xl text-sm relative">
             SKIP THIS!
           </button>
 
           <button
             type="submit"
             className="m-5 p-2 w-[120px] h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative"
-            onClick={handleSubmit}
           >
             FINISH
             <Image
@@ -77,6 +74,6 @@ export default function StepperForm() {
           </button>
         </div>
       )}
-    </div>
+    </form>
   );
 }
