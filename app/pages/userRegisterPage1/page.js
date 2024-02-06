@@ -13,7 +13,7 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const setStateContext = () => {
+  const setContextState = () => {
     addEmail(email);
     addPassword(password);
   };
@@ -111,7 +111,7 @@ export default function RegisterPage() {
           }}
         >
           <button
-            onClick={setStateContext}
+            onClick={setContextState}
             type="submit"
             className="p-2 w-20 h-10  bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
           >

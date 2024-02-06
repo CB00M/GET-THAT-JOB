@@ -1,10 +1,21 @@
 import "tailwindcss/tailwind.css";
 import Image from "next/image";
 import { Inter } from "next/font/google";
-
+import { useContext, useState } from "react";
+import { RecruiterContext } from "@/app/context/recruiterContext";
 const inter = Inter({ weight: "400", preload: false });
 
 function LoginInfo() {
+  const { addCompany, addEmail, addPassword } = useContext(RecruiterContext);
+  const [company, setCompany] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const setContextState = () => {
+    addCompany(company);
+    addEmail(email);
+    addPassword(password);
+  };
   return (
     <>
       <div style={inter.style} className="status-login flex flex-row mb-5">
@@ -38,9 +49,13 @@ function LoginInfo() {
         <input
           className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
           type="text"
-          id="company-name"
-          name="company-name"
+          id="company"
+          name="company"
           placeholder="My Company S.A"
+          value={company}
+          onChange={(e) => {
+            setCompany(e.target.value);
+          }}
         />
         <p className="text-[10px]"> EMAIL </p>
         <input
@@ -49,6 +64,10 @@ function LoginInfo() {
           id="email"
           name="email"
           placeholder="some.user@mail.com"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
         />
         <p className="text-[10px]"> PASSWORD</p>
         <input
@@ -57,6 +76,10 @@ function LoginInfo() {
           id="password"
           name="password"
           placeholder="******"
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
         />
         <p className="text-[10px]">PASSWORD CONFIRMATION</p>
         <input
@@ -66,6 +89,19 @@ function LoginInfo() {
           name="password"
           placeholder="******"
         />
+        <button
+          className="p-2 w-20 h-10 bg-[#F48FB1] text-white mt-4  rounded-2xl text-sm relative ml-[120px]"
+          onClick={setContextState}
+        >
+          NEXT
+          <Image
+            src="/arrow-right.png"
+            width={20}
+            height={20}
+            alt="arrow"
+            className="absolute right-[2px] bottom-[10px]"
+          />
+        </button>
       </div>
     </>
   );
