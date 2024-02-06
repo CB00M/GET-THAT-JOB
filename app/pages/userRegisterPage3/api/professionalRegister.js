@@ -14,10 +14,12 @@ export async function register(formData) {
   const phoneNumber = formData.get("phoneNumber");
   const birthdate = formData.get("birthdate");
   const linkedin = formData.get("linkedin");
+  const name = formData.get("name");
 
   const { data, error } = await supabase.from("Professionalusers").insert([
     {
       title,
+      name,
       experience,
       education,
       email,
