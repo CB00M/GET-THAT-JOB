@@ -1,3 +1,5 @@
+"use server";
+
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server.js";
 import { redirect } from "next/dist/server/api-utils";
@@ -46,7 +48,7 @@ export const passwordProfessionalUsers = async (password) => {
 export const emailFromRecruiterUsers = async (email) => {
   try {
     const { data, error } = await supabase
-      .from("Professionalusers")
+      .from("Recruiterusers")
       .select("*")
       .eq("email", email);
 
@@ -64,7 +66,7 @@ export const emailFromRecruiterUsers = async (email) => {
 export const passwordRecruiterUsers = async (password) => {
   try {
     const { data, error } = await supabase
-      .from("Professionalusers")
+      .from("Recruiterusers")
       .select("*")
       .eq("password", password);
 
@@ -79,8 +81,8 @@ export const passwordRecruiterUsers = async (password) => {
   }
 };
 
-export const handleLoginRecruiter = async (fromData) => {
-  const { email, password } = fromData;
+export const handleLoginRecruiter = async (formData) => {
+  const { email, password } = formData;
 
   const emailInDatabase = await emailFromRecruiterUsers(email);
   console.log("Found email: ", emailInDatabase);
@@ -89,10 +91,10 @@ export const handleLoginRecruiter = async (fromData) => {
     return;
   }
 
-  const passwordInDatabase = await passwordRecruiterUsers(email);
-  console.log("Found email: ", passwordInDatabase);
-  if (!emailInDatabase) {
-    console.error("User not found");
+  const passwordInDatabase = await passwordRecruiterUsers(password);
+  console.log("Found password: ", passwordInDatabase);
+  if (!passwordInDatabase) {
+    console.error("Password not found");
     return;
   }
 
@@ -102,12 +104,13 @@ export const handleLoginRecruiter = async (fromData) => {
       password,
     });
 
+    const { user } = data;
+
     if (error) {
       console.error("login error: ", error.message);
       return { error: `Login error: ${error.message}` };
     }
 
-    const { user } = data;
     cookies().set("user", JSON.stringify(user));
     redirect("/pages/recruiter");
   } catch (error) {
