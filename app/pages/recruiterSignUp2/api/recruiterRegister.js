@@ -12,6 +12,17 @@ export async function register(formData) {
   const website = formData.get("website");
   const about = formData.get("aboutCompany");
 
+  const { dataAuth, errorAuth } = await supabase.auth.signUp({
+    email,
+    password,
+  });
+  if (errorAuth) {
+    console.log("errorAuth", errorAuth);
+    return false;
+  }
+  console.log("Auth successful!!");
+  console.log(email, password);
+
   const { data, error } = await supabase.from("Recruiterusers").insert([
     {
       company,
