@@ -78,7 +78,7 @@ export default function CompanyInfo() {
               />
             </div>
           </div>
-          <form action={signUp}>
+          <form action={register}>
             <div className="input-information">
               <p className="text-[10px] mb-5 text-[#616161]">
                 YOU CAN COMPLETE THIS INFORMATION LATER BUT WE <br /> RECCOMEND
