@@ -4,8 +4,9 @@ import "tailwindcss/tailwind.css";
 import Header from "@/app/components/Navbar/Header";
 import { useState } from "react";
 import React from "react";
-import { register } from "./api/professionalRegister";
+import { register } from "./api/action";
 import Link from "next/link.js";
+import "../../globals.css";
 import { useContext } from "react";
 import { ProfessionalContext } from "@/app/context/professionalContext";
 
@@ -138,26 +139,24 @@ export default function RegisterPage() {
               Between 100 and 2000 characters
             </p>
           </div>
-          <p className="text-[10px] text-[#616161] ">UPLOAD/UPDATE YOUR CV</p>
-          <div className="flex flex-row items-center">
-            <button
-              type="submit"
-              className="p-2 w-[150px] h-[50px] bg-[#F48FB1] text-white rounded-2xl text-sm pr-0 relative"
-            >
-              Choose a file
+          <div>
+            <label className="tracking-wider text-[10px] text-[#616161] ">
+              UPLOAD/UPDATE YOUR CV
+            </label>
+            <br />
+            <div className="relative">
               <Image
                 src="/upload-icon.png"
                 width={20}
                 height={20}
                 alt="arrow"
-                className="absolute left-[10px] bottom-[15px]"
+                className="absolute left-[10px] top-[8px]"
               />
-            </button>
-            <p className="text-[10px] text-[#616161] ml-[10px]">
-              No file chose
-            </p>
+              <input type="file" name="CV" className="customfile text-sm " />
+            </div>
+
+            <p className="text-[10px] text-[#8E8E8E] ">Only PDF.Max size 5MB</p>
           </div>
-          <p className="text-[10px] text-[#8E8E8E] ">Only PDF.Max size 5MB</p>
           <div className="change-page ">
             <Link href="/pages/userRegisterPage1">
               <button
