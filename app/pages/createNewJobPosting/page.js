@@ -1,24 +1,69 @@
+"use client";
 import "tailwindcss/tailwind.css";
 import Image from "next/image";
-import { Montserrat } from "next/font/google";
-import { Inter } from "next/font/google";
+import { Montserrat, Inter } from "next/font/google";
+import { useState } from "react";
+import { Cookie } from "next/font/google";
+import { keepData } from "./api/createNewPost";
 
 const inter = Inter({ weight: "400", preload: false });
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export default function page() {
+  const [title, setTitle] = useState("");
+  //category
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [newCategory, setNewCategory] = useState("");
+  const [isCreatingNewCategory, setIsCreatingNewCategory] = useState(false);
+  const [type, setType] = useState("");
+  const [minRange, setMinRange] = useState("");
+  const [maxRange, setMaxRange] = useState("");
+  const [aboutJob, setAboutJob] = useState("");
+  const [mandaturyRequier, setMandaturyRequier] = useState("");
+  const [optionalRequier, setOptionalRequier] = useState("");
+
+  const handleCategoryChange = (event) => {
+    const value = event.target.value;
+    if (value === "create_new") {
+      setIsCreatingNewCategory(true);
+      setSelectedCategory("");
+    } else {
+      setIsCreatingNewCategory(false);
+      setSelectedCategory(value);
+    }
+  };
+
+  const handleNewCategoryChange = (event) => {
+    setNewCategory(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    const category = isCreatingNewCategory ? newCategory : selectedCategory;
+
+    // เก็บค่า category ไว้ใน state
+    setSelectedCategory(category);
+
+    setTitle(title);
+    setType(type);
+    setMinRange(minRange);
+    setMaxRange(maxRange);
+    setAboutJob(aboutJob);
+    setMandaturyRequier(mandaturyRequier);
+    setOptionalRequier(optionalRequier);
+  };
   return (
     <>
       <div className="w-full h-[900px] bg-neutral-100  items-start inline-flex">
         <div className="self-stretch py-8 bg-neutral-200 flex-col justify-between items-start inline-flex">
           <div className="flex-col justify-start items-start flex">
             <div className="px-4 pb-[32px] flex-col justify-center items-start flex">
-              <img className="w-[136px] h-10" src="/images/gtj-logo.png" />
+              <Image src="/images/gtj-logo.png" width={136} height={40} />
             </div>
             <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
-              <img
-                className="w-[24px] h-[24px]"
+              <Image
                 src="/images/your applications.png"
+                width={24}
+                height={24}
               />
               <div
                 className="grow text-zinc-600 leading-normal"
@@ -28,7 +73,7 @@ export default function page() {
               </div>
             </div>
             <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-100 justify-center items-center flex">
-              <img className="w-[24px] h-[24px]" src="/images/serach.png" />
+              <Image src="/images/serach.png" width={24} height={24} />
               <div
                 className="grow text-neutral-700 leading-normal"
                 style={inter.style}
@@ -37,7 +82,7 @@ export default function page() {
               </div>
             </div>
             <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
-              <img className="w-[24px] h-[24px]" src="/images/profile.png" />
+              <Image src="/images/profile.png" width={24} height={24} />
               <div
                 className="grow text-zinc-600 leading-normal"
                 style={inter.style}
@@ -46,7 +91,7 @@ export default function page() {
               </div>
             </div>
             <div className="w-60 px-4 py-3 bg-neutral-200 justify-start items-start gap-2 inline-flex">
-              <img className="w-[24px] h-[24px]" src="/images/logout.png" />
+              <Image src="/images/logout.png" width={24} height={24} />
               <div
                 className=" text-zinc-600 leading-normal"
                 style={inter.style}
@@ -65,6 +110,7 @@ export default function page() {
           </div>
         </div>
         {/*ping */}
+
         <div className="w-[800px] h-[800px] py-[10px] px-[20px] ml-[150px] ">
           <p
             className=" py-[10px]  text-neutral-700 text-[34px] "
@@ -78,119 +124,187 @@ export default function page() {
           >
             Main information
           </p>
-          <p
-            className=" pt-[10px]
+          <form action={keepData}>
+            <p
+              className=" pt-[10px]
              text-zinc-600 text-[10px] "
-            style={inter.style}
-          >
-            JOB TITLE
-          </p>
-          <input
-            className="w-[389px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2  "
-            type="text"
-            placeholder="Software engineer"
-          />
-          <p
-            className=" pt-[10px]
-            text-zinc-600 text-[10px]"
-            style={inter.style}
-          >
-            JOB CATEGORY
-          </p>
-          <input
-            className="w-[389px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2 "
-            type="text"
-            placeholder="Select or create a category"
-          />
-          <p
-            className=" pt-[10px]
-            text-zinc-600 text-[10px]"
-            style={inter.style}
-          >
-            TYPE
-          </p>
-          <input
-            className="w-[389px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2 "
-            type="text"
-            placeholder="Select a type"
-          />
-          <p
-            className=" pt-[10px]
-            text-zinc-600 text-[10px]"
-            style={inter.style}
-          >
-            SALARY RANGE
-          </p>
-          <div className="relative">
-            <img
-              className=" w-[22px] h-[22px] absolute top-4 left-[13px]"
-              src="/images/money-dollar-circle-fill.svg"
-              alt="money-dollar-circle-fill"
-            />
-            <img
-              className="w-[22px] h-[22px] absolute top-4 left-[136px] "
-              src="/images/money-dollar-circle-fill.svg"
-              alt="money-dollar-circle-fill"
-            />
+              style={inter.style}
+            >
+              JOB TITLE
+            </p>
             <input
-              className="w-[100px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-11 "
+              name="title"
+              className="w-[389px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2  "
               type="text"
-              placeholder="min"
-            />{" "}
-            <span className="text-[30px] text-neutral-400">- </span>{" "}
-            <input
-              className="w-[100px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-11 "
-              type="text"
-              placeholder="max"
+              placeholder="Software engineer"
+              value={title}
+              onChange={(event) => {
+                setTitle(event.target.value);
+              }}
             />
-          </div>
-          <p
-            className=" pt-[30px]  text-neutral-700 text-[20px] "
-            style={montserrat.style}
-          >
-            Additional information
-          </p>
-          <p
-            className=" pt-[10px]
+            <p
+              className=" pt-[10px]
             text-zinc-600 text-[10px]"
-            style={inter.style}
-          >
-            ABOUT THE JOB POSITION
-          </p>
-          <input
-            className="w-[760px] h-[76px] rounded-lg text-neutral-700  border-2 border-[#F48FB1]  pl-2 pb-6"
-            type="text"
-            placeholder="Describe the main function and charecteristic of your job position"
-          />
-          <p
-            className=" pt-[10px]
+              style={inter.style}
+            >
+              JOB CATEGORY
+            </p>
+            <label>
+              <select
+                value={selectedCategory}
+                onChange={handleCategoryChange}
+                className="w-[389px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2 "
+              >
+                <option value="">Select or create a category</option>
+                <option value="manufacturing">Manufacturing</option>
+                <option value="legal">Legal</option>
+                <option value="education">Education</option>
+                <option value="goverment">Goverment</option>
+                <option value="sales">Sales</option>
+                <option value="create_new">Create New Category</option>
+              </select>
+              {isCreatingNewCategory && (
+                <input
+                  className="w-[389px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2 "
+                  type="text"
+                  value={newCategory}
+                  onChange={handleNewCategoryChange}
+                  placeholder="Enter new category"
+                />
+              )}
+            </label>
+            <p
+              className=" pt-[10px]
             text-zinc-600 text-[10px]"
-            style={inter.style}
-          >
-            MANDATORY REQUIREMANTS
-          </p>
-          <input
-            className="w-[760px] h-[76px] rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2 pb-6 "
-            type="text"
-            placeholder="List each mandatiry requirement in new line"
-          />
-          <p
-            className=" pt-[10px]
+              style={inter.style}
+            >
+              TYPE
+            </p>
+            <label>
+              <select
+                name="type"
+                className="w-[389px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2 "
+                value={type}
+                onChange={(event) => {
+                  setType(event.target.value);
+                }}
+              >
+                <option value="">Select a type</option>
+                <option value="fullTime">Full time</option>
+                <option value="partTime">Part time</option>
+              </select>
+            </label>
+            <p
+              className=" pt-[10px]
             text-zinc-600 text-[10px]"
-            style={inter.style}
-          >
-            OPTIONAL REQUIREMENT
-          </p>
-          <div className="relative">
+              style={inter.style}
+            >
+              SALARY RANGE
+            </p>
+            <div className="relative">
+              <Image
+                className="  absolute top-4 left-[13px]"
+                src="/images/money-dollar-circle-fill.svg"
+                width={22}
+                height={22}
+                alt="money-dollar-circle-fill"
+              />
+              <Image
+                className="absolute top-4 left-[136px] "
+                src="/images/money-dollar-circle-fill.svg"
+                width={22}
+                height={22}
+                alt="money-dollar-circle-fill"
+              />
+              <input
+                name="minRange"
+                className="w-[100px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-11 "
+                type="text"
+                placeholder="min"
+                value={minRange}
+                onChange={(event) => {
+                  setMinRange(event.target.value);
+                }}
+              />{" "}
+              <span className="text-[30px] text-neutral-400">- </span>{" "}
+              <input
+                className="w-[100px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-11 "
+                type="text"
+                name="maxRange"
+                placeholder="max"
+                value={maxRange}
+                onChange={(event) => {
+                  setMaxRange(event.target.value);
+                }}
+              />
+            </div>
+            <p
+              className=" pt-[30px]  text-neutral-700 text-[20px] "
+              style={montserrat.style}
+            >
+              Additional information
+            </p>
+            <p
+              className=" pt-[10px]
+            text-zinc-600 text-[10px]"
+              style={inter.style}
+            >
+              ABOUT THE JOB POSITION
+            </p>
             <input
-              className="w-[760px] h-[76px] rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2 pb-6"
+              name="aboutJob"
+              className="w-[760px] h-[76px] rounded-lg text-neutral-700  border-2 border-[#F48FB1]  pl-2 pb-6"
               type="text"
-              placeholder="List each optional requirement in new line"
+              placeholder="Describe the main function and charecteristic of your job position"
+              value={aboutJob}
+              onChange={(event) => {
+                setAboutJob(event.target.value);
+              }}
             />
-          </div>
-          <button className="border-2 border-[#F48FB1] text-white rounded-2xl bg-[#F48FB1] mt-5 mb-5 py-1 px-3 ">
-            POST THIS JOB
-          </button>
+            <p
+              className=" pt-[10px]
+            text-zinc-600 text-[10px]"
+              style={inter.style}
+            >
+              MANDATORY REQUIREMANTS
+            </p>
+            <input
+              name="mandaturyRequier"
+              className="w-[760px] h-[76px] rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2 pb-6 "
+              type="text"
+              placeholder="List each mandatiry requirement in new line"
+              value={mandaturyRequier}
+              onChange={(event) => {
+                setMandaturyRequier(event.target.value);
+              }}
+            />
+            <p
+              className=" pt-[10px]
+            text-zinc-600 text-[10px]"
+              style={inter.style}
+            >
+              OPTIONAL REQUIREMENT
+            </p>
+            <div className="relative">
+              <input
+                name="optionalRequier"
+                className="w-[760px] h-[76px] rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2 pb-6"
+                type="text"
+                placeholder="List each optional requirement in new line"
+                value={optionalRequier}
+                onChange={(event) => {
+                  setOptionalRequier(event.target.value);
+                }}
+              />
+            </div>
+            <button
+              onClick={handleSubmit}
+              type="submit"
+              className="border-2 border-[#F48FB1] text-white rounded-2xl bg-[#F48FB1] mt-5 mb-5 py-1 px-3 "
+            >
+              POST THIS JOB
+            </button>
+          </form>
         </div>
       </div>
     </>
