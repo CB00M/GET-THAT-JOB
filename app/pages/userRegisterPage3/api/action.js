@@ -23,6 +23,18 @@ export async function register(formData) {
     .from("CV_file")
     .getPublicUrl(fileName);
 
+  const { dataAuth, errorAuth } = await supabase.auth.signUp({
+    email,
+    password,
+    phonenumber: phoneNumber,
+  });
+  if (errorAuth) {
+    console.log("errorAuth", errorAuth);
+    return false;
+  }
+  console.log("Auth successful!!");
+  console.log(email, password, phoneNumber);
+
   const { data, error } = await supabase.from("Professionalusers").insert([
     {
       title,

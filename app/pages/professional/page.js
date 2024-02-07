@@ -2,6 +2,9 @@ import "tailwindcss/tailwind.css";
 import Image from "next/image";
 import { Montserrat } from "next/font/google";
 import { Inter } from "next/font/google";
+import Sidebar from "../../components/ProfessionalSidebar/page";
+// import { Badge } from "@/components/ui/badge";
+// import { Button } from "@/components/ui/button";
 
 const inter = Inter({ weight: "400", preload: false });
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -9,66 +12,7 @@ const montserrat = Montserrat({ subsets: ["latin"] });
 export default function Page() {
   return (
     <div className="w-full h-screen bg-neutral-100 justify-center items-start inline-flex">
-      <div className="self-stretch py-8 bg-neutral-200 flex-col justify-between items-start inline-flex">
-        <div className="flex-col justify-start items-start flex">
-          <div className="px-4 pb-[32px] flex-col justify-center items-start flex">
-            <img className="w-[136px] h-10" src="/images/gtj-logo.png" />
-          </div>
-          <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-100 justify-center items-center flex">
-            <img className="w-[24px] h-[24px]" src="/images/serach.png" />
-            <div
-              className="grow text-neutral-700 leading-normal"
-              style={inter.style}
-            >
-              Find that job
-            </div>
-          </div>
-          <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
-            <img
-              className="w-[24px] h-[24px]"
-              src="/images/your applications.png"
-            />
-            <div
-              className="grow text-zinc-600 leading-normal"
-              style={inter.style}
-            >
-              Your applications
-            </div>
-          </div>
-          <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
-            <img className="w-[24px] h-[24px]" src="/images/following.png" />
-            <div
-              className="grow shrink basis-0 text-zinc-600 leading-normal"
-              style={inter.style}
-            >
-              Following
-            </div>
-          </div>
-          <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
-            <img className="w-[24px] h-[24px]" src="/images/profile.png" />
-            <div
-              className="grow text-zinc-600 leading-normal"
-              style={inter.style}
-            >
-              Profile
-            </div>
-          </div>
-          <div className="w-60 px-4 py-3 bg-neutral-200 justify-start items-start gap-2 inline-flex">
-            <img className="w-[24px] h-[24px]" src="/images/logout.png" />
-            <div className=" text-zinc-600 leading-normal" style={inter.style}>
-              Log out
-            </div>
-          </div>
-        </div>
-        <div className="flex-col justify-start items-start gap-3 inline-flex w-60 px-4">
-          <div
-            className="text-zinc-600 text-xs leading-none"
-            style={montserrat.style}
-          >
-            © 202X - Get That Job
-          </div>
-        </div>
-      </div>
+      <Sidebar />
       <div className="grow self-stretch px-[120px] pb-[667px] bg-neutral-100 justify-center items-center inline-flex">
         <div className="self-stretch flex-col h-[169px] w-[960px] justify-start items-start gap-4 inline-flex relative right-6 py-8">
           <div className="h-[169px] flex-col justify-start items-start gap-4 flex relative right-6">
@@ -78,7 +22,7 @@ export default function Page() {
             >
               Find that job
             </div>
-            <div className="h-28 relative">
+            <div className="h-screen relative flex">
               <div className="w-[960px] h-[52px] left-0 top-[60px] absolute justify-start items-start gap-4 inline-flex">
                 <div className="flex-col justify-start items-start gap-1 inline-flex">
                   <div
@@ -159,7 +103,9 @@ export default function Page() {
                         />
                       </div>
                     </div>
+
                     <div className="w-[15px] h-[0px] rounded-lg border-2 border-neutral-400 "></div>
+
                     <div className="h-9 p-2 bg-white rounded-lg border-2 border-rose-300 justify-start items-center gap-2 flex ">
                       <div className="w-5 h-5 justify-center items-center flex "></div>
                       <div
@@ -179,6 +125,40 @@ export default function Page() {
                         />
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="job-card bg-white p-4 rounded-lg shadow-md flex flex-col items-start mt-[200px]">
+                <div className="flex">
+                  <div className="job-image bg-slate-950 border-red-900 h-10 w-10 mt-8 mr-3"></div>
+                  <div className="job-info">
+                    <div className="flex items-center mb-2 ">
+                      <div className="text-gray-500 mr-2" />
+                      <span className="text-sm font-medium text-gray-700">
+                        Manufacturing
+                      </span>
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">
+                      The job title
+                    </h3>
+                    <p className="text-sm text-gray-600 mb-3">
+                      The Company Name
+                    </p>
+                    <div className="flex items-center mb-4">
+                      <div className="mr-2" variant="secondary">
+                        Full time
+                      </div>
+                      <span className="text-sm text-gray-500">2.0k - 2.5k</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex w-full justify-between">
+                  <div className="text-sm" variant="ghost">
+                    FOLLOW
+                  </div>
+                  <div className="text-sm" variant="outline">
+                    SEE MORE
                   </div>
                 </div>
               </div>
