@@ -18,7 +18,7 @@ export default function Header() {
         <div className="mx-2 my-2 p-1">
           <Link
             href={{
-              pathname: "/pages/recruiterSignUp",
+              pathname: "/pages/recruiterSignUp1",
             }}
           >
             <Image

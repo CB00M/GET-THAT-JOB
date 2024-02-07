@@ -1,12 +1,11 @@
 "use client";
+
 import Image from "next/image";
 import "tailwindcss/tailwind.css";
-import StepperForm from "../../components/RecruiterSignUpFrom/StepperForm";
 import { Fragment } from "react";
 import Link from "next/link";
 import { Montserrat } from "next/font/google";
 import { Inter } from "next/font/google";
-import LoginInfo from "@/app/components/RecruiterSignUpFrom/LoginInfo";
 import { useContext, useState } from "react";
 import { RecruiterContext } from "../../context/recruiterContext";
 
@@ -122,10 +121,11 @@ export default function Page() {
               id="confirm-password"
               name="password"
               placeholder="******"
-            />
+            />{" "}
+            <br />
             <Link
               href={{
-                pathname: "/pages/recruiterSignUp1/recruiterSignUp2",
+                pathname: "/pages/recruiterSignUp2",
               }}
             >
               <button
