@@ -120,3 +120,43 @@ export const handleLoginRecruiter = async (formData) => {
     }
   }
 };
+
+export const handleLoginProfessional = async (formData) => {
+  const { email, password } = formData;
+
+  const emailInDatabase = await emailFromProfessionalUsers(email);
+  console.log("Found email: ", emailInDatabase);
+  if (!emailInDatabase) {
+    console.error("User not found");
+    return;
+  }
+
+  const passwordInDatabase = await passwordProfessionalUsers(password);
+  console.log("Found password: ", passwordInDatabase);
+  if (!passwordInDatabase) {
+    console.error("Password not found");
+    return;
+  }
+
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    const { user } = data;
+
+    if (error) {
+      console.error("login error: ", error.message);
+      return { error: `Login error: ${error.message}` };
+    }
+
+    cookies().set("user", JSON.stringify(user));
+    redirect("/pages/professional");
+  } catch (error) {
+    console.error("Login check: ", error.message);
+    if (isRedirectError(error)) {
+      throw error;
+    }
+  }
+};

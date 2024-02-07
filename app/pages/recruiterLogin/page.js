@@ -14,6 +14,7 @@ import {
   emailFromRecruiterUsers,
   handleLoginRecruiter,
 } from "../../login/actions";
+import { useRouter } from "next/navigation";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 const inter = Inter({ weight: "400", preload: false });
@@ -23,6 +24,8 @@ function Page() {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
+  const router = useRouter();
 
   const handleEmail = (event) => {
     setEmail(event.target.value);
@@ -50,6 +53,7 @@ function Page() {
     }
 
     await handleLoginRecruiter({ email, password });
+    router.push("/pages/recruiter");
   };
 
   return (
