@@ -106,7 +106,7 @@ export default function RegisterPage2() {
         </div>
         <div className="input-information">
           <div
-            class="w-[380px] text-zinc-600 text-[10px]  uppercase tracking-wider mb-2"
+            className="w-[380px] text-zinc-600 text-[10px]  uppercase tracking-wider mb-2"
             style={montserrat.style}
           >
             You can complete this information later but we reccomend you to do
@@ -140,7 +140,7 @@ export default function RegisterPage2() {
             style={montserrat.style}
           />
           <div
-            class="text-neutral-400 text-xs font-normal font-['Inter'] leading-none tracking-wide mt-1"
+            className="text-neutral-400 text-xs font-normal font-['Inter'] leading-none tracking-wide mt-1"
             style={montserrat.style}
           >
             +[country code][number]
