@@ -13,10 +13,10 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import {
-  handleLogin,
-  checkEmailDatabase,
-  checkPasswordDatabase,
-} from "@/app/pages/userLogin/action";
+  passwordProfessionalUsers,
+  emailFromProfessionalUsers,
+  handleLoginProfessional,
+} from "../../login/actions";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 const inter = Inter({ weight: "400", preload: false });
@@ -32,58 +32,35 @@ export default function LoginPage() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
+  const router = useRouter();
+
+  const handleEmail = (event) => {
+    setEmail(event.target.value);
     setEmailError("");
   };
 
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
+  const handlePassword = (event) => {
+    setPassword(event.target.value);
     setPasswordError("");
-  };
-
-  const isEmailValid = (email) => {
-    const emailFormat =
-      /^[a-zA-Z0-9._%+-]+@(gmail|hotmail|yahoo|outlook|xyzcompany|icloud|aol)\.(com|co\.th|net|org|edu|gov|mil)$/;
-    return emailFormat.test(email);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!email) {
-      setEmailError("โปรดกรอกอีเมล");
+    const checkEmail = await emailFromProfessionalUsers(email);
+    if (!checkEmail) {
+      setEmailError("Invalid email");
       return;
     }
 
-    if (!email.includes("@")) {
-      setEmailError("อีเมลต้องมีเครื่องหมาย @");
+    const checkPassword = await passwordProfessionalUsers(password);
+    if (!checkPassword) {
+      setPasswordError("Invalid password");
       return;
     }
 
-    if (!isEmailValid(email)) {
-      setEmailError("รูปแบบอีเมลไม่ถูกต้อง");
-      return;
-    }
-
-    if (!password) {
-      setPasswordError("โปรดกรอกรหัสผ่าน");
-      return;
-    }
-
-    const emailInDatabase = await checkEmailDatabase(email);
-    if (!emailInDatabase) {
-      setEmailError("อีเมลไม่ถูกต้อง");
-      return;
-    }
-
-    const isPasswordValid = await checkPasswordDatabase(password);
-    if (!isPasswordValid) {
-      setPasswordError("รหัสผ่านไม่ถูกต้อง");
-      return;
-    }
-
-    await handleLogin({ email, password });
+    await handleLoginProfessional({ email, password });
+    router.push("/pages/professional");
   };
 
   return (
