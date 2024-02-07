@@ -9,8 +9,6 @@ import Link from "next/link.js";
 import { useContext } from "react";
 import { ProfessionalContext } from "@/app/context/professionalContext";
 
-// import { cookies } from "next/headers";
-
 export default function RegisterPage() {
   const { email, password, name, phoneNumber, birthdate, linkedin } =
     useContext(ProfessionalContext);
@@ -81,6 +79,7 @@ export default function RegisterPage() {
             />
           </div>
         </div>
+
         <form action={register}>
           <div className="input-information">
             <p className="text-[10px] mb-5 text-[#616161]">
