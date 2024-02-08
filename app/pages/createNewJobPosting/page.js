@@ -11,10 +11,7 @@ const montserrat = Montserrat({ subsets: ["latin"] });
 
 export default function page() {
   const [title, setTitle] = useState("");
-  //category
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [newCategory, setNewCategory] = useState("");
-  const [isCreatingNewCategory, setIsCreatingNewCategory] = useState(false);
+  const [selectCategory, setSelectCategory] = useState("");
   const [type, setType] = useState("");
   const [minRange, setMinRange] = useState("");
   const [maxRange, setMaxRange] = useState("");
@@ -22,35 +19,7 @@ export default function page() {
   const [mandaturyRequier, setMandaturyRequier] = useState("");
   const [optionalRequier, setOptionalRequier] = useState("");
 
-  const handleCategoryChange = (event) => {
-    const value = event.target.value;
-    if (value === "create_new") {
-      setIsCreatingNewCategory(true);
-      setSelectedCategory("");
-    } else {
-      setIsCreatingNewCategory(false);
-      setSelectedCategory(value);
-    }
-  };
-
-  const handleNewCategoryChange = (event) => {
-    setNewCategory(event.target.value);
-  };
-
-  const handleSubmit = () => {
-    const category = isCreatingNewCategory ? newCategory : selectedCategory;
-
-    // เก็บค่า category ไว้ใน state
-    setSelectedCategory(category);
-
-    setTitle(title);
-    setType(type);
-    setMinRange(minRange);
-    setMaxRange(maxRange);
-    setAboutJob(aboutJob);
-    setMandaturyRequier(mandaturyRequier);
-    setOptionalRequier(optionalRequier);
-  };
+  const handleSubmit = () => {};
   return (
     <>
       <div className="w-full h-[900px] bg-neutral-100  items-start inline-flex">
@@ -60,11 +29,7 @@ export default function page() {
               <Image src="/images/gtj-logo.png" width={136} height={40} />
             </div>
             <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
-              <Image
-                src="/images/your applications.png"
-                width={24}
-                height={24}
-              />
+              <Image src="/images/job-posting-pic.svg" width={22} height={22} />
               <div
                 className="grow text-zinc-600 leading-normal"
                 style={inter.style}
@@ -73,7 +38,11 @@ export default function page() {
               </div>
             </div>
             <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-100 justify-center items-center flex">
-              <Image src="/images/serach.png" width={24} height={24} />
+              <Image
+                src="/images/create-new-job-pic.svg"
+                width={18}
+                height={20}
+              />
               <div
                 className="grow text-neutral-700 leading-normal"
                 style={inter.style}
@@ -149,30 +118,23 @@ export default function page() {
             >
               JOB CATEGORY
             </p>
-            <label>
-              <select
-                value={selectedCategory}
-                onChange={handleCategoryChange}
-                className="w-[389px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2 "
-              >
-                <option value="">Select or create a category</option>
-                <option value="manufacturing">Manufacturing</option>
-                <option value="legal">Legal</option>
-                <option value="education">Education</option>
-                <option value="goverment">Goverment</option>
-                <option value="sales">Sales</option>
-                <option value="create_new">Create New Category</option>
-              </select>
-              {isCreatingNewCategory && (
-                <input
-                  className="w-[389px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2 "
-                  type="text"
-                  value={newCategory}
-                  onChange={handleNewCategoryChange}
-                  placeholder="Enter new category"
-                />
-              )}
-            </label>
+
+            <select
+              name="category"
+              value={selectCategory}
+              onChange={(event) => {
+                setSelectCategory(event.target.value);
+              }}
+              className="w-[389px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2 "
+            >
+              <option value="">Select or create a category</option>
+              <option value="manufacturing">Manufacturing</option>
+              <option value="legal">Legal</option>
+              <option value="education">Education</option>
+              <option value="government">Government</option>
+              <option value="sales">Sales</option>
+            </select>
+
             <p
               className=" pt-[10px]
             text-zinc-600 text-[10px]"

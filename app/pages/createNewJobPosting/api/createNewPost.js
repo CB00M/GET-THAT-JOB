@@ -10,7 +10,6 @@ export async function keepData(formData) {
   const title = formData.get("title");
   const category = formData.get("category");
   const type = formData.get("type");
-
   const minRange = formData.get("minRange");
   const maxRange = formData.get("maxRange");
   const aboutJob = formData.get("aboutJob");
