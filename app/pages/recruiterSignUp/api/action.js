@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 async function signUp(formData) {
   const cookieStore = cookies();
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  const supabase = createClient(cookieStore);
   const companyWebsite = formData.get("companyWebsite");
   const aboutCompany = formData.get("aboutCompany");
   const attachment = formData.get("attachment");
