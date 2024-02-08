@@ -112,7 +112,6 @@ export const handleLoginRecruiter = async (formData) => {
     }
 
     cookies().set("user", JSON.stringify(user));
-    redirect("/pages/recruiter");
   } catch (error) {
     console.error("Login check: ", error.message);
     if (isRedirectError(error)) {
