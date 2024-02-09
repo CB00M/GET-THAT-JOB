@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Montserrat, Inter } from "next/font/google";
 import { useState } from "react";
 import { Cookie } from "next/font/google";
-import { keepData } from "./api/createNewPost";
+import { keepData } from "./api/createNewPost.js";
 
 const inter = Inter({ weight: "400", preload: false });
 const montserrat = Montserrat({ subsets: ["latin"] });
