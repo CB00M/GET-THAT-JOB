@@ -18,7 +18,7 @@ const supabase = createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhsZGNuaXhkeXVjZHpudnppdWJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDY3MDEzMzEsImV4cCI6MjAyMjI3NzMzMX0.8oPe4EzhETnEG_9YloGRei_hoMNqEsd53SHAUg8LCRw"
 );
 
-export default function Sidebar() {
+export default function SidebarRecruiter() {
   const router = useRouter();
   const handleSignout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -30,44 +30,33 @@ export default function Sidebar() {
       router.push("/");
     }
   };
+
   return (
-    <div className="self-stretch py-8 bg-neutral-200 flex-col justify-between items-start inline-flex">
+    <div className="self-stretch py-8 bg-neutral-200 flex-col justify-between items-start inline-flex ">
       <div className="flex-col justify-start items-start flex">
-        <div className="px-4 pb-[32px] flex-col justify-center items-start flex">
+        <div className="px-4 pb-[32px] flex-col justify-center items-start flex ">
           <img className="w-[136px] h-10" src="/images/gtj-logo.png" />
         </div>
         <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-100 justify-center items-center flex">
-          <img className="w-[24px] h-[24px]" src="/images/serach.png" />
+          <img className="w-[24px] h-[24px]" src="/images/jobposting.svg" />
           <div
-            className="grow text-neutral-700 leading-normal"
+            className="grow text-neutral-700 leading-normal "
             style={inter.style}
           >
-            Find that job
+            Job Postings
           </div>
         </div>
-        <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
-          <img
-            className="w-[24px] h-[24px]"
-            src="/images/your applications.png"
-          />
+        <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex ">
+          <img className="w-[24px] h-[24px]" src="/images/createnewjob.svg" />
           <div
-            className="grow text-zinc-600 leading-normal"
+            className="grow text-zinc-600 leading-normal "
             style={inter.style}
           >
-            Your applications
+            Create New Job
           </div>
         </div>
-        <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
-          <img className="w-[24px] h-[24px]" src="/images/following.png" />
-          <div
-            className="grow shrink basis-0 text-zinc-600 leading-normal"
-            style={inter.style}
-          >
-            Following
-          </div>
-        </div>
-        <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
-          <img className="w-[24px] h-[24px]" src="/images/profile.png" />
+        <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex ">
+          <img className="w-[24px] h-[24px]" src="/images/profile.svg" />
           <div
             className="grow text-zinc-600 leading-normal"
             style={inter.style}
@@ -76,13 +65,13 @@ export default function Sidebar() {
           </div>
         </div>
         <div className="w-60 px-4 py-3 bg-neutral-200 justify-start items-start gap-2 inline-flex">
-          <img className="w-[24px] h-[24px]" src="/images/logout.png" />
-          <div className=" text-zinc-600 leading-normal" style={inter.style}>
+          <img className="w-[24px] h-[24px]" src="/images/logout.svg" />
+          <div className=" text-zinc-600 leading-normal " style={inter.style}>
             <button onClick={handleSignout}>Log out</button>
           </div>
         </div>
       </div>
-      <div className="flex-col justify-start items-start gap-3 inline-flex w-60 px-4">
+      <div className="flex-col justify-start items-start gap-3 inline-flex w-60 px-4 ">
         <div
           className="text-zinc-600 text-xs leading-none"
           style={montserrat.style}
