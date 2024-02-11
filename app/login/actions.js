@@ -81,21 +81,21 @@ export const passwordRecruiterUsers = async (password) => {
   }
 };
 
-export const handleLoginRecruiter = async (formData) => {
+export const handleLoginRecruiter = async (formData, res) => {
   const { email, password } = formData;
 
   const emailInDatabase = await emailFromRecruiterUsers(email);
   console.log("Found email: ", emailInDatabase);
   if (!emailInDatabase) {
     console.error("User not found");
-    return;
+    return { error: "Invalid login credentials" };
   }
 
   const passwordInDatabase = await passwordRecruiterUsers(password);
   console.log("Found password: ", passwordInDatabase);
   if (!passwordInDatabase) {
     console.error("Password not found");
-    return;
+    return { error: "Invalid login credentials" };
   }
 
   try {
@@ -105,22 +105,23 @@ export const handleLoginRecruiter = async (formData) => {
     });
 
     const { user } = data;
-
-    if (error) {
+    /*login error message*/
+    if (error && error.message && !isRedirectError(error)) {
       console.error("login error: ", error.message);
       return { error: `Login error: ${error.message}` };
     }
 
     cookies().set("user", JSON.stringify(user));
+    res.status(307).redirect("/pages/recruiter");
   } catch (error) {
-    console.error("Login check: ", error.message);
+    console.error("Login check:", error.message);
     if (isRedirectError(error)) {
       throw error;
     }
   }
 };
 
-export const handleLoginProfessional = async (formData) => {
+export const handleLoginProfessional = async (formData, res) => {
   const { email, password } = formData;
 
   const emailInDatabase = await emailFromProfessionalUsers(email);
@@ -145,13 +146,13 @@ export const handleLoginProfessional = async (formData) => {
 
     const { user } = data;
 
-    if (error) {
+    if (error && error.message && !isRedirectError(error)) {
       console.error("login error: ", error.message);
       return { error: `Login error: ${error.message}` };
     }
 
     cookies().set("user", JSON.stringify(user));
-    redirect("/pages/professional");
+    res.status(307).redirect("/pages/professional");
   } catch (error) {
     console.error("Login check: ", error.message);
     if (isRedirectError(error)) {
@@ -159,3 +160,13 @@ export const handleLoginProfessional = async (formData) => {
     }
   }
 };
+
+const handleLogout = async () => {
+  const { error } = await supabase.auth.signOut();
+  if (!error) {
+    cookies().delete("user");
+    redirect("/");
+  }
+};
+
+export default handleLogout;
