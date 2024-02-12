@@ -30,7 +30,7 @@ export default function RegisterPage() {
             <hr className="w-[100px] border-b-[3px] border-[#F48FB1] " />
           </div>
           <div>
-            <Link href="/pages/recruiterSignUp">
+            <Link href="/pages/recruiterSignUp1">
               <p className="text-[#bdbdbd]">RECRUITER</p>
               <hr className="w-[70px] border-b-[3px] border-[#bdbdbd]" />
             </Link>

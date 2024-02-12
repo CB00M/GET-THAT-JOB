@@ -2,6 +2,7 @@
 import Image from "next/image";
 import "tailwindcss/tailwind.css";
 import Header from "@/app/components/Navbar/Header";
+
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
