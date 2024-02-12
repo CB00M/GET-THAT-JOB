@@ -3,7 +3,6 @@ import "tailwindcss/tailwind.css";
 import Image from "next/image";
 import { Montserrat, Inter } from "next/font/google";
 import { useState, useEffect } from "react";
-import { Main } from "next/document";
 import { createClient } from "@/utils/supabase/client";
 import {
   Accordion,
