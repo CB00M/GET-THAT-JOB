@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Montserrat, Inter } from "next/font/google";
 import "tailwindcss/tailwind.css";
