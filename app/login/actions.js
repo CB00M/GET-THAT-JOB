@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server.js";
-import { redirect } from "next/dist/server/api-utils";
+import { redirect } from "next/navigation";
 import { isRedirectError } from "next/dist/client/components/redirect";
 
 const cookieStore = cookies();
@@ -81,21 +81,21 @@ export const passwordRecruiterUsers = async (password) => {
   }
 };
 
-export const handleLoginRecruiter = async (formData, res) => {
+export const handleLoginRecruiter = async (formData) => {
   const { email, password } = formData;
 
   const emailInDatabase = await emailFromRecruiterUsers(email);
   console.log("Found email: ", emailInDatabase);
   if (!emailInDatabase) {
     console.error("User not found");
-    return { error: "Invalid login credentials" };
+    return;
   }
 
   const passwordInDatabase = await passwordRecruiterUsers(password);
   console.log("Found password: ", passwordInDatabase);
   if (!passwordInDatabase) {
     console.error("Password not found");
-    return { error: "Invalid login credentials" };
+    return;
   }
 
   try {
@@ -106,13 +106,13 @@ export const handleLoginRecruiter = async (formData, res) => {
 
     const { user } = data;
     /*login error message*/
-    if (error && error.message && !isRedirectError(error)) {
+    if (error) {
       console.error("login error: ", error.message);
       return { error: `Login error: ${error.message}` };
     }
 
     cookies().set("user", JSON.stringify(user));
-    res.status(307).redirect("/pages/recruiter");
+    redirect("/pages/recruiter");
   } catch (error) {
     console.error("Login check:", error.message);
     if (isRedirectError(error)) {
@@ -121,7 +121,7 @@ export const handleLoginRecruiter = async (formData, res) => {
   }
 };
 
-export const handleLoginProfessional = async (formData, res) => {
+export const handleLoginProfessional = async (formData) => {
   const { email, password } = formData;
 
   const emailInDatabase = await emailFromProfessionalUsers(email);
@@ -146,13 +146,13 @@ export const handleLoginProfessional = async (formData, res) => {
 
     const { user } = data;
 
-    if (error && error.message && !isRedirectError(error)) {
+    if (error) {
       console.error("login error: ", error.message);
       return { error: `Login error: ${error.message}` };
     }
 
     cookies().set("user", JSON.stringify(user));
-    res.status(307).redirect("/pages/professional");
+    redirect("/pages/professional");
   } catch (error) {
     console.error("Login check: ", error.message);
     if (isRedirectError(error)) {
@@ -161,12 +161,11 @@ export const handleLoginProfessional = async (formData, res) => {
   }
 };
 
-const handleLogout = async () => {
+export const handleLogout = async () => {
   const { error } = await supabase.auth.signOut();
   if (!error) {
     cookies().delete("user");
+    console.log("Signed out successfully!");
     redirect("/");
   }
 };
-
-export default handleLogout;

@@ -2,33 +2,16 @@
 import React from "react";
 import { Montserrat } from "next/font/google";
 import { Inter } from "next/font/google";
-import { useRouter } from "next/navigation";
-import createSupabaseServerClient from "@/utils/supabase/server";
-import Logout from "../ProfessionalSidebar/logout";
-import handleLogout from "@/app/login/actions";
-import { redirect } from "next/dist/server/api-utils";
 import { createClient } from "@supabase/supabase-js";
-import { Router } from "next/navigation";
+import { handleLogout } from "@/app/login/actions";
 
 const inter = Inter({ weight: "400", preload: false });
 const montserrat = Montserrat({ subsets: ["latin"] });
 
-const supabase = createClient(
-  "https://xldcnixdyucdznvziubx.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhsZGNuaXhkeXVjZHpudnppdWJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDY3MDEzMzEsImV4cCI6MjAyMjI3NzMzMX0.8oPe4EzhETnEG_9YloGRei_hoMNqEsd53SHAUg8LCRw"
-);
-
 export default function Sidebar() {
-  const router = useRouter();
-  const handleSignout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error(error);
-    } else {
-      alert("Signed out successfully!");
-      // Redirect to the home page or another page after signout
-      router.push("/");
-    }
+  const handleLogoutClick = () => {
+    handleLogout();
+    alert("You have been logged out.");
   };
   return (
     <div className="self-stretch py-8 bg-neutral-200 flex-col justify-between items-start inline-flex">
@@ -78,7 +61,7 @@ export default function Sidebar() {
         <div className="w-60 px-4 py-3 bg-neutral-200 justify-start items-start gap-2 inline-flex">
           <img className="w-[24px] h-[24px]" src="/images/logout.png" />
           <div className=" text-zinc-600 leading-normal" style={inter.style}>
-            <button onClick={handleSignout}>Log out</button>
+            <button onClick={handleLogoutClick}>Log out</button>
           </div>
         </div>
       </div>
