@@ -5,6 +5,7 @@ import { Montserrat, Inter } from "next/font/google";
 import { useState } from "react";
 import { Cookie } from "next/font/google";
 import { keepData } from "./api/createNewPost";
+import { Textarea } from "@chakra-ui/react";
 
 const inter = Inter({ weight: "400", preload: false });
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -152,8 +153,8 @@ export default function page() {
                 }}
               >
                 <option value="">Select a type</option>
-                <option value="fullTime">Full time</option>
-                <option value="partTime">Part time</option>
+                <option value="Full time">Full time</option>
+                <option value="Part time">Part time</option>
               </select>
             </label>
             <p
@@ -213,15 +214,31 @@ export default function page() {
             >
               ABOUT THE JOB POSITION
             </p>
-            <input
-              name="aboutJob"
-              className="w-[760px] h-[76px] rounded-lg text-neutral-700  border-2 border-[#F48FB1]  pl-2 pb-6"
-              type="text"
+            <Textarea
+              sx={{
+                width: "760px",
+                height: "76px",
+                borderRadius: "lg",
+                color: "neutral.700",
+                borderWidth: "2px",
+                borderColor: "#F48FB1",
+                paddingLeft: "2px",
+                paddingBottom: "6px",
+                background: "white",
+                paddingLeft: "10px",
+                boxShadow: "none",
+                "&:focus": {
+                  // สไตล์เมื่อกล่องข้อความได้รับการ focus
+                  borderColor: "black", // เปลี่ยนสีเส้นขอบเป็นสีดำเมื่อได้รับการ focus
+                  boxShadow: "none",
+                },
+              }}
               placeholder="Describe the main function and charecteristic of your job position"
               value={aboutJob}
               onChange={(event) => {
                 setAboutJob(event.target.value);
               }}
+              name="aboutJob"
             />
             <p
               className=" pt-[10px]
@@ -230,16 +247,33 @@ export default function page() {
             >
               MANDATORY REQUIREMANTS
             </p>
-            <input
-              name="mandaturyRequier"
-              className="w-[760px] h-[76px] rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2 pb-6 "
-              type="text"
+            <Textarea
+              sx={{
+                width: "760px",
+                height: "76px",
+                borderRadius: "lg",
+                color: "neutral.700",
+                borderWidth: "2px",
+                borderColor: "#F48FB1",
+                paddingLeft: "2px",
+                paddingBottom: "6px",
+                background: "white",
+                paddingLeft: "10px",
+                boxShadow: "none",
+                "&:focus": {
+                  // สไตล์เมื่อกล่องข้อความได้รับการ focus
+                  borderColor: "black", // เปลี่ยนสีเส้นขอบเป็นสีดำเมื่อได้รับการ focus
+                  boxShadow: "none",
+                },
+              }}
               placeholder="List each mandatiry requirement in new line"
               value={mandaturyRequier}
               onChange={(event) => {
                 setMandaturyRequier(event.target.value);
               }}
+              name="mandaturyRequier"
             />
+
             <p
               className=" pt-[10px]
             text-zinc-600 text-[10px]"
@@ -247,18 +281,33 @@ export default function page() {
             >
               OPTIONAL REQUIREMENT
             </p>
-            <div className="relative">
-              <input
-                name="optionalRequier"
-                className="w-[760px] h-[76px] rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2 pb-6"
-                type="text"
-                placeholder="List each optional requirement in new line"
-                value={optionalRequier}
-                onChange={(event) => {
-                  setOptionalRequier(event.target.value);
-                }}
-              />
-            </div>
+            <Textarea
+              sx={{
+                width: "760px",
+                height: "76px",
+                borderRadius: "lg",
+                color: "neutral.700",
+                borderWidth: "2px",
+                borderColor: "#F48FB1",
+                paddingLeft: "2px",
+                paddingBottom: "6px",
+                background: "white",
+                paddingLeft: "10px",
+                boxShadow: "none",
+                "&:focus": {
+                  // สไตล์เมื่อกล่องข้อความได้รับการ focus
+                  borderColor: "black", // เปลี่ยนสีเส้นขอบเป็นสีดำเมื่อได้รับการ focus
+                  boxShadow: "none",
+                },
+              }}
+              placeholder="List each optional requirement in new line"
+              value={optionalRequier}
+              onChange={(event) => {
+                setOptionalRequier(event.target.value);
+              }}
+              name="optionalRequier"
+            />
+
             <button
               onClick={handleSubmit}
               type="submit"
