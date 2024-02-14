@@ -12,13 +12,13 @@ export async function register(formData) {
   const password = formData.get("password");
   const website = formData.get("website");
   const about = formData.get("aboutCompany");
-  const attachment = formData.get("attachment");
+  const companyLogo = formData.get("attachment");
   const fileName = uuidv4();
-  console.log("attachment:", attachment);
+  console.log("attachment:", companyLogo);
 
   const { errorAttachments } = await supabase.storage
     .from("attachments")
-    .upload(fileName, attachment);
+    .upload(fileName, companyLogo);
   if (errorAttachments) {
     console.log("error:", error);
     return false;
@@ -47,6 +47,7 @@ export async function register(formData) {
       password,
       website,
       about_company: about,
+      companyLogo: publicAttachmentUrl.data.publicUrl,
     },
   ]);
   if (error) {
@@ -54,5 +55,12 @@ export async function register(formData) {
     return false;
   }
   console.log("Register successful!!");
-  console.log(company, email, password, website, about);
+  console.log(
+    company,
+    email,
+    password,
+    website,
+    about,
+    publicAttachmentUrl.data.publicUrl
+  );
 }
