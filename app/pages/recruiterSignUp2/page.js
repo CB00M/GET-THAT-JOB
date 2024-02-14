@@ -9,7 +9,6 @@ import { Fragment } from "react";
 import { useState, useContext } from "react";
 import { RecruiterContext } from "@/app/context/recruiterContext";
 import { register } from "./api/recruiterRegister";
-import signUp from "./api/action";
 import "../../globals.css";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
