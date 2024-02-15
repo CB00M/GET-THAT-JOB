@@ -16,19 +16,23 @@ import { createClient } from "@/utils/supabase/client.js";
 const inter = Inter({ weight: "400", preload: false });
 const montserrat = Montserrat({ subsets: ["latin"] });
 
-export default function page() {
+export default function page({ params }) {
   const supabase = createClient();
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [jobs, setJobs] = useState([]);
   const [candidates, setCandidates] = useState([]);
+  //   console.log("checkparams :", params); เช็คข้อมูลของ params
 
   const fetchJobs = async () => {
-    let { data, error } = await supabase.from("job_posting").select("*");
+    let { data, error } = await supabase
+      .from("job_posting")
+      .select("*")
+      .eq("id", params.id);
 
     if (error || !data) {
       console.log("error", error);
     }
-
+    console.log("checked: ", data);
     setJobs(data);
   };
 
@@ -42,7 +46,9 @@ export default function page() {
     setJobs(data);
   };
 
-  useEffect(() => {}, [setSelectedFilter]);
+  useEffect(() => {
+    fetchJobs();
+  }, [params.id]);
 
   const handleFilterChange = (event) => {
     let result = event.target.value;
@@ -127,148 +133,156 @@ export default function page() {
           <div className="chakra">
             <Accordion allowToggle>
               {/*Job title*/}
-              <div className="border border-slate-300 shadow-lg shadow-slate-400  rounded-[10px] w-[1080px]  p-5">
-                <AccordionItem w="1050px">
-                  <h2>
-                    <div className="warpper flex relative">
-                      <AccordionButton>
-                        <span className="flex flex-row w-[1020px] h-[70px] mb-3">
-                          <div className=" w-[420px] p-2">
-                            {/*left-container*/}
-                            <h2
-                              className="  text-neutral-700 text-[22px] font-medium text-left"
-                              style={montserrat.style}
-                            >
-                              The job title
-                            </h2>
-                            <div className="flex flex-row">
-                              <div className="flex flex-row mr-1">
-                                <Image
-                                  src="/factory.svg"
-                                  width={15}
-                                  height={20}
-                                  className="m-2"
-                                />
-                                <p className=" py-[10px] text-[#8e8e8e] text-[12px]">
-                                  Manufactoring
-                                </p>
-                              </div>
-                              <div className="flex flex-row mr-1">
-                                <Image
-                                  src="/calendar-2-line.svg"
-                                  width={15}
-                                  height={20}
-                                  className="m-2"
-                                />
-                                <p className=" py-[10px] text-[#8e8e8e] text-[12px]">
-                                  Full time
-                                </p>
-                              </div>
-                              <div className="flex flex-row ">
-                                <Image
-                                  src="/dollar.svg"
-                                  width={15}
-                                  height={20}
-                                  className="m-2"
-                                />
-                                <p className=" py-[10px] text-[#8e8e8e] text-[12px]">
-                                  2.0k - 2.5k
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex flex-row">
-                            {/* middle-container */}
-                            <div className="flex flex-col justify-center items-center m-2">
-                              <Image
-                                src="/mail-box.svg"
-                                width={20}
-                                height={20}
-                              />
-                              <p>Open on</p>
-                              <p>07/11/20</p>
-                            </div>
-
-                            <div className="flex flex-col justify-center items-center m-2">
-                              <div className="flex ">
-                                <Image
-                                  src="/man-icon-black.svg"
-                                  width={20}
-                                  height={20}
-                                />
-                                <p className="ml-1">5</p>
-                              </div>
-                              <p>Total</p>
-                              <p>Candidates</p>
-                            </div>
-                            <div className="flex flex-col justify-center items-center m-2">
-                              <div className="flex">
-                                <Image
-                                  src="/man-icon-pink.svg"
-                                  width={20}
-                                  height={20}
-                                />
-                                <p className="text-[#f495b5] ml-1">3</p>
-                              </div>
-                              <p className="text-[#f495b5]">Candidates</p>
-                              <p className="text-[#f495b5]">on track</p>
-                            </div>
-                          </div>
-                          <div className="flex flex-row justify-center items-center ml-[50px]">
-                            {/* showjob-container */}
-                            <Image
-                              src="/search-line.svg"
-                              width={25}
-                              height={20}
-                              className="m-2"
-                            />
-                            <p>SHOW</p>
-                          </div>
-                        </span>
-                        <AccordionIcon />
-                      </AccordionButton>
-                      <button className="m-5  w-[113px] h-10 bg-[#bf5f82] text-white  rounded-2xl text-[16px] text-right px-[20px] absolute right-[50px] bottom-[5px]">
-                        CLOSE
-                        <Image
-                          src="/x-icon.svg"
-                          width={23}
-                          height={23}
-                          alt="arrow"
-                          className="absolute left-[15px] bottom-[8px] "
-                        />
-                      </button>
-                    </div>
-                  </h2>
-                  <AccordionPanel
-                    pb={4}
-                    style={montserrat.style}
-                    className="font-medium"
+              {jobs.map((job) => {
+                return (
+                  <div
+                    key={job.id}
+                    className="border border-slate-300 shadow-lg shadow-slate-400  rounded-[10px] w-[1080px]  p-5"
                   >
-                    {" "}
-                    <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
-                      About the job position
-                    </h2>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </p>
-                    <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
-                      Mandatory Requirements
-                    </h2>
-                    <p>-Lorem ipsum dolor sit amet, consectetur</p>
-                    <p>-Lorem ipsum dolor sit amet, consectetur</p>
-                    <p>-Lorem ipsum dolor sit amet, consectetur</p>
-                    <p>-Lorem ipsum dolor sit amet, consectetur</p>
-                    <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
-                      Optional Requirements
-                    </h2>
-                    <p>-Lorem ipsum dolor sit amet, consectetur</p>
-                    <p>-Lorem ipsum dolor sit amet, consectetur</p>
-                  </AccordionPanel>
-                </AccordionItem>
-              </div>
+                    <AccordionItem w="1050px">
+                      <h2>
+                        <div className="warpper flex relative">
+                          <AccordionButton>
+                            <span className="flex flex-row w-[1020px] h-[70px] mb-3">
+                              <div className=" w-[420px] p-2">
+                                {/*left-container*/}
+                                <h2
+                                  className="  text-neutral-700 text-[22px] font-medium text-left"
+                                  style={montserrat.style}
+                                >
+                                  {job.title}
+                                </h2>
+                                <div className="flex flex-row">
+                                  <div className="flex flex-row mr-1">
+                                    <Image
+                                      src="/factory.svg"
+                                      width={15}
+                                      height={20}
+                                      className="m-2"
+                                    />
+                                    <p className=" py-[10px] text-[#8e8e8e] text-[12px]">
+                                      Manufactoring
+                                    </p>
+                                  </div>
+                                  <div className="flex flex-row mr-1">
+                                    <Image
+                                      src="/calendar-2-line.svg"
+                                      width={15}
+                                      height={20}
+                                      className="m-2"
+                                    />
+                                    <p className=" py-[10px] text-[#8e8e8e] text-[12px]">
+                                      Full time
+                                    </p>
+                                  </div>
+                                  <div className="flex flex-row ">
+                                    <Image
+                                      src="/dollar.svg"
+                                      width={15}
+                                      height={20}
+                                      className="m-2"
+                                    />
+                                    <p className=" py-[10px] text-[#8e8e8e] text-[12px]">
+                                      2.0k - 2.5k
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="flex flex-row">
+                                {/* middle-container */}
+                                <div className="flex flex-col justify-center items-center m-2">
+                                  <Image
+                                    src="/mail-box.svg"
+                                    width={20}
+                                    height={20}
+                                  />
+                                  <p>Open on</p>
+                                  <p>07/11/20</p>
+                                </div>
+
+                                <div className="flex flex-col justify-center items-center m-2">
+                                  <div className="flex ">
+                                    <Image
+                                      src="/man-icon-black.svg"
+                                      width={20}
+                                      height={20}
+                                    />
+                                    <p className="ml-1">5</p>
+                                  </div>
+                                  <p>Total</p>
+                                  <p>Candidates</p>
+                                </div>
+                                <div className="flex flex-col justify-center items-center m-2">
+                                  <div className="flex">
+                                    <Image
+                                      src="/man-icon-pink.svg"
+                                      width={20}
+                                      height={20}
+                                    />
+                                    <p className="text-[#f495b5] ml-1">3</p>
+                                  </div>
+                                  <p className="text-[#f495b5]">Candidates</p>
+                                  <p className="text-[#f495b5]">on track</p>
+                                </div>
+                              </div>
+                              <div className="flex flex-row justify-center items-center ml-[50px]">
+                                {/* showjob-container */}
+                                <Image
+                                  src="/search-line.svg"
+                                  width={25}
+                                  height={20}
+                                  className="m-2"
+                                />
+                                <p>SHOW</p>
+                              </div>
+                            </span>
+                            <AccordionIcon />
+                          </AccordionButton>
+                          <button className="m-5  w-[113px] h-10 bg-[#bf5f82] text-white  rounded-2xl text-[16px] text-right px-[20px] absolute right-[50px] bottom-[5px]">
+                            CLOSE
+                            <Image
+                              src="/x-icon.svg"
+                              width={23}
+                              height={23}
+                              alt="arrow"
+                              className="absolute left-[15px] bottom-[8px] "
+                            />
+                          </button>
+                        </div>
+                      </h2>
+                      <AccordionPanel
+                        pb={4}
+                        style={montserrat.style}
+                        className="font-medium"
+                      >
+                        {" "}
+                        <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
+                          About the job position
+                        </h2>
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit, sed do eiusmod tempor incididunt ut labore et
+                          dolore magna aliqua. Ut enim ad minim veniam, quis
+                          nostrud exercitation ullamco laboris nisi ut aliquip
+                          ex ea commodo consequat.
+                        </p>
+                        <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
+                          Mandatory Requirements
+                        </h2>
+                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
+                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
+                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
+                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
+                        <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
+                          Optional Requirements
+                        </h2>
+                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
+                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </div>
+                );
+              })}
             </Accordion>
           </div>
           <div className="mt-[30px] ">
