@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Montserrat, Inter } from "next/font/google";
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
+import RecruiterButton from "../../components/RecruiterButton/RecruiterButton.jsx";
 import {
   Accordion,
   AccordionItem,
@@ -24,7 +25,7 @@ export default function page() {
     if (error || !data) {
       console.log("error", error);
     }
-
+    console.log(data);
     setJobs(data);
   };
 
@@ -166,14 +167,15 @@ export default function page() {
               {/* rendering list */}
               {jobs.map((job) => {
                 return (
-                  <AccordionItem className="mt-4 rounded-lg ">
+                  <AccordionItem className="mt-4 rounded-lg " key={job.id}>
                     <div className="border border-black rounded-lg bg-white">
                       <AccordionButton className=" h-[80px] rounded-lg relative">
                         {/*job title */}
                         <p className=" absolute top-2 text-[20px] font-medium ">
                           {job.title}
                         </p>
-
+                        <h1>{job.id}</h1>
+                        <RecruiterButton id={job.id} />
                         {/* main-information */}
                         <div
                           id="main-information"
@@ -215,10 +217,7 @@ export default function page() {
                         </div>
                         {/* job status*/}
                         <div className="flex flex-row   absolute top-[15px] left-[400px] text-[12px] text-[#616161]">
-                          <div
-                            className="flex flex-col justify-center items-center ;
-  ]"
-                          >
+                          <div className="flex flex-col justify-center items-center">
                             <Image
                               src="/images/manufactory-pic.svg"
                               alt="manufactory-pic"
@@ -270,6 +269,7 @@ export default function page() {
                               width={12.5}
                               height={12.5}
                             />
+
                             <p className="  absolute top-[30px] left-[700px] text-[14px]">
                               Show
                             </p>
