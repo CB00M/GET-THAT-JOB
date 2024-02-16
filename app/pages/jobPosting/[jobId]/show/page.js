@@ -27,7 +27,7 @@ export default function page({ params }) {
     let { data, error } = await supabase
       .from("job_posting")
       .select("*")
-      .eq("id", params.id);
+      .eq("id", params.jobId);
 
     if (error || !data) {
       console.log("error", error);
@@ -48,7 +48,7 @@ export default function page({ params }) {
 
   useEffect(() => {
     fetchJobs();
-  }, [params.id]);
+  }, [params.jobId]);
 
   const handleFilterChange = (event) => {
     let result = event.target.value;
