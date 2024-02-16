@@ -10,11 +10,16 @@ import { useState, useContext } from "react";
 import { RecruiterContext } from "@/app/context/recruiterContext";
 import { register } from "./api/recruiterRegister";
 import "../../globals.css";
+import { useFormState } from "react-dom";
+
+const initialState = { success: false, message: null };
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 const inter = Inter({ weight: "400", preload: false });
 
 export default function CompanyInfo() {
+  const [state, formAction] = useFormState(register, initialState);
+
   const { company, email, password } = useContext(RecruiterContext);
   const [website, setWebsite] = useState("");
   const [aboutCompany, setAboutCompany] = useState("");
@@ -77,7 +82,7 @@ export default function CompanyInfo() {
               />
             </div>
           </div>
-          <form action={register}>
+          <form action={formAction}>
             <div className="input-information">
               <p className="text-[10px] mb-5 text-[#616161]">
                 YOU CAN COMPLETE THIS INFORMATION LATER BUT WE <br /> RECCOMEND
@@ -157,6 +162,16 @@ export default function CompanyInfo() {
                 className="absolute right-[2px] bottom-[10px]"
               />
             </button>
+            {state.message && (
+              <div className="bg-red-500 p-4 w-28 rounded-xl ml-44">
+                Error:{state.message}
+              </div>
+            )}
+            {state.success && (
+              <div className="bg-green-500 p-4 w-28 rounded-xl ml-44">
+                Register Successful
+              </div>
+            )}
           </form>
         </div>
         <div>
