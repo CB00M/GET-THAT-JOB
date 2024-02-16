@@ -71,9 +71,14 @@ export default function Page({ params }) {
     });
 
     setJobs(updatedJobs); // อัปเดต state ของตำแหน่งงาน
+    console.log("check:", updatedJobs);
   };
+
+  //เก็บข้อมูล
+  //const [newTitle, setNewTitle] = useState();
+
   //รับข้อมูล
-  const handleSaveChanges = async (jobId, updatedData) => {
+  /* const handleSaveChanges = async (jobId, updatedData) => {
     const updatedJob = await updateJobInSupabase(jobId, updatedData);
     if (updatedJob) {
       console.log("Job updated successfully:", updatedJob);
@@ -82,7 +87,7 @@ export default function Page({ params }) {
       console.log("Failed to update job.");
       // ดำเนินการเมื่อมีข้อผิดพลาดในการอัปเดตข้อมูล
     }
-  };
+  };*/
   //updateข้อมูล
   const updateJobInSupabase = async (jobId, updatedData) => {
     try {
@@ -92,13 +97,13 @@ export default function Page({ params }) {
         .eq("id", jobId);
 
       if (error) {
-        console.error("Error updating job:", error.message);
+        console.error("Error updating job1:", error.message);
         return null;
       }
 
       return data;
     } catch (error) {
-      console.error("Error updating job:", error.message);
+      console.error("Error updating job2:", error.message);
       return null;
     }
   };
@@ -212,7 +217,7 @@ export default function Page({ params }) {
                   type="text"
                   placeholder="Software engineer"
                   value={job.title}
-                  onChange={(e) => handleInputChange(e, job.id)} // ใช้ฟังก์ชัน handleInputChange และส่ง job.id เพื่อระบุตำแหน่งงานที่ต้องการแก้ไข
+                  onChange={(e) => handleInputChange(e, job.id)}
                 />
                 <p
                   className=" pt-[10px]
@@ -395,14 +400,14 @@ export default function Page({ params }) {
                   onChange={(e) => handleInputChange(e, job.id)}
                   name="optionalRequier"
                 />
-
-                <button
-                  onClick={handleSaveChanges}
-                  type="submit"
-                  className="border-2 border-[#F48FB1] text-white rounded-2xl bg-[#F48FB1] mt-5 mb-5 py-1 px-3 "
-                >
-                  EDITE THIS JOB
-                </button>
+                <Link href={`/pages/jobPosting`}>
+                  <button
+                    onClick={() => updateJobInSupabase(job.id, job)}
+                    className="border-2 border-[#F48FB1] text-white rounded-2xl bg-[#F48FB1] mt-5 mb-5 py-1 px-3 "
+                  >
+                    EDITE THIS JOB
+                  </button>
+                </Link>
               </div>
             );
           })}
