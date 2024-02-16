@@ -5,12 +5,13 @@ import "tailwindcss/tailwind.css";
 import Sidebar from "@/app/components/ProfessionalSidebar/page";
 import Image from "next/image";
 import { createClient } from "@/utils/supabase/client";
-import { create } from "domain";
+import { useRouter } from "next/navigation";
 
 const inter = Inter({ weight: "400", preload: false });
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export default function page() {
+  const router = useRouter();
   const supabase = createClient();
   const [findJobs, setFindJobs] = useState([]);
   const fetchFindJobs = async () => {
@@ -140,7 +141,10 @@ export default function page() {
 
             {findJobs.map((item, index) => {
               return (
-                <div className="w-72 h-44 border rounded-lg bg-white">
+                <div
+                  key={item.id}
+                  className="w-72 h-44 border rounded-lg bg-white"
+                >
                   <div className="mt-4 flex gap-2 justify-center items-center">
                     <div>
                       <Image
@@ -205,7 +209,12 @@ export default function page() {
                       ></Image>
                       FOLLOW
                     </button>
-                    <button className="w-28 rounded-3xl p-1 border-2 border-[#F48FB1] hover:bg-[#BF5F82] hover:text-white active:bg-[#FFC1E3] text-[14px]">
+                    <button
+                      className="w-28 rounded-3xl p-1 border-2 border-[#F48FB1] hover:bg-[#BF5F82] hover:text-white active:bg-[#FFC1E3] text-[14px]"
+                      onClick={() => {
+                        router.push(`/pages/findJob/${item.id}`);
+                      }}
+                    >
                       SEE MORE
                     </button>
                   </div>
