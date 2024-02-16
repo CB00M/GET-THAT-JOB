@@ -168,7 +168,7 @@ export default function page({ params }) {
                                       className="m-2"
                                     />
                                     <p className=" py-[10px] text-[#8e8e8e] text-[12px]">
-                                      Manufactoring
+                                      {job.category_name}
                                     </p>
                                   </div>
                                   <div className="flex flex-row mr-1">
@@ -179,7 +179,7 @@ export default function page({ params }) {
                                       className="m-2"
                                     />
                                     <p className=" py-[10px] text-[#8e8e8e] text-[12px]">
-                                      Full time
+                                      {job.type_name}
                                     </p>
                                   </div>
                                   <div className="flex flex-row ">
@@ -190,7 +190,7 @@ export default function page({ params }) {
                                       className="m-2"
                                     />
                                     <p className=" py-[10px] text-[#8e8e8e] text-[12px]">
-                                      2.0k - 2.5k
+                                      {job.minRange} - {job.maxRange}
                                     </p>
                                   </div>
                                 </div>
@@ -360,14 +360,14 @@ export default function page({ params }) {
                 return (
                   <div
                     key={data.id}
-                    className="border border-slate-300 shadow-lg shadow-slate-400  rounded-[10px] w-[1080px]  p-5"
+                    className="border border-slate-300 shadow-lg shadow-slate-400  rounded-[10px] w-[1080px]  p-5 mb-6"
                   >
                     <AccordionItem w="1050px" border="none">
                       <h2>
                         <div className="warpper flex relative">
                           <AccordionButton>
                             <span className="flex flex-row w-[1020px] h-[70px] mb-3">
-                              <div className=" w-[350px] p-2">
+                              <div className=" w-[320px] p-2 ">
                                 {/*left-container*/}
                                 <h2
                                   className="  text-neutral-700 text-[22px] font-medium text-left"
@@ -391,7 +391,7 @@ export default function page({ params }) {
                               </div>
                               <div className="flex flex-row ">
                                 {/* middle-container */}
-                                <div className="flex flex-col justify-center items-start m-2 text-[#8e8e8e] text-[12px] mr-[70px]">
+                                <div className="flex flex-col justify-center items-start m-2 text-[#8e8e8e] text-[12px] w-[250px] ">
                                   <div className="flex">
                                     <Image
                                       src="/mail-line.svg"
@@ -445,22 +445,14 @@ export default function page({ params }) {
                       >
                         {" "}
                         <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
-                          About the job position
+                          Professional experience
                         </h2>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua. Ut enim ad minim veniam, quis
-                          nostrud exercitation ullamco laboris nisi ut aliquip
-                          ex ea commodo consequat.
-                        </p>
+                        <p>{data.experience}</p>
                         <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
-                          Mandatory Requirements
+                          Why are you interested in working at The company name
+                          SA
                         </h2>
-                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
-                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
-                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
-                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
+                        <p>{data.description}</p>
                         <div className="flex relative left-[400px] bottom-[5px] mt-[20px]">
                           <Image
                             src="/download-icon.svg"
