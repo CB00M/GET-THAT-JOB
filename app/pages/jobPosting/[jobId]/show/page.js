@@ -12,6 +12,7 @@ import {
   AccordionIcon,
 } from "@chakra-ui/react";
 import { createClient } from "@/utils/supabase/client.js";
+import { data } from "autoprefixer";
 
 const inter = Inter({ weight: "400", preload: false });
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -32,26 +33,32 @@ export default function page({ params }) {
     if (error || !data) {
       console.log("error", error);
     }
-    console.log("checked: ", data);
+    console.log("checked data job: ", data);
     setJobs(data);
   };
 
   const fetchCandidate = async () => {
-    let { data, error } = await supabase.from("job_posting").select("*");
+    let { data, error } = await supabase.from("Professionalusers").select("*");
+    // .eq("job_following_id", params.jobId) //หา data ของงานที่ ผู้สมัครเลือก
+    // .join(
+    //   "interested_working",
+    //   "Professionalusers.id",
+    //   "interested_working.candidate_id"
+    // );
 
     if (error || !data) {
       console.log("error", error);
     }
-
-    setJobs(data);
+    console.log("checked data candidate: ", data);
+    setCandidates(data);
   };
 
   useEffect(() => {
     fetchJobs();
+    fetchCandidate();
   }, [params.jobId]);
 
   const handleFilterChange = (event) => {
-    let result = event.target.value;
     setSelectedFilter(event.target.value);
   };
   console.log(selectedFilter);
@@ -139,9 +146,9 @@ export default function page({ params }) {
                     key={job.id}
                     className="border border-slate-300 shadow-lg shadow-slate-400  rounded-[10px] w-[1080px]  p-5"
                   >
-                    <AccordionItem w="1050px">
+                    <AccordionItem w="1050px" border="none">
                       <h2>
-                        <div className="warpper flex relative">
+                        <div className=" warpper flex relative">
                           <AccordionButton>
                             <span className="flex flex-row w-[1020px] h-[70px] mb-3">
                               <div className=" w-[420px] p-2">
@@ -259,25 +266,15 @@ export default function page({ params }) {
                         <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
                           About the job position
                         </h2>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua. Ut enim ad minim veniam, quis
-                          nostrud exercitation ullamco laboris nisi ut aliquip
-                          ex ea commodo consequat.
-                        </p>
+                        <p>{job.aboutJob}</p>
                         <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
                           Mandatory Requirements
                         </h2>
-                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
-                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
-                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
-                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
+                        <p>{job.mandaturyRequier}</p>
                         <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
                           Optional Requirements
                         </h2>
-                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
-                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
+                        <p>{job.optionalRequier}</p>
                       </AccordionPanel>
                     </AccordionItem>
                   </div>
@@ -359,119 +356,127 @@ export default function page({ params }) {
           <div>
             <Accordion allowToggle>
               {/*Job title*/}
-              <div className="border border-slate-300 shadow-lg shadow-slate-400  rounded-[10px] w-[1080px]  p-5">
-                <AccordionItem w="1050px">
-                  <h2>
-                    <div className="warpper flex relative">
-                      <AccordionButton>
-                        <span className="flex flex-row w-[1020px] h-[70px] mb-3">
-                          <div className=" w-[350px] p-2">
-                            {/*left-container*/}
-                            <h2
-                              className="  text-neutral-700 text-[22px] font-medium text-left"
-                              style={montserrat.style}
-                            >
-                              Guybrush Threepwood
-                            </h2>
-                            <div className="flex flex-row">
-                              <div className="flex flex-row mr-1">
-                                <Image
-                                  src="/linkedin-box.svg"
-                                  width={20}
-                                  height={20}
-                                  className="m-2"
-                                />
-                                <p className=" py-[10px] text-[#8e8e8e] text-[12px]">
-                                  -
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex flex-row ">
-                            {/* middle-container */}
-                            <div className="flex flex-col justify-center items-start m-2 text-[#8e8e8e] text-[12px] mr-[70px]">
-                              <div className="flex">
-                                <Image
-                                  src="/mail-line.svg"
-                                  width={20}
-                                  height={20}
-                                  className="mr-1"
-                                />
-                                <a>guy.brush@mail.com</a>
-                              </div>
-                              <div className="flex">
-                                <Image
-                                  src="/phone-line.svg"
-                                  width={20}
-                                  height={20}
-                                  className="mr-1"
-                                />
-                                <a>+191</a>
-                              </div>
-                            </div>
-                            <div className="flex flex-col justify-center items-center m-2 ">
-                              <Image
-                                src="/mail-line-black.svg"
-                                width={20}
-                                height={20}
-                              />
-                              <p>Sent 5 days</p>
-                              <p>ago</p>
-                            </div>
-                            <div className="flex flex-col justify-center items-center m-2">
-                              <Image
-                                src="/pause-icon.svg"
-                                width={20}
-                                height={20}
-                              />
-                              <p className="text-[#f495b5]">Waiting for</p>
-                              <p className="text-[#f495b5]">review</p>
-                            </div>
-                          </div>
-                        </span>
-                        <AccordionIcon />
-                      </AccordionButton>
-                      <button className="m-5  w-[180px] h-[40px] border-[1px] border-[#f495b5]   rounded-2xl text-[16px] text-right px-[20px] absolute right-[20px] bottom-[5px] uppercase">
-                        mark as started
-                      </button>
-                    </div>
-                  </h2>
-                  <AccordionPanel
-                    pb={4}
-                    style={montserrat.style}
-                    className="font-medium"
+              {candidates.map((data) => {
+                return (
+                  <div
+                    key={data.id}
+                    className="border border-slate-300 shadow-lg shadow-slate-400  rounded-[10px] w-[1080px]  p-5"
                   >
-                    {" "}
-                    <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
-                      About the job position
-                    </h2>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </p>
-                    <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
-                      Mandatory Requirements
-                    </h2>
-                    <p>-Lorem ipsum dolor sit amet, consectetur</p>
-                    <p>-Lorem ipsum dolor sit amet, consectetur</p>
-                    <p>-Lorem ipsum dolor sit amet, consectetur</p>
-                    <p>-Lorem ipsum dolor sit amet, consectetur</p>
-                    <div className="flex relative left-[400px] bottom-[5px] mt-[20px]">
-                      <Image
-                        src="/download-icon.svg"
-                        width={20}
-                        height={20}
-                        className="absolute left-[10px] top-[10px]"
-                      />
-                      <button className=" w-[180px] h-[40px] border-[1px] border-[#f495b5]   rounded-2xl text-[16px] text-right pr-[15px]  uppercase ">
-                        download cv
-                      </button>
-                    </div>
-                  </AccordionPanel>
-                </AccordionItem>
-              </div>
+                    <AccordionItem w="1050px" border="none">
+                      <h2>
+                        <div className="warpper flex relative">
+                          <AccordionButton>
+                            <span className="flex flex-row w-[1020px] h-[70px] mb-3">
+                              <div className=" w-[350px] p-2">
+                                {/*left-container*/}
+                                <h2
+                                  className="  text-neutral-700 text-[22px] font-medium text-left"
+                                  style={montserrat.style}
+                                >
+                                  {data.name}
+                                </h2>
+                                <div className="flex flex-row">
+                                  <div className="flex flex-row mr-1">
+                                    <Image
+                                      src="/linkedin-box.svg"
+                                      width={20}
+                                      height={20}
+                                      className="m-2"
+                                    />
+                                    <p className=" py-[10px] text-[#8e8e8e] text-[12px]">
+                                      {data.linkedin}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="flex flex-row ">
+                                {/* middle-container */}
+                                <div className="flex flex-col justify-center items-start m-2 text-[#8e8e8e] text-[12px] mr-[70px]">
+                                  <div className="flex">
+                                    <Image
+                                      src="/mail-line.svg"
+                                      width={20}
+                                      height={20}
+                                      className="mr-1"
+                                    />
+                                    <a>{data.email}</a>
+                                  </div>
+                                  <div className="flex">
+                                    <Image
+                                      src="/phone-line.svg"
+                                      width={20}
+                                      height={20}
+                                      className="mr-1"
+                                    />
+                                    <a>{data.phonenumber}</a>
+                                  </div>
+                                </div>
+                                <div className="flex flex-col justify-center items-center m-2 ">
+                                  <Image
+                                    src="/mail-line-black.svg"
+                                    width={20}
+                                    height={20}
+                                  />
+                                  <p>Sent 5 days</p>
+                                  <p>ago</p>
+                                </div>
+                                <div className="flex flex-col justify-center items-center m-2">
+                                  <Image
+                                    src="/pause-icon.svg"
+                                    width={20}
+                                    height={20}
+                                  />
+                                  <p className="text-[#f495b5]">Waiting for</p>
+                                  <p className="text-[#f495b5]">review</p>
+                                </div>
+                              </div>
+                            </span>
+                            <AccordionIcon />
+                          </AccordionButton>
+                          <button className="m-5  w-[180px] h-[40px] border-[1px] border-[#f495b5]   rounded-2xl text-[16px] text-right px-[20px] absolute right-[20px] bottom-[5px] uppercase">
+                            mark as started
+                          </button>
+                        </div>
+                      </h2>
+                      <AccordionPanel
+                        pb={4}
+                        style={montserrat.style}
+                        className="font-medium"
+                      >
+                        {" "}
+                        <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
+                          About the job position
+                        </h2>
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit, sed do eiusmod tempor incididunt ut labore et
+                          dolore magna aliqua. Ut enim ad minim veniam, quis
+                          nostrud exercitation ullamco laboris nisi ut aliquip
+                          ex ea commodo consequat.
+                        </p>
+                        <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
+                          Mandatory Requirements
+                        </h2>
+                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
+                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
+                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
+                        <p>-Lorem ipsum dolor sit amet, consectetur</p>
+                        <div className="flex relative left-[400px] bottom-[5px] mt-[20px]">
+                          <Image
+                            src="/download-icon.svg"
+                            width={20}
+                            height={20}
+                            className="absolute left-[10px] top-[10px]"
+                          />
+                          <button className=" w-[180px] h-[40px] border-[1px] border-[#f495b5]   rounded-2xl text-[16px] text-right pr-[15px]  uppercase ">
+                            download cv
+                          </button>
+                        </div>
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </div>
+                );
+              })}
             </Accordion>
           </div>
         </div>
