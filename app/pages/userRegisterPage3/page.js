@@ -9,8 +9,12 @@ import Link from "next/link.js";
 import "../../globals.css";
 import { useContext } from "react";
 import { ProfessionalContext } from "@/app/context/professionalContext";
+import { useFormState } from "react-dom";
+
+const initialState = { success: false, message: null };
 
 export default function RegisterPage() {
+  const [state, formAction] = useFormState(register, initialState);
   const { email, password, name, phoneNumber, birthdate, linkedin } =
     useContext(ProfessionalContext);
   const [title, setTitle] = useState("");
@@ -36,7 +40,7 @@ export default function RegisterPage() {
             <hr className="w-[100px] border-b-[3px] border-[#F48FB1] " />
           </div>
           <div>
-            <Link href="/pages/recruiterRegisterPage1">
+            <Link href="/pages/recruiterSignUp1">
               <p className="text-[#bdbdbd]">RECRUITER</p>
               <hr className="w-[70px] border-b-[3px] border-[#bdbdbd]" />
             </Link>
@@ -81,7 +85,7 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        <form action={register}>
+        <form action={formAction}>
           <div className="input-information">
             <p className="text-[10px] mb-5 text-[#616161]">
               YOU CAN COMPLETE THIS INFORMATION LATER BUT WE <br /> RECCOMEND
@@ -200,6 +204,16 @@ export default function RegisterPage() {
                 className="absolute right-[2px] bottom-[10px]"
               />{" "}
             </button>
+            {state.message && (
+              <div className="bg-red-500 p-4 w-28 rounded-xl">
+                Error:{state.message}
+              </div>
+            )}
+            {state.success && (
+              <div className="bg-green-500 p-4 w-28 rounded-xl">
+                Register Successful
+              </div>
+            )}
           </div>
         </form>
         <Image
