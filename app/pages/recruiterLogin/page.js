@@ -53,7 +53,7 @@ function Page() {
     }
 
     await handleLoginRecruiter({ email, password });
-    router.push("/pages/recruiter");
+    router.push("/pages/jobPosting");
   };
 
   return (
