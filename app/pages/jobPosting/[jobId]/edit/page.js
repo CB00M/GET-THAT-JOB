@@ -74,20 +74,6 @@ export default function Page({ params }) {
     console.log("check:", updatedJobs);
   };
 
-  //เก็บข้อมูล
-  //const [newTitle, setNewTitle] = useState();
-
-  //รับข้อมูล
-  /* const handleSaveChanges = async (jobId, updatedData) => {
-    const updatedJob = await updateJobInSupabase(jobId, updatedData);
-    if (updatedJob) {
-      console.log("Job updated successfully:", updatedJob);
-      // อัปเดต state หรือทำการทำงานเพิ่มเติมตามที่คุณต้องการหลังจากการอัปเดตข้อมูลสำเร็จ
-    } else {
-      console.log("Failed to update job.");
-      // ดำเนินการเมื่อมีข้อผิดพลาดในการอัปเดตข้อมูล
-    }
-  };*/
   //updateข้อมูล
   const updateJobInSupabase = async (jobId, updatedData) => {
     try {
