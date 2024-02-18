@@ -1,6 +1,5 @@
 "use client";
 import "tailwindcss/tailwind.css";
-import { useRouter } from "next/router";
 import Image from "next/image";
 import { Montserrat, Inter } from "next/font/google";
 import { useState, useEffect } from "react";
@@ -13,6 +12,7 @@ import {
   AccordionIcon,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import { useBoolean } from "@chakra-ui/react";
 
 const inter = Inter({ weight: "400", preload: false });
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -21,7 +21,7 @@ export default function page() {
   const supabase = createClient();
   const [jobs, setJobs] = useState([]);
   const [selectOption, setSelectOption] = useState("");
-  const [closed, setClosed] = useState(true);
+  const [closed, setClosed] = useState();
   const fetchJobs = async () => {
     let { data, error } = await supabase.from("job_posting").select("*");
 
@@ -35,6 +35,20 @@ export default function page() {
   useEffect(() => {
     fetchJobs();
   }, [selectOption]);
+  //close
+  const [items, setItems] = useState([
+    { id: 1, name: "Item 1", closed: true },
+    { id: 2, name: "Item 2", closed: false },
+    { id: 3, name: "Item 3", closed: true },
+  ]);
+
+  const toggleItemStatus = (itemId) => {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === itemId ? { ...item, closed: !item.closed } : item
+      )
+    );
+  };
 
   return (
     <>
@@ -103,7 +117,7 @@ export default function page() {
           </div>
         </div>
         {/*Main*/}
-        <div className="w-[1000px] h-[1350px] py-[10px] px-[20px] ml-[150px] border border-black">
+        <div className="w-[1000px] h-[1350px] py-[10px] px-[20px] ml-[150px] ">
           <p
             className=" py-[10px]  text-neutral-700 text-[34px] "
             style={montserrat.style}
@@ -264,8 +278,8 @@ export default function page() {
   ]"
                             >
                               <Image
-                                src="/images/manufactory-pic.svg"
-                                alt="manufactory-pic"
+                                src="/mail-box.svg"
+                                alt="mail-box-pic"
                                 width={12.5}
                                 height={12.5}
                               />
@@ -276,8 +290,8 @@ export default function page() {
                             <div className="flex flex-col items-center ml-[10px]">
                               <div className="flex flex-row">
                                 <Image
-                                  src="/images/manufactory-pic.svg"
-                                  alt="manufactory-pic"
+                                  src="/man-icon-black.svg"
+                                  alt="man-icon-pic"
                                   width={12.5}
                                   height={12.5}
                                 />
@@ -287,11 +301,11 @@ export default function page() {
                                 Total <br /> Candidates
                               </p>
                             </div>
-                            <div className="flex flex-col items-center ml-[10px] text-[#BF5F82]">
+                            <div className="flex flex-col items-center ml-[10px] text-[#f495b5]">
                               <div className="flex flex-row  ">
                                 <Image
-                                  src="/images/manufactory-pic.svg"
-                                  alt="manufactory-pic"
+                                  src="/man-icon-pink.svg"
+                                  alt="man-icon-pic"
                                   width={12.5}
                                   height={12.5}
                                 />
@@ -308,17 +322,17 @@ export default function page() {
                           <div>
                             <Link href={`/pages/jobPosting/${job.id}/show`}>
                               <Image
-                                className="  absolute top-[35px] left-[685px] text-[14px]"
-                                src="/images/manufactory-pic.svg"
-                                alt="manufactory-pic"
-                                width={12.5}
-                                height={12.5}
+                                className="  absolute top-[28px] left-[640px] text-[14px]"
+                                src="/search-line.svg"
+                                alt="search-line-pic"
+                                width={24}
+                                height={24}
                               />
-                              <p className="  absolute top-[30px] left-[700px] text-[14px]">
+                              <p className="  absolute top-[30px] left-[670px] text-[14px]">
                                 Show
                               </p>
                             </Link>
-                            <div className="  absolute top-[22px] left-[750px] text-[14px]">
+                            <div className="absolute top-[22px] left-[730px] text-[14px]">
                               <button
                                 id="closedButton"
                                 className="flex flex-row py-[8px] px-[16px]  bg-[#BF5F82] rounded-full "
@@ -327,13 +341,13 @@ export default function page() {
                               >
                                 <Image
                                   className="  "
-                                  src="/images/manufactory-pic.svg"
-                                  alt="manufactory-pic"
-                                  width={12.5}
-                                  height={12.5}
+                                  src="/x-icon.svg"
+                                  alt="x-icon-pic"
+                                  width={24}
+                                  height={24}
                                 />
                                 <p className="  ml-[5px] text-[14px] text-white ">
-                                  Closed
+                                  Close
                                 </p>
                               </button>
                             </div>
@@ -342,7 +356,7 @@ export default function page() {
                                 href={`/pages/jobPosting/${job.id}/edit`}
                                 className="  absolute top-[22px] left-[860px] text-[14px] py-[8px] px-[16px] bg-[#BF5F82] text-white rounded-full"
                               >
-                                Edite
+                                Edit
                               </Link>
                             </div>
                           </div>
