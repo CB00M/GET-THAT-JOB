@@ -71,16 +71,22 @@ export default function page({ params }) {
             <div className="px-4 pb-[32px] flex-col justify-center items-start flex">
               <Image src="/images/gtj-logo.png" width={136} height={40} />
             </div>
-            <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-100 justify-center items-center flex">
-              <Image src="/bag.png" width={24} height={24} />
+            <Link
+              href={`/pages/jobPosting`}
+              className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-100 justify-center items-center flex"
+            >
+              <Image src="/images/job-posting-pic.svg" width={24} height={24} />
               <div
                 className="grow text-zinc-600 leading-normal"
                 style={inter.style}
               >
                 Job Posting
               </div>
-            </div>
-            <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
+            </Link>
+            <Link
+              href={`/pages/createNewJobPosting`}
+              className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex"
+            >
               <Image src="/add-file.png" width={24} height={24} />
               <div
                 className="grow text-neutral-700 leading-normal"
@@ -88,7 +94,7 @@ export default function page({ params }) {
               >
                 Create New Job
               </div>
-            </div>
+            </Link>
             <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
               <Image src="/images/profile.png" width={24} height={24} />
               <div
@@ -168,7 +174,7 @@ export default function page({ params }) {
                                       className="m-2"
                                     />
                                     <p className=" py-[10px] text-[#8e8e8e] text-[12px]">
-                                      {job.category_name}
+                                      {job.category}
                                     </p>
                                   </div>
                                   <div className="flex flex-row mr-1">
@@ -179,7 +185,7 @@ export default function page({ params }) {
                                       className="m-2"
                                     />
                                     <p className=" py-[10px] text-[#8e8e8e] text-[12px]">
-                                      {job.type_name}
+                                      {job.type}
                                     </p>
                                   </div>
                                   <div className="flex flex-row ">

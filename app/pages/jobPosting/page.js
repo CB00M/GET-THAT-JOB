@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useBoolean } from "@chakra-ui/react";
+import { handleLogout } from "@/app/login/actions";
 
 const inter = Inter({ weight: "400", preload: false });
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -49,6 +50,11 @@ export default function page() {
       )
     );
   };
+  //logout
+  const handleLogoutClick = () => {
+    handleLogout();
+    alert("You have been logged out.");
+  };
 
   return (
     <>
@@ -75,7 +81,10 @@ export default function page() {
                 Job Posting
               </div>
             </div>
-            <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
+            <Link
+              href={`/pages/createNewJobPosting`}
+              className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex"
+            >
               <Image
                 src="/images/create-new-job-pic.svg"
                 width={18}
@@ -87,7 +96,7 @@ export default function page() {
               >
                 Create New Job
               </div>
-            </div>
+            </Link>
             <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
               <Image src="/images/profile.png" width={24} height={24} />
               <div
@@ -103,7 +112,7 @@ export default function page() {
                 className=" text-zinc-600 leading-normal"
                 style={inter.style}
               >
-                Log out
+                <button onClick={handleLogoutClick}>Log out</button>
               </div>
             </div>
           </div>
@@ -136,7 +145,7 @@ export default function page() {
               type="radio"
               name="filter"
               value=""
-              className=" w-[12px] h-[12px]"
+              className=" w-[12px] h-[12px] accent-pink-500"
               onChange={(event) => {
                 setSelectOption(event.target.value);
               }}
@@ -155,7 +164,7 @@ export default function page() {
               type="radio"
               name="filter"
               value="candidates on track"
-              className=" w-[12px] h-[12px]"
+              className=" w-[12px] h-[12px] accent-pink-500"
               onChange={(event) => {
                 setSelectOption(event.target.value);
               }}
@@ -174,7 +183,7 @@ export default function page() {
               type="radio"
               name="filter"
               value="Closed"
-              className=" w-[12px] h-[12px]"
+              className=" w-[12px] h-[12px] accent-pink-500"
               onChange={(event) => {
                 setSelectOption(event.target.value);
               }}
@@ -194,7 +203,7 @@ export default function page() {
               type="radio"
               name="filter"
               value="manufacturing"
-              className=" w-[12px] h-[12px]"
+              className=" w-[12px] h-[12px] accent-pink-500"
               onChange={(event) => {
                 setSelectOption(event.target.value);
               }}
@@ -222,7 +231,7 @@ export default function page() {
                 .map((job) => {
                   return (
                     <AccordionItem className="mt-4 rounded-lg " key={job.id}>
-                      <div className="border border-black rounded-lg bg-white">
+                      <div className="border border-slate-300 shadow-lg shadow-slate-300 rounded-lg bg-white">
                         <AccordionButton className=" h-[80px] rounded-lg relative">
                           {/*job title */}
                           <p className=" absolute top-2 text-[20px] font-medium ">
