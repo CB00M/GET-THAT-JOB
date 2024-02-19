@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Cookie } from "next/font/google";
 import { keepData } from "./api/createNewPost";
 import { Textarea } from "@chakra-ui/react";
+import Link from "next/link.js";
 
 const inter = Inter({ weight: "400", preload: false });
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -29,7 +30,10 @@ export default function page() {
             <div className="px-4 pb-[32px] flex-col justify-center items-start flex">
               <Image src="/images/gtj-logo.png" width={136} height={40} />
             </div>
-            <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
+            <Link
+              href={`/pages/jobPosting`}
+              className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex"
+            >
               <Image src="/images/job-posting-pic.svg" width={22} height={22} />
               <div
                 className="grow text-zinc-600 leading-normal"
@@ -37,7 +41,7 @@ export default function page() {
               >
                 Job Posting
               </div>
-            </div>
+            </Link>
             <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-100 justify-center items-center flex">
               <Image
                 src="/images/create-new-job-pic.svg"

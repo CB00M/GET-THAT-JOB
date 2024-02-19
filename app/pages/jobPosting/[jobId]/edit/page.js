@@ -121,7 +121,10 @@ export default function Page({ params }) {
             <div className="px-4 pb-[32px] flex-col justify-center items-start flex">
               <Image src="/images/gtj-logo.png" width={136} height={40} />
             </div>
-            <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
+            <Link
+              href={`/pages/jobPosting`}
+              className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex"
+            >
               <Image src="/images/job-posting-pic.svg" width={22} height={22} />
               <div
                 className="grow text-zinc-600 leading-normal"
@@ -129,8 +132,11 @@ export default function Page({ params }) {
               >
                 Job Posting
               </div>
-            </div>
-            <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
+            </Link>
+            <Link
+              href={`/pages/createNewJobPosting`}
+              className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex"
+            >
               <Image
                 src="/images/create-new-job-pic.svg"
                 width={18}
@@ -142,7 +148,7 @@ export default function Page({ params }) {
               >
                 Create New Job
               </div>
-            </div>
+            </Link>
             <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
               <Image src="/images/profile.png" width={24} height={24} />
               <div
