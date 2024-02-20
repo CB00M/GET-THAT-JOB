@@ -8,7 +8,7 @@ import Image from "next/image";
 import "../../../../globals.css";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
-import { applyJobData } from "../../api/action";
+import applyJobData from "./api/action";
 
 const inter = Inter({ weight: "400", preload: false });
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -18,7 +18,13 @@ export default function ApplyPage({ params }) {
   const supabase = createClient();
   const [job, setJob] = useState([]);
   const [professionalProfile, setProfessionalProfile] = useState([]);
+  // const [intestedComment, setInterestedComment] = useState("");
   const [uploadCV, setUploadCV] = useState(false);
+
+  // const handleSubmitApply = (e) => {
+  //   e.preventDefault();
+  //   setInterestedComment(intestedComment);
+  // };
 
   async function getDetailJob() {
     let { data, error } = await supabase
@@ -40,12 +46,12 @@ export default function ApplyPage({ params }) {
       <Sidebar />
       {/* Job Apply */}
 
-      <div className="grow px-[120px] pb-[667px] bg-neutral-100 justify-center items-center inline-flex">
+      <form
+        action={applyJobData}
+        className="grow px-[120px] pb-[667px] bg-neutral-100 justify-center items-center inline-flex"
+      >
         <div className=" flex-col w-[960px] justify-start items-start gap-4 inline-flex relative right-6 py-8">
-          <form
-            action={applyJobData}
-            className="h-[169px] flex-col justify-start items-start gap-4 flex relative right-6"
-          >
+          <div className="h-[169px] flex-col justify-start items-start gap-4 flex relative right-6">
             <div className="flex">
               <HiChevronLeft className="w-6 h-5 items-center" />
               <button
@@ -256,7 +262,7 @@ export default function ApplyPage({ params }) {
                 <textarea
                   className="w-full h-[80px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
                   type="text"
-                  id="experience"
+                  id="interest"
                   name="interest-working"
                   placeholder="Mention things about The Company Name SA that excite you. Why would you be a good candidate?"
                 />
@@ -264,9 +270,9 @@ export default function ApplyPage({ params }) {
                   Between 50 and 1000 characters
                 </p>
               </div>
-              <button className="m-auto cursor-pointer" type="submit">
+              <button className="m-auto cursor-pointer">
                 <div
-                  className="text-white bg-[#f48fb1] w-[233px] h-[56px] text-[14px] rounded-2xl flex justify-center items-center gap-3"
+                  className="text-white bg-[#f48fb1] hover:bg-pink-700 w-[233px] h-[56px] text-[14px] rounded-2xl flex justify-center items-center gap-3"
                   style={inter.style}
                 >
                   <Image
@@ -279,9 +285,9 @@ export default function ApplyPage({ params }) {
                 </div>
               </button>
             </div>
-          </form>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
