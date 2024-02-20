@@ -236,7 +236,7 @@ export default function page() {
                   maxRangeMatch
                 );
               })
-              .map((item, index) => {
+              .map((item) => {
                 return (
                   <div
                     key={item.id}
@@ -246,6 +246,7 @@ export default function page() {
                       <div>
                         <Image
                           src="/images/logo-web/Web-logo.svg"
+                          alt="logoweb"
                           width={74}
                           height={74}
                         ></Image>
@@ -254,6 +255,7 @@ export default function page() {
                         <p className="text-neutral-400 text-[12px] flex gap-1 items-center">
                           <Image
                             src="/images/logo-web/Group.svg"
+                            alt="logoweb"
                             width={11}
                             height={11}
                           ></Image>
@@ -278,6 +280,7 @@ export default function page() {
                           >
                             <Image
                               src="/images/logo-web/calendar-2-line.svg"
+                              alt="logoweb"
                               width={12}
                               height={12}
                             ></Image>
@@ -289,6 +292,7 @@ export default function page() {
                           >
                             <Image
                               src="/images/money-dollar-circle-fill.svg"
+                              alt="money-dollar"
                               width={12}
                               height={12}
                             ></Image>
@@ -301,6 +305,7 @@ export default function page() {
                       <button className="flex items-center gap-3 active:text-[#BF5F82]">
                         <Image
                           src="/images/logo-web/Vector.svg"
+                          alt="logoweb"
                           width={22}
                           height={22}
                         ></Image>

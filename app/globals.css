@@ -22,3 +22,8 @@ body {
   border: none;
   cursor: pointer;
 }
+
+.customfile::-webkit-file-upload-button:hover {
+  background-color: #bf5f82;
+  color: white;
+}
