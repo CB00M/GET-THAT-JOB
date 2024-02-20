@@ -8,7 +8,7 @@ import Image from "next/image";
 import "../../../../globals.css";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
-import { applyJobData } from "../../api/action";
+import applyJobData from "./api/action";
 
 const inter = Inter({ weight: "400", preload: false });
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -18,7 +18,13 @@ export default function ApplyPage({ params }) {
   const supabase = createClient();
   const [job, setJob] = useState([]);
   const [professionalProfile, setProfessionalProfile] = useState([]);
+  // const [intestedComment, setInterestedComment] = useState("");
   const [uploadCV, setUploadCV] = useState(false);
+
+  // const handleSubmitApply = (e) => {
+  //   e.preventDefault();
+  //   setInterestedComment(intestedComment);
+  // };
 
   async function getDetailJob() {
     let { data, error } = await supabase
@@ -55,7 +61,7 @@ export default function ApplyPage({ params }) {
             </p>
           </button>
         </div>
-        <article className="mt-5">
+        <div className="mt-5">
           <form action={applyJobData}>
             <header className="flex justify-between items-center">
               <div className="flex gap-2">
@@ -280,17 +286,23 @@ export default function ApplyPage({ params }) {
                   </p>
                 </div>
               </div>
-              <button className="mt-3 m-auto relative relative left-[60px]">
-                <Image
-                  src="/images/send.svg"
-                  alt="send application"
-                  width={233}
-                  height={56}
-                ></Image>
+              <button className="m-auto cursor-pointer" type="submit">
+                <div
+                  className="text-white bg-[#f48fb1] w-[233px] h-[56px] text-[14px] rounded-2xl flex justify-center items-center gap-3"
+                  style={inter.style}
+                >
+                  <Image
+                    src="/images/logo-web/mail-line.svg"
+                    width={20}
+                    height={20}
+                    alt="letter"
+                  />
+                  <div className="tracking-wider">SEND APPLICATION</div>
+                </div>
               </button>
             </div>
           </form>
-        </article>
+        </div>
       </div>
     </div>
   );
