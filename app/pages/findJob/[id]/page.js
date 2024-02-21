@@ -8,14 +8,18 @@ import { MdOutlineWatchLater } from "react-icons/md";
 import Image from "next/image";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
+import { NotFound } from "next/navigation";
 
 const inter = Inter({ weight: "400", preload: false });
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export default function post({ params }) {
   const router = useRouter();
+
   const supabase = createClient();
+
   const [job, setJob] = useState([]);
+
   const getDetailJob = async () => {
     let { data, error } = await supabase
       .from("job_posting")
@@ -23,6 +27,7 @@ export default function post({ params }) {
       .eq("id", params.id);
     if (error || !data) {
       console.log("error:", error);
+      NotFound();
     }
     setJob(data[0]);
   };
@@ -74,6 +79,9 @@ export default function post({ params }) {
                     src="/images/logo-web/Button.svg"
                     width={173}
                     height={56}
+                    onClick={() => {
+                      router.push(`/pages/findJob/${job.id}/apply`);
+                    }}
                   ></Image>
                 </button>
               </div>
@@ -152,7 +160,12 @@ export default function post({ params }) {
                 <p>{job.optionalRequier}</p>
               </div>
 
-              <button className="mt-3 m-auto">
+              <button
+                className="mt-3 m-auto"
+                onClick={() => {
+                  router.push(`/pages/findJob/${job.id}/apply`);
+                }}
+              >
                 <Image
                   src="/images/logo-web/Button.svg"
                   width={173}
