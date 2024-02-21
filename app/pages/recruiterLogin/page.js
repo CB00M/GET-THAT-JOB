@@ -119,7 +119,7 @@ function Page() {
             />
             <button
               type="submit"
-              className="p-2 w-20 h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm"
+              className="p-2 w-20 h-10 bg-[#F48FB1] hover:bg-pink-500 active:bg-pink-700 text-white mt-4 ml-auto rounded-2xl text-sm"
             >
               LOGIN
             </button>
