@@ -22,7 +22,8 @@ export default function page() {
   const supabase = createClient();
   const [jobs, setJobs] = useState([]);
   const [selectOption, setSelectOption] = useState("");
-  const [closed, setClosed] = useState();
+  const [jobStatus, setJobStatus] = useState([]);
+
   const fetchJobs = async () => {
     let { data, error } = await supabase.from("job_posting").select("*");
 
@@ -36,24 +37,43 @@ export default function page() {
   useEffect(() => {
     fetchJobs();
   }, [selectOption]);
-  //close
-  const [items, setItems] = useState([
-    { id: 1, name: "Item 1", closed: true },
-    { id: 2, name: "Item 2", closed: false },
-    { id: 3, name: "Item 3", closed: true },
-  ]);
 
-  const toggleItemStatus = (itemId) => {
-    setItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === itemId ? { ...item, closed: !item.closed } : item
-      )
-    );
-  };
   //logout
   const handleLogoutClick = () => {
     handleLogout();
     alert("You have been logged out.");
+  };
+
+  //toggle
+  const toggleStatus = async (jobId, currentStatus) => {
+    try {
+      // พังก์ชันสลับสถานะ
+      const newStatus = !currentStatus;
+
+      // อัปเดตข้อมูลในฐานข้อมูล
+      const { error } = await supabase
+        .from("job_posting")
+        .update({ closed_status: newStatus })
+        .eq("id", jobId);
+
+      if (error) {
+        throw error;
+      }
+
+      // อัปเดตสถานะของงานใน state
+      setJobs((prevJobs) =>
+        prevJobs.map((job) => {
+          if (job.id === jobId) {
+            return { ...job, closed_status: newStatus };
+          }
+          return job;
+        })
+      );
+
+      // แสดงข้อผิดพลาดถ้ามี
+    } catch (error) {
+      console.error("Error toggling job status:", error.message);
+    }
   };
 
   return (
@@ -66,7 +86,7 @@ export default function page() {
           <div className="flex-col justify-start items-start flex">
             <div className="px-4 pb-[32px] flex-col justify-center items-start flex">
               <Image
-                src="/images/gtj-logo.png"
+                src="/images/get-that-job-logo.svg"
                 width={136}
                 height={40}
                 alt="logo-get-that-job"
@@ -343,20 +363,24 @@ export default function page() {
                             </Link>
                             <div className="absolute top-[22px] left-[730px] text-[14px]">
                               <button
-                                id="closedButton"
-                                className="flex flex-row py-[8px] px-[16px]  bg-[#BF5F82] rounded-full "
-                                value="1"
-                                onClick={() => {}}
+                                className={`flex flex-row py-[8px] px-[16px] rounded-full ${
+                                  job.closed_status
+                                    ? "bg-pink-500"
+                                    : "bg-gray-500"
+                                }`}
+                                onClick={() =>
+                                  toggleStatus(job.id, job.closed_status)
+                                }
                               >
                                 <Image
-                                  className="  "
+                                  className=""
                                   src="/x-icon.svg"
                                   alt="x-icon-pic"
                                   width={24}
                                   height={24}
                                 />
-                                <p className="  ml-[5px] text-[14px] text-white ">
-                                  Close
+                                <p className="ml-[5px] text-[14px] text-white ">
+                                  {job.closed_status ? "close" : "closed"}
                                 </p>
                               </button>
                             </div>
