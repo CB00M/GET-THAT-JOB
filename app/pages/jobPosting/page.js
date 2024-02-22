@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useBoolean } from "@chakra-ui/react";
-import { handleLogout } from "@/app/login/actions";
 
 const inter = Inter({ weight: "400", preload: false });
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -22,8 +21,7 @@ export default function page() {
   const supabase = createClient();
   const [jobs, setJobs] = useState([]);
   const [selectOption, setSelectOption] = useState("");
-  const [jobStatus, setJobStatus] = useState([]);
-
+  const [closed, setClosed] = useState();
   const fetchJobs = async () => {
     let { data, error } = await supabase.from("job_posting").select("*");
 
@@ -37,43 +35,19 @@ export default function page() {
   useEffect(() => {
     fetchJobs();
   }, [selectOption]);
+  //close
+  const [items, setItems] = useState([
+    { id: 1, name: "Item 1", closed: true },
+    { id: 2, name: "Item 2", closed: false },
+    { id: 3, name: "Item 3", closed: true },
+  ]);
 
-  //logout
-  const handleLogoutClick = () => {
-    handleLogout();
-    alert("You have been logged out.");
-  };
-
-  //toggle
-  const toggleStatus = async (jobId, currentStatus) => {
-    try {
-      // พังก์ชันสลับสถานะ
-      const newStatus = !currentStatus;
-
-      // อัปเดตข้อมูลในฐานข้อมูล
-      const { error } = await supabase
-        .from("job_posting")
-        .update({ closed_status: newStatus })
-        .eq("id", jobId);
-
-      if (error) {
-        throw error;
-      }
-
-      // อัปเดตสถานะของงานใน state
-      setJobs((prevJobs) =>
-        prevJobs.map((job) => {
-          if (job.id === jobId) {
-            return { ...job, closed_status: newStatus };
-          }
-          return job;
-        })
-      );
-
-      // แสดงข้อผิดพลาดถ้ามี
-    } catch (error) {
-      console.error("Error toggling job status:", error.message);
-    }
+  const toggleItemStatus = (itemId) => {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === itemId ? { ...item, closed: !item.closed } : item
+      )
+    );
   };
 
   return (
@@ -86,7 +60,7 @@ export default function page() {
           <div className="flex-col justify-start items-start flex">
             <div className="px-4 pb-[32px] flex-col justify-center items-start flex">
               <Image
-                src="/images/get-that-job-logo.svg"
+                src="/images/gtj-logo.png"
                 width={136}
                 height={40}
                 alt="logo-get-that-job"
@@ -101,10 +75,7 @@ export default function page() {
                 Job Posting
               </div>
             </div>
-            <Link
-              href={`/pages/createNewJobPosting`}
-              className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex"
-            >
+            <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
               <Image
                 src="/images/create-new-job-pic.svg"
                 width={18}
@@ -116,7 +87,7 @@ export default function page() {
               >
                 Create New Job
               </div>
-            </Link>
+            </div>
             <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
               <Image src="/images/profile.png" width={24} height={24} />
               <div
@@ -132,7 +103,7 @@ export default function page() {
                 className=" text-zinc-600 leading-normal"
                 style={inter.style}
               >
-                <button onClick={handleLogoutClick}>Log out</button>
+                Log out
               </div>
             </div>
           </div>
@@ -165,7 +136,7 @@ export default function page() {
               type="radio"
               name="filter"
               value=""
-              className=" w-[12px] h-[12px] accent-pink-500"
+              className=" w-[12px] h-[12px]"
               onChange={(event) => {
                 setSelectOption(event.target.value);
               }}
@@ -184,7 +155,7 @@ export default function page() {
               type="radio"
               name="filter"
               value="candidates on track"
-              className=" w-[12px] h-[12px] accent-pink-500"
+              className=" w-[12px] h-[12px]"
               onChange={(event) => {
                 setSelectOption(event.target.value);
               }}
@@ -203,7 +174,7 @@ export default function page() {
               type="radio"
               name="filter"
               value="Closed"
-              className=" w-[12px] h-[12px] accent-pink-500"
+              className=" w-[12px] h-[12px]"
               onChange={(event) => {
                 setSelectOption(event.target.value);
               }}
@@ -223,7 +194,7 @@ export default function page() {
               type="radio"
               name="filter"
               value="manufacturing"
-              className=" w-[12px] h-[12px] accent-pink-500"
+              className=" w-[12px] h-[12px]"
               onChange={(event) => {
                 setSelectOption(event.target.value);
               }}
@@ -251,7 +222,7 @@ export default function page() {
                 .map((job) => {
                   return (
                     <AccordionItem className="mt-4 rounded-lg " key={job.id}>
-                      <div className="border border-slate-300 shadow-lg shadow-slate-300 rounded-lg bg-white">
+                      <div className="border border-slate-300 shadow-lg shadow-slate-200 rounded-lg bg-white">
                         <AccordionButton className=" h-[80px] rounded-lg relative">
                           {/*job title */}
                           <p className=" absolute top-2 text-[20px] font-medium ">
@@ -363,24 +334,20 @@ export default function page() {
                             </Link>
                             <div className="absolute top-[22px] left-[730px] text-[14px]">
                               <button
-                                className={`flex flex-row py-[8px] px-[16px] rounded-full ${
-                                  job.closed_status
-                                    ? "bg-pink-500"
-                                    : "bg-gray-500"
-                                }`}
-                                onClick={() =>
-                                  toggleStatus(job.id, job.closed_status)
-                                }
+                                id="closedButton"
+                                className="flex flex-row py-[8px] px-[16px]  bg-[#BF5F82] rounded-full "
+                                value="1"
+                                onClick={() => {}}
                               >
                                 <Image
-                                  className=""
+                                  className="  "
                                   src="/x-icon.svg"
                                   alt="x-icon-pic"
                                   width={24}
                                   height={24}
                                 />
-                                <p className="ml-[5px] text-[14px] text-white ">
-                                  {job.closed_status ? "close" : "closed"}
+                                <p className="  ml-[5px] text-[14px] text-white ">
+                                  Close
                                 </p>
                               </button>
                             </div>
