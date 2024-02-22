@@ -60,7 +60,7 @@ function LoginPage() {
     }
 
     await handleLoginProfessional({ email, password });
-    router.push("/pages/professional");
+    router.push("/pages/findJob");
   };
 
   return (
