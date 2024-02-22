@@ -69,7 +69,11 @@ export default function page({ params }) {
         <div className="self-stretch py-8 bg-neutral-200 flex-col justify-between items-start inline-flex">
           <div className="flex-col justify-start items-start flex">
             <div className="px-4 pb-[32px] flex-col justify-center items-start flex">
-              <Image src="/images/gtj-logo.png" width={136} height={40} />
+              <Image
+                src="/images/get-that-job-logo.svg"
+                width={136}
+                height={40}
+              />
             </div>
             <Link
               href={`/pages/jobPosting`}

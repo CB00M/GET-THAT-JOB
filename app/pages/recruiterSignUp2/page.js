@@ -128,7 +128,7 @@ export default function CompanyInfo() {
               <br />
               <div className="relative">
                 <Image
-                  src="/upload-icon.png"
+                  src="/images/uplode-icon.svg"
                   width={20}
                   height={20}
                   alt="arrow"
