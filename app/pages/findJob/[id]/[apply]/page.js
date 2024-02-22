@@ -45,8 +45,8 @@ export default function ApplyPage({ params }) {
     <div className="w-full h-[1050px] bg-neutral-100  items-start inline-flex">
       <Sidebar />
 
-      {/*Job Details */}
-      <div className="w-[1200px] h-[800px] py-[10px] px-[20px] ml-[100px]">
+      {/*Job Apply */}
+      <div className="w-[1000px] h-[800px] py-[10px] px-[20px] ml-[100px]">
         <div className=" flex pt-[30px] mb-[-20px]">
           <button
             onClick={() => {
@@ -99,7 +99,6 @@ export default function ApplyPage({ params }) {
                     alt="send application"
                     width={233}
                     height={56}
-                    className="relative left-[60px]"
                   ></Image>
                 </button>
               </div>
@@ -254,7 +253,7 @@ export default function ApplyPage({ params }) {
                   </p>
                   <br />
                   <textarea
-                    className="w-[760px] h-[272px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
+                    className="w-full h-[272px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
                     style={inter.style}
                     type="text"
                     id="experience"
@@ -271,7 +270,7 @@ export default function ApplyPage({ params }) {
                   </p>
                   <br />
                   <textarea
-                    className="w-[760px] h-[112px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
+                    className="w-full h-[112px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
                     style={inter.style}
                     type="text"
                     id="experience"
