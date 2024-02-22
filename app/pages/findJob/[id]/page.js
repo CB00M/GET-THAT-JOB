@@ -41,8 +41,8 @@ export default function post({ params }) {
         <Sidebar />
 
         {/*Job Details */}
-        <div className="w-[1200px] h-[800px] py-[10px] px-[20px] ml-[150px]">
-          <div className=" flex">
+        <div className="w-[1000px] h-[800px] py-[10px] px-[20px] ml-[100px]">
+          <div className=" flex pt-[30px] mb-[-20px]">
             <HiChevronLeft className="w-6 h-5 items-center" />
             <button
               onClick={() => {
@@ -93,7 +93,7 @@ export default function post({ params }) {
             </p>
             <div className="flex justify-around items-center my-3">
               <div className="h-[77px] w-2/6 border border-[#BF5F82] flex flex-col justify-center items-center rounded-lg  p-2 bg-white">
-                <h2 className="text-base">Category</h2>
+                <h2 className="text-base text-[#616161]">Category</h2>
                 <p className="flex items-end text-2xl gap-2">
                   <Image
                     src="/images/logo-web/Group.svg"

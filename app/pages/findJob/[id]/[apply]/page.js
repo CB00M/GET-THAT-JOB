@@ -56,7 +56,7 @@ export default function ApplyPage({ params }) {
         <div className=" flex pt-[30px] mb-[-20px]">
           <button
             onClick={() => {
-              router.push(`/pages/findJob/${job.id}`)
+              router.push(`/pages/findJob/${job.id}`);
             }}
             className="text-[14px] tracking-widest"
             style={inter.style}
@@ -76,7 +76,7 @@ export default function ApplyPage({ params }) {
                   alt="logo web"
                   width={80}
                   height={80}
-                > </Image>
+                ></Image>
                 <div className="flex flex-col tracking-wide">
                   <h2
                     className="text-[24px] text-[#373737]"
@@ -109,10 +109,8 @@ export default function ApplyPage({ params }) {
                 </button>
               </div>
             </header>
-            <h1 className="text-center text-[48px] text-[#373737] relative left-[60px]">
-              {job.title}
-            </h1>
-            <p className="flex items-center gap-1 text-[10px] justify-center py-[2px] tracking-widest text-[#616161] relative left-[60px]">
+            <h1 className="text-center text-5xl">{job.title}</h1>
+            <p className="flex items-center gap-1 text-[10px] justify-center mt-3">
               <Image
                 src="/images/clock.svg"
                 alt="day"
@@ -121,8 +119,8 @@ export default function ApplyPage({ params }) {
               ></Image>
               POSTED 2 DAYS AGO
             </p>
-            <div className="flex justify-center items-center gap-7 my-3 relative left-[60px]">
-              <div className="h-[77px] w-[281px] border border-[#BF5F82] flex flex-col justify-center items-center rounded-lg  p-2 bg-white drop-shadow-lg">
+            <div className="flex justify-around items-center my-3">
+              <div className="h-[77px] w-2/6 border border-[#BF5F82] flex flex-col justify-center items-center rounded-lg  p-2 bg-white">
                 <h2
                   className="text-base text-[#616161]"
                   style={montserrat.style}
@@ -306,9 +304,9 @@ export default function ApplyPage({ params }) {
                 </div>
               </button>
             </div>
-          </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
