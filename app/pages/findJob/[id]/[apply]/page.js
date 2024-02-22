@@ -19,7 +19,13 @@ export default function ApplyPage({ params }) {
   const [job, setJob] = useState([]);
   const [professionalProfile, setProfessionalProfile] = useState([]);
   // const [intestedComment, setInterestedComment] = useState("");
+  // const [intestedComment, setInterestedComment] = useState("");
   const [uploadCV, setUploadCV] = useState(false);
+
+  // const handleSubmitApply = (e) => {
+  //   e.preventDefault();
+  //   setInterestedComment(intestedComment);
+  // };
 
   // const handleSubmitApply = (e) => {
   //   e.preventDefault();
@@ -50,7 +56,7 @@ export default function ApplyPage({ params }) {
         <div className=" flex pt-[30px] mb-[-20px]">
           <button
             onClick={() => {
-              router.push(`/pages/findJob/${job.id}`);
+              router.push(`/pages/findJob/${job.id}`)
             }}
             className="text-[14px] tracking-widest"
             style={inter.style}
@@ -70,7 +76,7 @@ export default function ApplyPage({ params }) {
                   alt="logo web"
                   width={80}
                   height={80}
-                ></Image>
+                > </Image>
                 <div className="flex flex-col tracking-wide">
                   <h2
                     className="text-[24px] text-[#373737]"
@@ -285,9 +291,9 @@ export default function ApplyPage({ params }) {
                   </p>
                 </div>
               </div>
-              <button className="m-auto cursor-pointer" type="submit">
+              <button className="m-auto cursor-pointer">
                 <div
-                  className="text-white bg-[#f48fb1] w-[233px] h-[56px] text-[14px] rounded-2xl flex justify-center items-center gap-3"
+                  className="text-white bg-[#f48fb1] hover:bg-pink-700 w-[233px] h-[56px] text-[14px] rounded-2xl flex justify-center items-center gap-3"
                   style={inter.style}
                 >
                   <Image
@@ -300,9 +306,9 @@ export default function ApplyPage({ params }) {
                 </div>
               </button>
             </div>
-          </form>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
