@@ -11,6 +11,7 @@ import { RecruiterContext } from "@/app/context/recruiterContext";
 import { register } from "./api/recruiterRegister";
 import "../../globals.css";
 import { useFormState } from "react-dom";
+//import { json } from "stream/consumers";
 
 const initialState = { success: false, message: null };
 
@@ -29,6 +30,10 @@ export default function CompanyInfo() {
     setAboutCompany(aboutCompany);
     console.log(company, email, password, website, aboutCompany);
   };
+
+  let keepDataD = JSON.parse(localStorage.getItem("keepData"));
+  console.log(keepDataD);
+
   return (
     <Fragment>
       <section className="flex w-full justify-around items-start  bg-[#F5F5F6]">
@@ -148,20 +153,22 @@ export default function CompanyInfo() {
             <button className="m-5 ml-[100px] p-2 w-[120px] h-10 border border-[#F48FB1] mt-4 rounded-2xl text-sm relative">
               SKIP THIS!
             </button>
-            <button
-              type="submit"
-              className="m-5 p-2 w-[120px] h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative"
-              onClick={handleSubmit}
-            >
-              FINISH
-              <Image
-                src="/arrow-right.png"
-                width={20}
-                height={20}
-                alt="arrow"
-                className="absolute right-[2px] bottom-[10px]"
-              />
-            </button>
+            <Link href={"/pages/recruiterLogin"}>
+              <button
+                type="submit"
+                className="m-5 p-2 w-[120px] h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative"
+                onClick={handleSubmit}
+              >
+                FINISH
+                <Image
+                  src="/arrow-right.png"
+                  width={20}
+                  height={20}
+                  alt="arrow"
+                  className="absolute right-[2px] bottom-[10px]"
+                />
+              </button>
+            </Link>
             {state.message && (
               <div className="bg-red-500 p-4 w-28 rounded-xl ml-44">
                 Error:{state.message}

@@ -23,6 +23,11 @@ export default function Page() {
     addEmail(email);
     addPassword(password);
   };
+
+  /*let keepData = { company: company, email: email };
+  let keepDatas = JSON.stringify(keepData);
+  localStorage.setItem("keepData", keepDatas);*/
+
   return (
     <Fragment>
       <section className="flex w-full justify-around items-start  bg-[#F5F5F6]">
