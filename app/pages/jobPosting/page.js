@@ -37,7 +37,7 @@ export default function page() {
   //console.log(companyEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
 
   useEffect(() => {
-    if (keepDataD && keepDataD.company) {
+    if (keepDataD) {
       const fetchJobs = async () => {
         try {
           const { data, error } = await supabase
@@ -268,152 +268,159 @@ export default function page() {
                     return selectOption === ""
                       ? true
                       : selectOption === "Closed"
-                      ? job.closed_status === true
+                      ? job.closed_status === false
                       : job.category.includes(selectOption);
                   })
                   .map((job) => {
                     return (
                       <AccordionItem className="mt-4 rounded-lg " key={job.id}>
                         <div className="border border-slate-300 shadow-lg shadow-slate-300 rounded-lg bg-white">
-                          <AccordionButton className=" h-[80px] rounded-lg relative">
-                            {/*job title */}
-                            <p className=" absolute top-2 text-[20px] font-medium ">
-                              {job.title}
-                            </p>
+                          <div className=" warpper flex relative">
+                            <AccordionButton className=" h-[80px] rounded-lg relative">
+                              {/*job title */}
+                              <p className=" absolute top-2 text-[20px] font-medium ">
+                                {job.title}
+                              </p>
 
-                            {/* main-information */}
-                            <div
-                              id="main-information"
-                              className="  absolute flex flex-row top-[50px] left-[10px] ml-[6px]"
-                            >
-                              <div className="flex flex-row">
-                                <Image
-                                  src="/images/manufactory-pic.svg"
-                                  alt="manufactory-pic"
-                                  width={12.5}
-                                  height={12.5}
-                                />
-                                <p
-                                  className=" text-[12px] text-[#616161] ml-[4px] "
-                                  key={job.id}
-                                >
-                                  {job.category}
-                                </p>
-                              </div>
-                              <div className="flex flex-row ml-[8px]">
-                                <Image
-                                  src="/images/calender-pic.svg"
-                                  alt="manufactory-pic"
-                                  width={12.5}
-                                  height={12.5}
-                                />
-                                <p className="  text-[12px] text-[#616161] ml-[4px]">
-                                  {job.type}
-                                </p>
-                              </div>
-                              <div className="flex flex-row ml-[8px]">
-                                <Image
-                                  src="/images/dollar.svg"
-                                  alt="manufactory-pic"
-                                  width={12.5}
-                                  height={12.5}
-                                />
-                                <p className="   text-[12px] text-[#616161] ml-[4px]">
-                                  {job.minRange} - {job.maxRange}
-                                </p>
-                              </div>
-                            </div>
-                            {/* job status*/}
-                            <div className="flex flex-row   absolute top-[15px] left-[400px] text-[12px] text-[#616161]">
-                              <div className="flex flex-col justify-center items-center">
-                                <Image
-                                  src="/mail-box.svg"
-                                  alt="mail-box-pic"
-                                  width={12.5}
-                                  height={12.5}
-                                />
-                                <p className="">
-                                  open on <br /> 07/11/20
-                                </p>
-                              </div>
-                              <div className="flex flex-col items-center ml-[10px]">
+                              {/* main-information */}
+                              <div
+                                id="main-information"
+                                className="  absolute flex flex-row top-[50px] left-[10px] ml-[6px]"
+                              >
                                 <div className="flex flex-row">
                                   <Image
-                                    src="/man-icon-black.svg"
-                                    alt="man-icon-pic"
+                                    src="/images/manufactory-pic.svg"
+                                    alt="manufactory-pic"
                                     width={12.5}
                                     height={12.5}
                                   />
-                                  <p className=" ml-[2px] ">5</p>
+                                  <p
+                                    className=" text-[12px] text-[#616161] ml-[4px] "
+                                    key={job.id}
+                                  >
+                                    {job.category}
+                                  </p>
                                 </div>
-                                <p className="  ">
-                                  Total <br /> Candidates
-                                </p>
-                              </div>
-                              <div className="flex flex-col items-center ml-[10px] text-[#f495b5]">
-                                <div className="flex flex-row  ">
+                                <div className="flex flex-row ml-[8px]">
                                   <Image
-                                    src="/man-icon-pink.svg"
-                                    alt="man-icon-pic"
+                                    src="/images/calender-pic.svg"
+                                    alt="manufactory-pic"
                                     width={12.5}
                                     height={12.5}
                                   />
-                                  <p className=" ml-[2px] ">3</p>
+                                  <p className="  text-[12px] text-[#616161] ml-[4px]">
+                                    {job.type}
+                                  </p>
                                 </div>
-                                <p className="  ">
-                                  Candidates
-                                  <br />
-                                  on track
-                                </p>
-                              </div>
-                            </div>
-                            {/*button village */}
-                            <div>
-                              <Link href={`/pages/jobPosting/${job.id}/show`}>
-                                <Image
-                                  className="  absolute top-[28px] left-[640px] text-[14px]"
-                                  src="/search-line.svg"
-                                  alt="search-line-pic"
-                                  width={24}
-                                  height={24}
-                                />
-                                <p className="  absolute top-[30px] left-[670px] text-[14px]">
-                                  Show
-                                </p>
-                              </Link>
-                              <div className="absolute top-[22px] left-[730px] text-[14px]">
-                                <button
-                                  className={`flex flex-row py-[8px] px-[16px] rounded-full ${
-                                    job.closed_status
-                                      ? "bg-pink-500"
-                                      : "bg-gray-500"
-                                  }`}
-                                  onClick={() =>
-                                    toggleStatus(job.id, job.closed_status)
-                                  }
-                                >
+                                <div className="flex flex-row ml-[8px]">
                                   <Image
-                                    className=""
-                                    src="/x-icon.svg"
-                                    alt="x-icon-pic"
+                                    src="/images/dollar.svg"
+                                    alt="manufactory-pic"
+                                    width={12.5}
+                                    height={12.5}
+                                  />
+                                  <p className="   text-[12px] text-[#616161] ml-[4px]">
+                                    {job.minRange} - {job.maxRange}
+                                  </p>
+                                </div>
+                              </div>
+                              {/* job status*/}
+                              <div className="flex flex-row   absolute top-[15px] left-[400px] text-[12px] text-[#616161]">
+                                <div className="flex flex-col justify-center items-center">
+                                  <Image
+                                    src="/mail-box.svg"
+                                    alt="mail-box-pic"
+                                    width={12.5}
+                                    height={12.5}
+                                  />
+                                  <p className="">
+                                    open on <br /> 07/11/20
+                                  </p>
+                                </div>
+                                <div className="flex flex-col items-center ml-[10px]">
+                                  <div className="flex flex-row">
+                                    <Image
+                                      src="/man-icon-black.svg"
+                                      alt="man-icon-pic"
+                                      width={12.5}
+                                      height={12.5}
+                                    />
+                                    <p className=" ml-[2px] ">5</p>
+                                  </div>
+                                  <p className="  ">
+                                    Total <br /> Candidates
+                                  </p>
+                                </div>
+                                <div className="flex flex-col items-center ml-[10px] text-[#f495b5]">
+                                  <div className="flex flex-row  ">
+                                    <Image
+                                      src="/man-icon-pink.svg"
+                                      alt="man-icon-pic"
+                                      width={12.5}
+                                      height={12.5}
+                                    />
+                                    <p className=" ml-[2px] ">3</p>
+                                  </div>
+                                  <p className="  ">
+                                    Candidates
+                                    <br />
+                                    on track
+                                  </p>
+                                </div>
+                              </div>
+                              {/*button village */}
+                              <div>
+                                <Link href={`/pages/jobPosting/${job.id}/show`}>
+                                  <Image
+                                    className="  absolute top-[28px] left-[640px] text-[14px]"
+                                    src="/search-line.svg"
+                                    alt="search-line-pic"
                                     width={24}
                                     height={24}
                                   />
-                                  <p className="ml-[5px] text-[14px] text-white ">
-                                    {job.closed_status ? "close" : "closed"}
+                                  <p className="  absolute top-[30px] left-[670px] text-[14px]">
+                                    Show
                                   </p>
-                                </button>
-                              </div>
-                              <div>
-                                <Link
-                                  href={`/pages/jobPosting/${job.id}/edit`}
-                                  className="  absolute top-[22px] left-[860px] text-[14px] py-[8px] px-[16px] bg-[#BF5F82] text-white rounded-full"
-                                >
-                                  Edit
                                 </Link>
+
+                                <div>
+                                  <Link
+                                    href={`/pages/jobPosting/${job.id}/edit`}
+                                    className="  absolute top-[22px] left-[860px] text-[14px] py-[8px] px-[16px] bg-[#BF5F82] text-white rounded-full"
+                                  >
+                                    Edit
+                                  </Link>
+                                </div>
                               </div>
+                            </AccordionButton>
+                            <div className="absolute top-[22px] left-[730px] text-[14px]">
+                              <button
+                                className={`flex flex-row py-[8px] px-[16px] rounded-full ${
+                                  job.closed_status === true
+                                    ? "bg-pink-500"
+                                    : job.closed_status === false
+                                    ? "bg-gray-500"
+                                    : job.closed_status === true
+                                }`}
+                                onClick={(event) => {
+                                  event.preventDefault();
+                                  toggleStatus(job.id, job.closed_status);
+                                }}
+                              >
+                                <h1>{job.closed_status}</h1>
+                                <Image
+                                  className=""
+                                  src="/x-icon.svg"
+                                  alt="x-icon-pic"
+                                  width={24}
+                                  height={24}
+                                />
+                                <p className="ml-[5px] text-[14px] text-white ">
+                                  {job.closed_status ? "close" : "closed"}
+                                </p>
+                              </button>
                             </div>
-                          </AccordionButton>
+                          </div>
 
                           <AccordionPanel className=" w-[800px] pb={4}">
                             <p className=" py-2 text-[#BF5F82]">

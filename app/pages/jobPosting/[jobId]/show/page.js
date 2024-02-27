@@ -134,7 +134,7 @@ export default function page({ params }) {
             <Image src="/arrow-left-grey.png" width={24} height={24} />
             <Link
               className="font-medium text-[#616161]"
-              href={"/pages/jobPostings"}
+              href={"/pages/jobPosting"}
             >
               Back
             </Link>
@@ -154,14 +154,14 @@ export default function page({ params }) {
                 return (
                   <div
                     key={job.id}
-                    className="border border-slate-300 shadow-lg shadow-slate-400  rounded-[10px] w-[1080px]  p-5"
+                    className="border border-slate-300 shadow-lg shadow-slate-400  rounded-[10px] w-[950px]  "
                   >
-                    <AccordionItem w="1050px" border="none">
+                    <AccordionItem className=" rounded-lg border-none ">
                       <h2>
                         <div className=" warpper flex relative">
                           <AccordionButton>
                             <span className="flex flex-row w-[1020px] h-[70px] mb-3">
-                              <div className=" w-[420px] p-2">
+                              <div className=" w-[300px] p-2">
                                 {/*left-container*/}
                                 <h2
                                   className="  text-neutral-700 text-[22px] font-medium text-left"
@@ -255,7 +255,7 @@ export default function page({ params }) {
                             </span>
                             <AccordionIcon />
                           </AccordionButton>
-                          <button className="m-5  w-[113px] h-10 bg-[#bf5f82] text-white  rounded-2xl text-[16px] text-right px-[20px] absolute right-[50px] bottom-[5px]">
+                          <button className="m-5  w-[113px] h-10 bg-[#bf5f82] text-white  rounded-2xl text-[16px] text-right px-[20px] absolute right-[50px] bottom-[15px]">
                             CLOSE
                             <Image
                               src="/x-icon.svg"
@@ -370,14 +370,14 @@ export default function page({ params }) {
                 return (
                   <div
                     key={data.id}
-                    className="border border-slate-300 shadow-lg shadow-slate-400  rounded-[10px] w-[1080px]  p-5 mb-6"
+                    className="border border-slate-300 shadow-lg shadow-slate-400  rounded-[10px] w-[950px]  mb-6"
                   >
-                    <AccordionItem w="1050px" border="none">
+                    <AccordionItem className="rounded-lg border-none ">
                       <h2>
                         <div className="warpper flex relative">
                           <AccordionButton>
-                            <span className="flex flex-row w-[1020px] h-[70px] mb-3">
-                              <div className=" w-[320px] p-2 ">
+                            <span className="flex flex-row w-[1020px] h-[70px] mb-3 ">
+                              <div className=" w-[250px] p-2 ">
                                 {/*left-container*/}
                                 <h2
                                   className="  text-neutral-700 text-[22px] font-medium text-left"
@@ -389,11 +389,11 @@ export default function page({ params }) {
                                   <div className="flex flex-row mr-1">
                                     <Image
                                       src="/linkedin-box.svg"
-                                      width={20}
-                                      height={20}
-                                      className="m-2"
+                                      width={15}
+                                      height={15}
+                                      className="m-1"
                                     />
-                                    <p className=" py-[10px] text-[#8e8e8e] text-[12px]">
+                                    <p className=" text-[#8e8e8e] text-[12px] w-[200px] text-left">
                                       {data.linkedin}
                                     </p>
                                   </div>
@@ -401,15 +401,17 @@ export default function page({ params }) {
                               </div>
                               <div className="flex flex-row ">
                                 {/* middle-container */}
-                                <div className="flex flex-col justify-center items-start m-2 text-[#8e8e8e] text-[12px] w-[250px] ">
-                                  <div className="flex">
+                                <div className="flex flex-col justify-center items-start m-2 text-[#8e8e8e] text-[12px] w-[230px] ">
+                                  <div className="flex mb-1">
                                     <Image
                                       src="/mail-line.svg"
                                       width={20}
                                       height={20}
                                       className="mr-1"
                                     />
-                                    <a>{data.email}</a>
+                                    <p className="text-[#8e8e8e] text-[12px] w-[200px] text-left">
+                                      {data.email}
+                                    </p>
                                   </div>
                                   <div className="flex">
                                     <Image
@@ -443,7 +445,7 @@ export default function page({ params }) {
                             </span>
                             <AccordionIcon />
                           </AccordionButton>
-                          <button className="m-5  w-[180px] h-[40px] border-[1px] border-[#f495b5]   rounded-2xl text-[16px] text-right px-[20px] absolute right-[20px] bottom-[5px] uppercase">
+                          <button className="m-5  w-[180px] h-[40px] border-[1px] border-[#f495b5]   rounded-2xl text-[16px] text-right px-[20px] absolute right-[20px] bottom-[15px] uppercase">
                             mark as started
                           </button>
                         </div>
@@ -463,7 +465,7 @@ export default function page({ params }) {
                           SA
                         </h2>
                         <p>{data.description}</p>
-                        <div className="flex relative left-[400px] bottom-[5px] mt-[20px]">
+                        <div className="flex relative left-[350px] bottom-[5px] mt-[20px]">
                           <Image
                             src="/download-icon.svg"
                             width={20}
