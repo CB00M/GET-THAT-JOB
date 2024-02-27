@@ -55,6 +55,10 @@ function Page() {
     await handleLoginRecruiter({ email, password });
     router.push("/pages/jobPosting");
   };
+  //
+  let keepData = { email: email };
+  let keepDatas = JSON.stringify(keepData);
+  localStorage.setItem("keepData", keepDatas);
 
   return (
     <>

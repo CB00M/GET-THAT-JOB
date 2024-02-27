@@ -63,6 +63,11 @@ function LoginPage() {
     router.push("/pages/findJob");
   };
 
+  //เก็บ email user
+  let keepUserData = { email: email };
+  let keepUserDatas = JSON.stringify(keepUserData);
+  localStorage.setItem("keepUserData", keepUserDatas);
+
   return (
     <>
       <Header />
@@ -124,9 +129,13 @@ function LoginPage() {
               onChange={handlePassword}
               required
             />
-            <button className="p-2 w-20 h-10 bg-[#F48FB1] hover:bg-pink-500 active:bg-pink-700 text-white mt-4 ml-auto rounded-2xl text-sm">
-              LOGIN
-            </button>
+
+            <Link href={"/pages/findJob"}>
+              <button className="p-2 w-20 h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm">
+                LOGIN
+              </button>
+            </Link>
+
           </div>
         </form>
         <div>
