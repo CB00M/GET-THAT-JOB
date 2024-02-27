@@ -280,7 +280,7 @@ export default function ApplyPage({ params }) {
                   </p>
                 </div>
               </div>
-              <button className="mt-3 m-auto relative relative left-[60px]">
+              <button className="mt-3 m-auto relative  left-[60px]">
                 <Image
                   src="/images/send.svg"
                   alt="send application"

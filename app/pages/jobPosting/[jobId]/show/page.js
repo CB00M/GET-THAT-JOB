@@ -22,6 +22,8 @@ export default function page({ params }) {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [jobs, setJobs] = useState([]);
   const [candidates, setCandidates] = useState([]);
+  const [testData, setTestData] = useState([]);
+
   //   console.log("checkparams :", params); เช็คข้อมูลของ params
 
   const fetchJobs = async () => {
@@ -37,25 +39,48 @@ export default function page({ params }) {
     setJobs(data);
   };
 
-  const fetchCandidate = async () => {
-    let { data, error } = await supabase.from("Professionalusers").select("*");
-    // .eq("job_following_id", params.jobId) //หา data ของงานที่ ผู้สมัครเลือก
-    // .join(
-    //   "interested_working",
-    //   "Professionalusers.id",
-    //   "interested_working.candidate_id"
-    // );
+  const fetchData = async () => {
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      // if (error || !data) {
+      //   console.log("error", error);
+      // }
+      const { data: Recruiterusers } = await supabase
+        .from("Recruiterusers")
+        .select("*")
+        .eq("email", user?.email);
+      console.log("checked data new: ", user);
+      console.log("test data:", Recruiterusers);
+      setTestData(Recruiterusers);
 
-    if (error || !data) {
-      console.log("error", error);
+      return Recruiterusers[0];
+    } catch (error) {
+      console.log("Get user error: ", error);
     }
-    console.log("checked data candidate: ", data);
-    setCandidates(data);
   };
+
+  // const fetchCandidate = async () => {
+  //   let { data, error } = await supabase.from("Professionalusers").select("*");
+  //   // .eq("job_following_id", params.jobId) //หา data ของงานที่ ผู้สมัครเลือก
+  //   // .join(
+  //   //   "interested_working",
+  //   //   "Professionalusers.id",
+  //   //   "interested_working.candidate_id"
+  //   // );
+
+  //   if (error || !data) {
+  //     console.log("error", error);
+  //   }
+  //   console.log("checked data candidate: ", data);
+  //   setCandidates(data);
+  // };
 
   useEffect(() => {
     fetchJobs();
-    fetchCandidate();
+    // fetchCandidate();
+    fetchData();
   }, [params.jobId]);
 
   const handleFilterChange = (event) => {
@@ -134,7 +159,7 @@ export default function page({ params }) {
             <Image src="/arrow-left-grey.png" width={24} height={24} />
             <Link
               className="font-medium text-[#616161]"
-              href={"/pages/jobPostings"}
+              href={"/pages/jobPosting"}
             >
               Back
             </Link>

@@ -1,17 +1,19 @@
 "use client";
+
 import "tailwindcss/tailwind.css";
 import Image from "next/image";
 import { Montserrat, Inter } from "next/font/google";
-import { useState } from "react";
-import { Cookie } from "next/font/google";
-import { keepData } from "./api/createNewPost";
+import { useEffect, useState } from "react";
+
 import { Textarea } from "@chakra-ui/react";
-import Link from "next/link.js";
+import Link from "next/link";
+import { createClient } from "@/utils/supabase/client";
 
 const inter = Inter({ weight: "400", preload: false });
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export default function page() {
+  const supabase = createClient();
   const [title, setTitle] = useState("");
   const [selectCategory, setSelectCategory] = useState("");
   const [type, setType] = useState("");
@@ -21,7 +23,41 @@ export default function page() {
   const [mandaturyRequier, setMandaturyRequier] = useState("");
   const [optionalRequier, setOptionalRequier] = useState("");
 
-  const handleSubmit = () => {};
+  const fetchData = async () => {
+    try {
+    } catch (error) {}
+  };
+
+  const handleSubmit = async (event) => {
+    try {
+      // เก็บข้อมูลลงในตัวแปรในรูปแบบของ JSON object
+      const data = {
+        title,
+        category: selectCategory,
+        type,
+        minRange: minRange,
+        maxRange: maxRange,
+        aboutJob: aboutJob,
+        mandaturyRequier: mandaturyRequier,
+        optionalRequier: optionalRequier,
+        //ใส่ข้อมูลidคนlogin
+      };
+
+      // เรียกใช้งานฟังก์ชัน insert() เพื่อเพิ่มข้อมูลลงในตาราง job_posting
+      const { data: jobData, error } = await supabase
+        .from("job_posting")
+        .insert([data]); // ใช้ createClient ที่ import มาจาก custom path
+
+      if (error) {
+        throw error;
+      }
+
+      console.log("Job posting inserted successfully:", jobData);
+    } catch (error) {
+      console.error("Error inserting job posting:", error.message);
+    }
+  };
+
   return (
     <>
       <div className="w-full h-[900px] bg-neutral-100  items-start inline-flex">
@@ -98,7 +134,7 @@ export default function page() {
           >
             Main information
           </p>
-          <form action={keepData}>
+          <form onSubmit={handleSubmit}>
             <p
               className=" pt-[10px]
              text-zinc-600 text-[10px] "
@@ -311,14 +347,15 @@ export default function page() {
               }}
               name="optionalRequier"
             />
-
-            <button
-              onClick={handleSubmit}
-              type="submit"
-              className="border-2 border-[#F48FB1] text-white rounded-2xl bg-[#F48FB1] mt-5 mb-5 py-1 px-3 "
-            >
-              POST THIS JOB
-            </button>
+            <Link href={"/pages/jobPosting"}>
+              <button
+                onClick={handleSubmit}
+                type="submit"
+                className="border-2 border-[#F48FB1] text-white rounded-2xl bg-[#F48FB1] mt-5 mb-5 py-1 px-3 "
+              >
+                POST THIS JOB
+              </button>
+            </Link>
           </form>
         </div>
       </div>
