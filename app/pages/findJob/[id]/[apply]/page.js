@@ -8,7 +8,7 @@ import Image from "next/image";
 import "../../../../globals.css";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
-import { applyJobData } from "../../api/action";
+import applyJobData from "./api/action";
 
 const inter = Inter({ weight: "400", preload: false });
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -18,7 +18,19 @@ export default function ApplyPage({ params }) {
   const supabase = createClient();
   const [job, setJob] = useState([]);
   const [professionalProfile, setProfessionalProfile] = useState([]);
+  // const [intestedComment, setInterestedComment] = useState("");
+  // const [intestedComment, setInterestedComment] = useState("");
   const [uploadCV, setUploadCV] = useState(false);
+
+  // const handleSubmitApply = (e) => {
+  //   e.preventDefault();
+  //   setInterestedComment(intestedComment);
+  // };
+
+  // const handleSubmitApply = (e) => {
+  //   e.preventDefault();
+  //   setInterestedComment(intestedComment);
+  // };
 
   async function getDetailJob() {
     let { data, error } = await supabase
@@ -39,8 +51,8 @@ export default function ApplyPage({ params }) {
     <div className="w-full h-[1050px] bg-neutral-100  items-start inline-flex">
       <Sidebar />
 
-      {/*Job Details */}
-      <div className="w-[1200px] h-[800px] py-[10px] px-[20px] ml-[100px]">
+      {/*Job Apply */}
+      <div className="w-[1000px] h-[800px] py-[10px] px-[20px] ml-[100px]">
         <div className=" flex pt-[30px] mb-[-20px]">
           <button
             onClick={() => {
@@ -55,7 +67,7 @@ export default function ApplyPage({ params }) {
             </p>
           </button>
         </div>
-        <article className="mt-5">
+        <div className="mt-5">
           <form action={applyJobData}>
             <header className="flex justify-between items-center">
               <div className="flex gap-2">
@@ -93,15 +105,12 @@ export default function ApplyPage({ params }) {
                     alt="send application"
                     width={233}
                     height={56}
-                    className="relative left-[60px]"
                   ></Image>
                 </button>
               </div>
             </header>
-            <h1 className="text-center text-[48px] text-[#373737] relative left-[60px]">
-              {job.title}
-            </h1>
-            <p className="flex items-center gap-1 text-[10px] justify-center py-[2px] tracking-widest text-[#616161] relative left-[60px]">
+            <h1 className="text-center text-5xl">{job.title}</h1>
+            <p className="flex items-center gap-1 text-[10px] justify-center mt-3">
               <Image
                 src="/images/clock.svg"
                 alt="day"
@@ -110,8 +119,8 @@ export default function ApplyPage({ params }) {
               ></Image>
               POSTED 2 DAYS AGO
             </p>
-            <div className="flex justify-center items-center gap-7 my-3 relative left-[60px]">
-              <div className="h-[77px] w-[281px] border border-[#BF5F82] flex flex-col justify-center items-center rounded-lg  p-2 bg-white drop-shadow-lg">
+            <div className="flex justify-around items-center my-3">
+              <div className="h-[77px] w-2/6 border border-[#BF5F82] flex flex-col justify-center items-center rounded-lg  p-2 bg-white">
                 <h2
                   className="text-base text-[#616161]"
                   style={montserrat.style}
@@ -248,7 +257,7 @@ export default function ApplyPage({ params }) {
                   </p>
                   <br />
                   <textarea
-                    className="w-[760px] h-[272px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
+                    className="w-full h-[272px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
                     style={inter.style}
                     type="text"
                     id="experience"
@@ -265,7 +274,7 @@ export default function ApplyPage({ params }) {
                   </p>
                   <br />
                   <textarea
-                    className="w-[760px] h-[112px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
+                    className="w-full h-[112px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
                     style={inter.style}
                     type="text"
                     id="experience"
@@ -280,17 +289,23 @@ export default function ApplyPage({ params }) {
                   </p>
                 </div>
               </div>
-              <button className="mt-3 m-auto relative relative left-[60px]">
-                <Image
-                  src="/images/send.svg"
-                  alt="send application"
-                  width={233}
-                  height={56}
-                ></Image>
+              <button className="m-auto cursor-pointer">
+                <div
+                  className="text-white bg-[#f48fb1] hover:bg-pink-700 w-[233px] h-[56px] text-[14px] rounded-2xl flex justify-center items-center gap-3"
+                  style={inter.style}
+                >
+                  <Image
+                    src="/images/logo-web/mail-line.svg"
+                    width={20}
+                    height={20}
+                    alt="letter"
+                  />
+                  <div className="tracking-wider">SEND APPLICATION</div>
+                </div>
               </button>
             </div>
           </form>
-        </article>
+        </div>
       </div>
     </div>
   );

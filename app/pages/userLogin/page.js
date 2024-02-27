@@ -60,7 +60,7 @@ function LoginPage() {
     }
 
     await handleLoginProfessional({ email, password });
-    router.push("/pages/professional");
+    router.push("/pages/findJob");
   };
 
   //เก็บ email user
@@ -129,11 +129,13 @@ function LoginPage() {
               onChange={handlePassword}
               required
             />
+
             <Link href={"/pages/findJob"}>
               <button className="p-2 w-20 h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm">
                 LOGIN
               </button>
             </Link>
+
           </div>
         </form>
         <div>
