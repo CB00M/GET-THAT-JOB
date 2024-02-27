@@ -22,45 +22,7 @@ export default function page() {
   const [jobs, setJobs] = useState([]);
   const [selectOption, setSelectOption] = useState("");
 
-  //ดึงข้อมูลเฉพาะของuserนั้น
-
-  /*const fetchUserJobs = async () => {
-    const { data, error } = await supabase
-      .from("job_posting")
-      .select("*", "Recruiterusers(*)")
-      .eq("job_posting.create_by_id", id)
-      .single(); // ใช้ userId จากผู้ใช้ที่เข้าสู่ระบบในการคัดกรองข้อมูล
-
-    if (error) {
-      console.error("error", error);
-      return;
-    }
-
-    console.log("data", data);
-    setJobs(data);
-  };
-
-  useEffect(() => {
-    fetchUserJobs();
-  }, []);*/
-  //ดึงข้อมูล company name
-
-  /*const fetchJobs = async () => {
-    let { data, error } = await supabase
-      .from("job_posting")
-      .select("*")
-      .eq("created_by_company_name", keepDataD.company);
-
-    if (error || !data) {
-      console.log("error", error);
-    }
-
-    setJobs(data);
-  };
-
-  useEffect(() => {
-    fetchJobs();
-  }, [selectOption]);*/
+  //เก็บข้อมูลจากหน้าlogin
   const [companyEmail, setCompanyEmail] = useState("");
 
   const keepDataD = JSON.parse(localStorage.getItem("keepData"));
@@ -72,7 +34,7 @@ export default function page() {
     }
   }, [email]);
 
-  //console.log(companyEmail); // ตรวจสอบค่า companyName ว่าถูกต้องหรือไม่
+  //console.log(companyEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
 
   useEffect(() => {
     if (keepDataD && keepDataD.company) {
@@ -453,7 +415,7 @@ export default function page() {
                             </div>
                           </AccordionButton>
 
-                          <AccordionPanel pb={4} className=" w-[800px]">
+                          <AccordionPanel className=" w-[800px] pb={4}">
                             <p className=" py-2 text-[#BF5F82]">
                               About the position
                             </p>

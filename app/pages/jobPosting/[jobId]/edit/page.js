@@ -4,35 +4,12 @@ import Image from "next/image";
 import { Montserrat, Inter } from "next/font/google";
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
-} from "@chakra-ui/react";
 import Link from "next/link";
 import { Textarea } from "@chakra-ui/react";
 
 const inter = Inter({ weight: "400", preload: false });
 const montserrat = Montserrat({ subsets: ["latin"] });
 
-/*export default function Page({ params }) {
-  const supabase = createClient();
-  const [jobs, setJobs] = useState([]);
-
-  const fetchJobs = async () => {
-    let { data, error } = await supabase.from("job_posting").select("*").where id in (`${jobId}`);
-
-    if (error || !data) {
-      console.log("error", error);
-    }
-
-    setJobs(data);
-  };
-
-  return <div>My Post: {params.jobId}</div>;
-}*/
 export default function Page({ params }) {
   const supabase = createClient();
   const [jobs, setJobs] = useState([]);
@@ -95,26 +72,6 @@ export default function Page({ params }) {
   };
   return (
     <>
-      {/*{jobs.map((job) => (
-        <div key={job.id}>
-          <h2>{job.title}</h2>
-          <p>{job.aboutJob}</p>
-          <input
-            className="border border-black"
-            type="text"
-            name="title"
-            value={job.title}
-            onChange={(e) => handleInputChange(e, job.id)} // ใช้ฟังก์ชัน handleInputChange และส่ง job.id เพื่อระบุตำแหน่งงานที่ต้องการแก้ไข
-          />
-          <textarea
-            className="border border-black"
-            name="aboutJob"
-            value={job.aboutJob}
-            onChange={(e) => handleInputChange(e, job.id)}
-          />
-        </div>
-      ))}*/}
-
       <div className="w-full h-[900px] bg-neutral-100  items-start inline-flex">
         <div className="self-stretch py-8 bg-neutral-200 flex-col justify-between items-start inline-flex">
           <div className="flex-col justify-start items-start flex">

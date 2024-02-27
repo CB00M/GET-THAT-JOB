@@ -23,6 +23,7 @@ export default function page() {
   const [mandaturyRequier, setMandaturyRequier] = useState("");
   const [optionalRequier, setOptionalRequier] = useState("");
 
+  //เก็บข้อมูลจากหน้าlogin
   const [companyEmail, setCompanyEmail] = useState("");
 
   const keepDataD = JSON.parse(localStorage.getItem("keepData"));
@@ -34,7 +35,7 @@ export default function page() {
     }
   }, [email]);
 
-  console.log(companyEmail); // ตรวจสอบค่า companyName ว่าถูกต้องหรือไม่
+  console.log(companyEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
 
   const handleSubmit = async (event) => {
     try {
