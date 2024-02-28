@@ -17,6 +17,15 @@ export default function ApplyPage({ params }) {
   const router = useRouter();
   const supabase = createClient();
   const [userData, setUserData] = useState([]);
+  const [userEmail, setUserEmail] = useState("");
+  const [jobs, setJobs] = useState([]);
+  const [interesting, setInteresting] = useState("");
+  const [experience, setExperience] = useState("");
+
+  console.log("user data :", userData);
+  console.log("user email :", userEmail);
+  console.log("jobs :", jobs);
+
   //const [uploadCV, setUploadCV] = useState(false);
 
   /*async function getDetailJob() {
@@ -33,8 +42,6 @@ export default function ApplyPage({ params }) {
   useEffect(() => {
     getDetailJob();
   }, [params.id]);*/
-
-  const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
     fetchJobs();
@@ -60,7 +67,6 @@ export default function ApplyPage({ params }) {
   };
 
   //ดึงข้อมูลจาก login
-  const [userEmail, setUserEmail] = useState("");
 
   const keepUserDataD = JSON.parse(localStorage.getItem("keepUserData"));
   const email = keepUserDataD?.email || "";
@@ -85,7 +91,7 @@ export default function ApplyPage({ params }) {
         console.error("Error fetching jobs:", error.message);
       } else {
         setUserData(data || []);
-        console.log(data);
+        console.log("data :", data);
       }
     } catch (error) {
       console.error("Error fetching jobs:", error.message);
@@ -93,41 +99,72 @@ export default function ApplyPage({ params }) {
   };
 
   useEffect(() => {
-    fetchApplication();
-  }, [params.id, userEmail, fetchApplication]);
+    if (userEmail) {
+      fetchApplication(userEmail);
+    }
+  }, [params.id, userEmail]);
 
-  //เปลี่ยนแปลงinput user
-  const handleInputChange = (e, id) => {
-    const { name, value } = e.target;
+  //เปลี่ยนแปลงinput user *** ของน้องปิ๊งเดิมเอาไว้เก็บค่า experience
+  // const handleInputChange = (e, id) => {
+  //   const { name, value } = e.target;
 
-    // คัดลอก userData มาเป็นอาเรย์ใหม่โดยอัปเดตข้อมูลเฉพาะผู้ใช้ที่มี id ตรงกับที่ถูกแก้ไข
-    const updatedUserData = userData.map((user) => {
-      if (user.id === id) {
-        return { ...user, [name]: value }; // อัปเดตค่าที่ต้องการเปลี่ยนแปลง
-      }
-      return user;
-    });
+  //   // คัดลอก userData มาเป็นอาเรย์ใหม่โดยอัปเดตข้อมูลเฉพาะผู้ใช้ที่มี id ตรงกับที่ถูกแก้ไข
+  //   const updatedUserData = userData.map((user) => {
+  //     if (user.id === id) {
+  //       return { ...user, [name]: value }; // อัปเดตค่าที่ต้องการเปลี่ยนแปลง
+  //     }
+  //     return user;
+  //   });
 
-    setUserData(updatedUserData); // อัปเดต state ของข้อมูลผู้ใช้
-  };
+  //   setUserData(updatedUserData); // อัปเดต state ของข้อมูลผู้ใช้
+  // };
 
-  //updateข้อมูล
-  const updateJobInSupabase = async (id, updatedData) => {
+  //updateข้อมูล *** ของน้องปิ๊งเดิมเอาไว้อัพเดทค่า
+  // const updateJobInSupabase = async (id, updatedData) => {
+  //   try {
+  //     const { data, error } = await supabase
+  //       .from("Professionalusers")
+  //       .update(updatedData)
+  //       .eq("email", userEmail);
+
+  //     if (error) {
+  //       console.error("Error updating user:", error.message);
+  //       return null;
+  //     }
+
+  //     return data;
+  //   } catch (error) {
+  //     console.error("Error updating user:", error.message);
+  //     return null;
+  //   }
+  // };
+  const sendApplication = async (event) => {
     try {
-      const { data, error } = await supabase
-        .from("Professionalusers")
-        .update(updatedData)
-        .eq("email", userEmail);
+      // เก็บข้อมูลลงในตัวแปรในรูปแบบของ JSON object
+      const data = {
+        name: userData[0].name,
+        email,
+        interesting: interesting,
+        experience: experience,
+        phonenumber: userData[0].phonenumber,
+        linkedin: userData[0].linkedin,
+        file_cv: userData[0].file_cv,
+        candidate_id: userData[0].id,
+        job_following_id: jobs[0].id,
+      };
+
+      // เรียกใช้งานฟังก์ชัน insert() เพื่อเพิ่มข้อมูลลงในตาราง job_posting
+      const { data: candidateData, error } = await supabase
+        .from("your_applications")
+        .insert([data]); // ใช้ createClient ที่ import มาจาก custom path
 
       if (error) {
-        console.error("Error updating user:", error.message);
-        return null;
+        throw error;
       }
 
-      return data;
+      console.log("send application successfully:", candidateData);
     } catch (error) {
-      console.error("Error updating user:", error.message);
-      return null;
+      console.error("Error inserting job posting:", error.message);
     }
   };
 
@@ -354,7 +391,10 @@ export default function ApplyPage({ params }) {
                       name="experience"
                       placeholder="..."
                       value={user.experience}
-                      onChange={(e) => handleInputChange(e, user.id)}
+                      // onChange={(e) => handleInputChange(e, user.id)} ของน้องปิ๊งเดิม
+                      onChange={(event) => {
+                        setExperience(event.target.value);
+                      }}
                     />
                   </div>
                   {/* ส่วนของความสนใจในการทำงานที่บริษัท */}
@@ -373,6 +413,10 @@ export default function ApplyPage({ params }) {
                       id="interest-working"
                       name="interest-working"
                       placeholder="Mention things about The Company Name SA that excite you. Why would you be a good candidate?"
+                      value={interesting}
+                      onChange={(event) => {
+                        setInteresting(event.target.value);
+                      }}
                     />
                     <p
                       className="text-[12px] text-[#8E8E8E]"
@@ -384,7 +428,8 @@ export default function ApplyPage({ params }) {
                   {/* ส่วนของปุ่มส่งแอปพลิเคชัน */}
                   <button
                     className="m-auto cursor-pointer"
-                    onClick={() => updateJobInSupabase(user.id, user)}
+                    // onClick={() => updateJobInSupabase(user.id, user)} ของน้องปิ๊งเดิมเอาไว้อัพเดทค่าไป supabase
+                    onClick={sendApplication}
                   >
                     <div
                       className="text-white bg-[#f48fb1] hover:bg-pink-700 w-[233px] h-[56px] text-[14px] rounded-2xl flex justify-center items-center gap-3"
