@@ -139,15 +139,17 @@ export default function page() {
                 Create New Job
               </div>
             </Link>
-            <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
-              <Image src="/images/profile.png" width={24} height={24} />
-              <div
-                className="grow text-zinc-600 leading-normal"
-                style={inter.style}
-              >
-                Profile
+            <Link href={`/pages/editProfileRecruiter`}>
+              <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
+                <Image src="/images/profile.png" width={24} height={24} />
+                <div
+                  className="grow text-zinc-600 leading-normal"
+                  style={inter.style}
+                >
+                  Profile
+                </div>
               </div>
-            </div>
+            </Link>
             <div className="w-60 px-4 py-3 bg-neutral-200 justify-start items-start gap-2 inline-flex">
               <Image src="/images/logout.png" width={24} height={24} />
               <div
@@ -397,7 +399,7 @@ export default function page() {
                               <button
                                 className={`flex flex-row py-[8px] px-[16px] rounded-full ${
                                   job.closed_status === true
-                                    ? "bg-pink-500"
+                                    ? "bg-[#BF5F82]"
                                     : job.closed_status === false
                                     ? "bg-gray-500"
                                     : job.closed_status === true
