@@ -42,7 +42,7 @@ export default function page() {
         console.error("Error fetching jobs:", error.message);
       } else {
         setProfile(data);
-        console.log(data);
+        //console.log(data);
       }
     } catch (error) {
       console.error("Error fetching jobs:", error.message);
@@ -50,8 +50,10 @@ export default function page() {
   };
 
   useEffect(() => {
-    fetchCompanyData();
-  }, []);
+    if (companyEmail) {
+      fetchCompanyData();
+    }
+  }, [companyEmail]);
 
   //เปลี่ยนแปลงข้อมูล
   const handleInputChange = (e, id) => {
@@ -73,7 +75,7 @@ export default function page() {
     try {
       const { data, error } = await supabase
         .from("Recruiterusers")
-        .update(updatedProfile) // ใช้ Object profile เพื่ออัปเดตข้อมูล
+        .update(profile) // ใช้ Object profile เพื่ออัปเดตข้อมูล
         .eq("email", companyEmail);
 
       if (error) {
@@ -85,6 +87,37 @@ export default function page() {
       console.error("Error updating profile:", error.message);
     }
   };
+
+  //เก็บอีเมลล์ใหม่
+  useEffect(() => {
+    if (profile.length > 0) {
+      fetchEmail();
+    }
+  }, [profile]);
+
+  //เก็บอีเมลล์ใหม่
+  const [newEmail, setNewEmail] = useState("");
+
+  const fetchEmail = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("Recruiterusers")
+        .select("email")
+        .eq("id", profile[0]?.id); // ใช้ไอดีของโปรไฟล์เพื่อดึงเฉพาะอีเมลที่เปลี่ยนแปลง
+      if (error) {
+        console.error("Error fetching email:", error.message);
+      } else {
+        setNewEmail(data[0]?.email || "");
+        console.log(data);
+      }
+    } catch (error) {
+      console.error("Error fetching email:", error.message);
+    }
+  };
+
+  let keepCompanyData = { email: newEmail };
+  let keepCompanyDatas = JSON.stringify(keepCompanyData);
+  localStorage.setItem("keepCompanyData", keepCompanyDatas);
 
   return (
     <>
