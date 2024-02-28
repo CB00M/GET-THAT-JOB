@@ -34,7 +34,7 @@ export default function page() {
     }
   }, [email]);
 
-  //console.log(companyEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
+  console.log(companyEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
 
   useEffect(() => {
     if (keepDataD) {
