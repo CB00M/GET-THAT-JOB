@@ -71,9 +71,9 @@ export default function ApplyPage({ params }) {
     }
   }, [email]);
 
-  //console.log(userEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
-  //ดึงข้อมูลการสมัคร
+  console.log(userEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
 
+  //ดึงข้อมูลการสมัคร
   const fetchApplication = async () => {
     try {
       const { data, error } = await supabase
