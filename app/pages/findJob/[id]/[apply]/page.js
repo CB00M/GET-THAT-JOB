@@ -25,6 +25,12 @@ export default function ApplyPage({ params }) {
   console.log("user data :", userData);
   console.log("user email :", userEmail);
   console.log("jobs :", jobs);
+  console.log(userEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
+
+  //ดึงข้อมูลจาก login
+
+  const keepUserDataD = JSON.parse(localStorage.getItem("keepUserData"));
+  const email = keepUserDataD?.email || "";
 
   //const [uploadCV, setUploadCV] = useState(false);
 
@@ -43,9 +49,9 @@ export default function ApplyPage({ params }) {
     getDetailJob();
   }, [params.id]);*/
 
-  useEffect(() => {
-    fetchJobs();
-  }, [params.id]); // ใช้ useEffect เพื่อเรียก fetchJobs เมื่อ jobId เปลี่ยน
+  // useEffect(() => {
+  //   fetchJobs();
+  // }, [params.id]); // ใช้ useEffect เพื่อเรียก fetchJobs เมื่อ jobId เปลี่ยน
 
   //ดึงข้อมูลงาน
   const fetchJobs = async () => {
@@ -66,19 +72,6 @@ export default function ApplyPage({ params }) {
     }
   };
 
-  //ดึงข้อมูลจาก login
-
-  const keepUserDataD = JSON.parse(localStorage.getItem("keepUserData"));
-  const email = keepUserDataD?.email || "";
-
-  useEffect(() => {
-    if (email) {
-      setUserEmail(email);
-    }
-  }, [email]);
-
-  console.log(userEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
-
   //ดึงข้อมูลการสมัคร
   const fetchApplication = async () => {
     try {
@@ -91,54 +84,14 @@ export default function ApplyPage({ params }) {
         console.error("Error fetching jobs:", error.message);
       } else {
         setUserData(data || []);
-        console.log("data :", data);
+        setExperience(data[0].experience);
       }
     } catch (error) {
       console.error("Error fetching jobs:", error.message);
     }
   };
 
-  useEffect(() => {
-    if (userEmail) {
-      fetchApplication(userEmail);
-    }
-  }, [params.id, userEmail]);
-
-  //เปลี่ยนแปลงinput user *** ของน้องปิ๊งเดิมเอาไว้เก็บค่า experience
-  // const handleInputChange = (e, id) => {
-  //   const { name, value } = e.target;
-
-  //   // คัดลอก userData มาเป็นอาเรย์ใหม่โดยอัปเดตข้อมูลเฉพาะผู้ใช้ที่มี id ตรงกับที่ถูกแก้ไข
-  //   const updatedUserData = userData.map((user) => {
-  //     if (user.id === id) {
-  //       return { ...user, [name]: value }; // อัปเดตค่าที่ต้องการเปลี่ยนแปลง
-  //     }
-  //     return user;
-  //   });
-
-  //   setUserData(updatedUserData); // อัปเดต state ของข้อมูลผู้ใช้
-  // };
-
-  //updateข้อมูล *** ของน้องปิ๊งเดิมเอาไว้อัพเดทค่า
-  // const updateJobInSupabase = async (id, updatedData) => {
-  //   try {
-  //     const { data, error } = await supabase
-  //       .from("Professionalusers")
-  //       .update(updatedData)
-  //       .eq("email", userEmail);
-
-  //     if (error) {
-  //       console.error("Error updating user:", error.message);
-  //       return null;
-  //     }
-
-  //     return data;
-  //   } catch (error) {
-  //     console.error("Error updating user:", error.message);
-  //     return null;
-  //   }
-  // };
-  const sendApplication = async (event) => {
+  const sendApplication = async () => {
     try {
       // เก็บข้อมูลลงในตัวแปรในรูปแบบของ JSON object
       const data = {
@@ -162,11 +115,23 @@ export default function ApplyPage({ params }) {
         throw error;
       }
 
-      console.log("send application successfully:", candidateData);
+      console.log("send application successfully");
     } catch (error) {
       console.error("Error inserting job posting:", error.message);
     }
   };
+
+  useEffect(() => {
+    if (params.id) {
+      fetchJobs(params.id);
+    }
+    if (email) {
+      setUserEmail(email);
+    }
+    if (userEmail) {
+      fetchApplication(userEmail);
+    }
+  }, [userEmail]);
 
   return (
     <div className="w-full h-[1050px] bg-neutral-100  items-start inline-flex">
@@ -178,7 +143,7 @@ export default function ApplyPage({ params }) {
         <div className=" flex pt-[30px] mb-[-20px]">
           <button
             onClick={() => {
-              router.push(`/pages/findJob/${job.id}`);
+              router.push(`/pages/findJob/${jobs[0].id}`);
             }}
             className="text-[14px] tracking-widest"
             style={inter.style}
@@ -192,7 +157,7 @@ export default function ApplyPage({ params }) {
         {jobs.map((job) => {
           return (
             <>
-              <div className="mt-5">
+              <div className="mt-5" key={job.id}>
                 <header className="flex justify-between items-center">
                   <div className="flex gap-2">
                     <Image
@@ -390,7 +355,7 @@ export default function ApplyPage({ params }) {
                       id="experience"
                       name="experience"
                       placeholder="..."
-                      value={user.experience}
+                      value={experience}
                       // onChange={(e) => handleInputChange(e, user.id)} ของน้องปิ๊งเดิม
                       onChange={(event) => {
                         setExperience(event.target.value);
