@@ -38,6 +38,7 @@ export default function page() {
   console.log(companyEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
 
   const handleSubmit = async (event) => {
+    event.prevent.default();
     try {
       // เก็บข้อมูลลงในตัวแปรในรูปแบบของ JSON object
       const data = {
