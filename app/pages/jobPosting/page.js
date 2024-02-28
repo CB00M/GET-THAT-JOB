@@ -37,7 +37,7 @@ export default function page() {
   //console.log(companyEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
 
   useEffect(() => {
-    if (keepDataD && keepDataD.company) {
+    if (keepDataD) {
       const fetchJobs = async () => {
         try {
           const { data, error } = await supabase

@@ -19,6 +19,21 @@ export default function post({ params }) {
   const supabase = createClient();
 
   const [job, setJob] = useState([]);
+  // ดึงข้อมูลบริษัท
+  const [companyData, setCompanyData] = useState([]);
+
+  const getAboutCompany = async () => {
+    let { data, error } = await supabase
+      .from("Recruiterusers")
+      .select("*")
+      .eq("email", job.company_email);
+    if (error || !data) {
+      console.log("error:", error);
+      NotFound(); // แก้เป็น router.push("/404") หรือหน้าที่เหมาะสมสำหรับการแสดงผลเมื่อไม่พบข้อมูลบริษัท
+    }
+
+    setCompanyData(data);
+  };
 
   const getDetailJob = async () => {
     let { data, error } = await supabase
@@ -27,17 +42,27 @@ export default function post({ params }) {
       .eq("id", params.id);
     if (error || !data) {
       console.log("error:", error);
-      NotFound();
+      NotFound(); // แก้เป็น router.push("/404") หรือหน้าที่เหมาะสมสำหรับการแสดงผลเมื่อไม่พบข้อมูลงาน
     }
     setJob(data[0]);
   };
+
   useEffect(() => {
     getDetailJob();
   }, [params.id]);
 
+  useEffect(() => {
+    if (job.company_email) {
+      getAboutCompany();
+    }
+  }, [job.company_email]); // ให้เรียกใช้ getAboutCompany เมื่อมีการเปลี่ยนแปลง job.company_email
+
   return (
     <>
-      <div className="w-full h-[1050px] bg-neutral-100  items-start inline-flex">
+      <div
+        className="w-full h-[1050px] bg-neutral-100  items-start inline-flex"
+        style={inter.style}
+      >
         <Sidebar />
 
         {/*Job Details */}
@@ -54,38 +79,46 @@ export default function post({ params }) {
             </button>
           </div>
           <article className="mt-5">
-            <header className="flex justify-between items-center">
-              <div className="flex gap-2">
-                <Image
-                  src="/images/logo-web/Web-logo.svg"
-                  width={80}
-                  height={80}
-                ></Image>
-                <div className="flex flex-col tracking-wide">
-                  <h2 className="text-2xl">The company name SA</h2>
-                  <p className="flex items-center gap-1 mt-1">
-                    <Image
-                      src="/images/IconButton.svg"
-                      width={38}
-                      height={38}
-                    ></Image>
-                    Following
-                  </p>
+            {companyData.map((item) => {
+              return (
+                <div>
+                  <header className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Image
+                        src="/images/logo-web/Web-logo.svg"
+                        width={80}
+                        height={80}
+                      ></Image>
+                      <div className="flex flex-col tracking-wide">
+                        <h2 className="text-2xl">{item.company}</h2>
+
+                        <p className="flex items-start gap-1 mt-1">
+                          <Image
+                            src="/images/IconButton.svg"
+                            width={38}
+                            height={38}
+                          ></Image>
+                          Following
+                        </p>
+                      </div>
+                    </div>
+                    <div>
+                      <button>
+                        <Image
+                          src="/images/logo-web/Button.svg"
+                          width={173}
+                          height={56}
+                          onClick={() => {
+                            router.push(`/pages/findJob/${job.id}/apply`);
+                          }}
+                        ></Image>
+                      </button>
+                    </div>
+                  </header>
                 </div>
-              </div>
-              <div>
-                <button>
-                  <Image
-                    src="/images/logo-web/Button.svg"
-                    width={173}
-                    height={56}
-                    onClick={() => {
-                      router.push(`/pages/findJob/${job.id}/apply`);
-                    }}
-                  ></Image>
-                </button>
-              </div>
-            </header>
+              );
+            })}
+
             <h1 className="text-center text-5xl">{job.title}</h1>
             <p className="flex items-center gap-1 text-[10px] justify-center mt-3">
               <MdOutlineWatchLater />
@@ -131,15 +164,9 @@ export default function post({ params }) {
                 <h3 className="text-2xl text-[#BF5F82] my-2">
                   About The company
                 </h3>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
-                  blanditiis praesentium eius doloremque, iusto ratione in
-                  aspernatur vitae saepe quis architecto consequatur accusamus
-                  ad iure esse, optio repudiandae? Animi doloribus temporibus
-                  esse vitae praesentium maxime molestias. Consequatur, saepe.
-                  Quis impedit ut, dolores adipisci facere deserunt libero
-                  deleniti similique nobis sequi.
-                </p>
+                {companyData.map((item) => {
+                  return <p>{item.about_company}</p>;
+                })}
               </div>
               <div className="my-2">
                 <h3 className="text-2xl text-[#BF5F82] my-2">
