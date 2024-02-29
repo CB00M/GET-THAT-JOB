@@ -224,7 +224,7 @@ export default function page() {
                         />
                         <input
                           type="file"
-                          name="CV"
+                          name="file_cv"
                           className="customfile text-sm  "
                         />
                       </div>
