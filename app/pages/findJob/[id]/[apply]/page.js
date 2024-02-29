@@ -21,10 +21,14 @@ export default function ApplyPage({ params }) {
   const [jobs, setJobs] = useState([]);
   const [interesting, setInteresting] = useState("");
   const [experience, setExperience] = useState("");
+  const [companyData, setCompanyData] = useState("");
+  const [companyName, setCompanyName] = useState([]);
 
   console.log("user data :", userData);
   console.log("user email :", userEmail);
   console.log("jobs :", jobs);
+  console.log("company data :", companyData);
+  console.log("companyName :", companyName);
   console.log(userEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
 
   //ดึงข้อมูลจาก login
@@ -65,11 +69,25 @@ export default function ApplyPage({ params }) {
         console.error("Error fetching jobs:", error.message);
       } else {
         setJobs(data || []);
-        console.log(data);
+        setCompanyData(data[0].company_email);
       }
     } catch (error) {
       console.error("Error fetching jobs:", error.message);
     }
+  };
+
+  //ดึงข้อมูลชื่อบริษัทเิปดรับสมัคร
+  const getCompanyName = async () => {
+    let { data, error } = await supabase
+      .from("Recruiterusers")
+      .select("*")
+      .eq("email", companyData);
+    if (error || !data) {
+      console.log("error:", error);
+      NotFound(); // แก้เป็น router.push("/404") หรือหน้าที่เหมาะสมสำหรับการแสดงผลเมื่อไม่พบข้อมูลบริษัท
+    }
+
+    setCompanyName(data[0].company);
   };
 
   //ดึงข้อมูลการสมัคร
@@ -107,7 +125,7 @@ export default function ApplyPage({ params }) {
       };
 
       // เรียกใช้งานฟังก์ชัน insert() เพื่อเพิ่มข้อมูลลงในตาราง job_posting
-      const { data: candidateData, error } = await supabase
+      const { data: error } = await supabase
         .from("your_applications")
         .insert([data]); // ใช้ createClient ที่ import มาจาก custom path
 
@@ -131,7 +149,10 @@ export default function ApplyPage({ params }) {
     if (userEmail) {
       fetchApplication(userEmail);
     }
-  }, [userEmail]);
+    if (companyData) {
+      getCompanyName(companyData);
+    }
+  }, [userEmail, companyData]);
 
   return (
     <div className="w-full h-[1050px] bg-neutral-100  items-start inline-flex">
@@ -156,122 +177,129 @@ export default function ApplyPage({ params }) {
         </div>
         {jobs.map((job) => {
           return (
-            <>
-              <div className="mt-5" key={job.id}>
-                <header className="flex justify-between items-center">
-                  <div className="flex gap-2">
-                    <Image
-                      src="/images/logo-web/Web-logo.svg"
-                      alt="logo web"
-                      width={80}
-                      height={80}
-                    ></Image>
-                    <div className="flex flex-col tracking-wide">
-                      <h2
-                        className="text-[24px] text-[#373737]"
-                        style={montserrat.style}
-                      >
-                        The company name SA
-                      </h2>
-                      <p
-                        className="flex items-center gap-1 mt-1 font-extrabold text-[14px] tracking-widest text-[#616161]"
-                        style={inter.style}
-                      >
-                        <Image
-                          src="/images/IconButton.svg"
-                          alt="button follow"
-                          width={38}
-                          height={38}
-                        ></Image>
-                        FOLLOWING
-                      </p>
-                    </div>
-                  </div>
-                  <div>
-                    <button>
-                      <Image
-                        src="/images/send.svg"
-                        alt="send application"
-                        width={233}
-                        height={56}
-                      ></Image>
-                    </button>
-                  </div>
-                </header>
-                <h1 className="text-center text-5xl">{job.title}</h1>
-                <p className="flex items-center gap-1 text-[10px] justify-center mt-3">
+            <div className="mt-5">
+              <header className="flex justify-between items-center">
+                <div className="flex gap-2">
                   <Image
-                    src="/images/clock.svg"
-                    alt="day"
-                    width={15}
-                    height={15}
+                    src="/images/logo-web/Web-logo.svg"
+                    alt="logo web"
+                    width={80}
+                    height={80}
                   ></Image>
-                  POSTED 2 DAYS AGO
-                </p>
-                <div className="flex justify-around items-center my-3">
-                  <div className="h-[77px] w-2/6 border border-[#BF5F82] flex flex-col justify-center items-center rounded-lg  p-2 bg-white">
+                  <div className="flex flex-col tracking-wide">
                     <h2
-                      className="text-base text-[#616161]"
+                      className="text-[24px] text-[#373737]"
                       style={montserrat.style}
                     >
-                      Category
+                      {companyName}
                     </h2>
                     <p
-                      className="flex items-end text-2xl gap-2 text-[#373737]"
-                      style={montserrat.style}
+                      className="flex items-center gap-1 mt-1 font-extrabold text-[14px] tracking-widest text-[#616161]"
+                      style={inter.style}
                     >
                       <Image
-                        src="/images/logo-web/Group.svg"
-                        alt="category"
-                        width={29}
-                        height={29}
+                        src="/images/IconButton.svg"
+                        alt="button follow"
+                        width={38}
+                        height={38}
                       ></Image>
-                      {job.category}
-                    </p>
-                  </div>
-                  <div className="h-[77px] w-[208px] border border-[#BF5F82] flex flex-col justify-center items-center rounded-lg  p-2 bg-white drop-shadow-lg">
-                    <h2
-                      className="text-base text-[#616161]"
-                      style={montserrat.style}
-                    >
-                      Type
-                    </h2>
-                    <p
-                      className="flex items-end text-2xl gap-2 text-[#373737]"
-                      style={montserrat.style}
-                    >
-                      <Image
-                        src="/images/logo-web/calendar-2-line.svg"
-                        alt="job type"
-                        width={29}
-                        height={29}
-                      ></Image>
-                      {job.type}
-                    </p>
-                  </div>
-                  <div className="h-[77px] w-[271px] border border-[#BF5F82] flex flex-col justify-center items-center rounded-lg  p-2 bg-white drop-shadow-lg">
-                    <h2
-                      className="text-base text-[#616161]"
-                      style={montserrat.style}
-                    >
-                      Salary
-                    </h2>
-                    <p
-                      className="flex items-end text-2xl gap-2 text-[#373737]"
-                      style={montserrat.style}
-                    >
-                      <Image
-                        src="/images/logo-web/money-circle-line.svg"
-                        alt="salary"
-                        width={29}
-                        height={29}
-                      ></Image>
-                      {job.minRange} - {job.maxRange}
+                      FOLLOWING
                     </p>
                   </div>
                 </div>
+                <div>
+                  <button
+                    className="m-auto cursor-pointer"
+                    onClick={sendApplication}
+                  >
+                    <div
+                      className="text-white bg-[#f48fb1] hover:bg-pink-700 w-[233px] h-[56px] text-[14px] rounded-2xl flex justify-center items-center gap-3"
+                      style={inter.style}
+                    >
+                      <Image
+                        src="/images/logo-web/mail-line.svg"
+                        width={20}
+                        height={20}
+                        alt="letter"
+                      />
+                      <div className="tracking-wider">SEND APPLICATION</div>
+                    </div>
+                  </button>
+                </div>
+              </header>
+              <h1 className="text-center text-5xl">{job.title}</h1>
+              <p className="flex items-center gap-1 text-[10px] justify-center mt-3">
+                <Image
+                  src="/images/clock.svg"
+                  alt="day"
+                  width={15}
+                  height={15}
+                ></Image>
+                POSTED 2 DAYS AGO
+              </p>
+              <div className="flex justify-around items-center my-3">
+                <div className="h-[77px] w-2/6 border border-[#BF5F82] flex flex-col justify-center items-center rounded-lg  p-2 bg-white">
+                  <h2
+                    className="text-base text-[#616161]"
+                    style={montserrat.style}
+                  >
+                    Category
+                  </h2>
+                  <p
+                    className="flex items-end text-2xl gap-2 text-[#373737]"
+                    style={montserrat.style}
+                  >
+                    <Image
+                      src="/images/logo-web/Group.svg"
+                      alt="category"
+                      width={29}
+                      height={29}
+                    ></Image>
+                    {job.category}
+                  </p>
+                </div>
+                <div className="h-[77px] w-[208px] border border-[#BF5F82] flex flex-col justify-center items-center rounded-lg  p-2 bg-white drop-shadow-lg">
+                  <h2
+                    className="text-base text-[#616161]"
+                    style={montserrat.style}
+                  >
+                    Type
+                  </h2>
+                  <p
+                    className="flex items-end text-2xl gap-2 text-[#373737]"
+                    style={montserrat.style}
+                  >
+                    <Image
+                      src="/images/logo-web/calendar-2-line.svg"
+                      alt="job type"
+                      width={29}
+                      height={29}
+                    ></Image>
+                    {job.type}
+                  </p>
+                </div>
+                <div className="h-[77px] w-[271px] border border-[#BF5F82] flex flex-col justify-center items-center rounded-lg  p-2 bg-white drop-shadow-lg">
+                  <h2
+                    className="text-base text-[#616161]"
+                    style={montserrat.style}
+                  >
+                    Salary
+                  </h2>
+                  <p
+                    className="flex items-end text-2xl gap-2 text-[#373737]"
+                    style={montserrat.style}
+                  >
+                    <Image
+                      src="/images/logo-web/money-circle-line.svg"
+                      alt="salary"
+                      width={29}
+                      height={29}
+                    ></Image>
+                    {job.minRange} - {job.maxRange}
+                  </p>
+                </div>
               </div>
-            </>
+            </div>
           );
         })}
 
