@@ -37,14 +37,12 @@ export default function page({ params }) {
     setJobs(data);
   };
 
+  // หาเฉพาะคนที่สมัครมา
   const fetchCandidate = async () => {
-    let { data, error } = await supabase.from("Professionalusers").select("*");
-    // .eq("job_following_id", params.jobId) //หา data ของงานที่ ผู้สมัครเลือก
-    // .join(
-    //   "interested_working",
-    //   "Professionalusers.id",
-    //   "interested_working.candidate_id"
-    // );
+    let { data, error } = await supabase
+      .from("your_applications")
+      .select("*")
+      .eq("job_following_id", params.jobId); //หา data ของงานที่ ผู้สมัครเลือก
 
     if (error || !data) {
       console.log("error", error);
@@ -61,7 +59,83 @@ export default function page({ params }) {
   const handleFilterChange = (event) => {
     setSelectedFilter(event.target.value);
   };
+
+  //toggle
+  const toggleStatus = async (candidateId, currentStatus) => {
+    try {
+      // พังก์ชันสลับสถานะ
+      if (currentStatus === "Waiting for review") {
+        // อัปเดตข้อมูลในฐานข้อมูล
+        const { data } = await supabase
+          .from("your_applications")
+          .update({ review_status: "Review in progress" })
+          .eq("id", candidateId);
+        fetchCandidate();
+        console.log("status1", data);
+      } else if (currentStatus === "Review in progress") {
+        const { data } = await supabase
+          .from("your_applications")
+          .update({ review_status: "Review finished" })
+          .eq("id", candidateId);
+        fetchCandidate();
+        console.log("status2", data);
+      } else if (currentStatus === "Review finished") {
+        const { data } = await supabase
+          .from("your_applications")
+          .update({ review_status: "Waiting for review" })
+          .eq("id", candidateId);
+        fetchCandidate();
+        console.log("status3", data);
+      } else if (currentStatus === "Decline") {
+        const { data } = await supabase
+          .from("your_applications")
+          .update({ review_status: "Decline" })
+          .eq("id", candidateId);
+        fetchCandidate();
+        console.log("status4", data);
+      }
+
+      // แสดงข้อผิดพลาดถ้ามี
+    } catch (error) {
+      console.error("Error toggling job status:", error.message);
+    }
+  };
+
+  //toggle
+  const toggleClose = async (jobId, currentStatus) => {
+    try {
+      // พังก์ชันสลับสถานะ
+      const newStatus = !currentStatus;
+
+      // อัปเดตข้อมูลในฐานข้อมูล
+      const { error } = await supabase
+        .from("job_posting")
+        .update({ closed_status: newStatus })
+        .eq("id", jobId);
+
+      if (error) {
+        throw error;
+      }
+
+      // อัปเดตสถานะของงานใน state
+      setJobs((prevJobs) =>
+        prevJobs.map((job) => {
+          if (job.id === jobId) {
+            return { ...job, closed_status: newStatus };
+          }
+          return job;
+        })
+      );
+
+      // แสดงข้อผิดพลาดถ้ามี
+    } catch (error) {
+      console.error("Error toggling job status:", error.message);
+    }
+  };
+
   console.log(selectedFilter);
+  console.log("data candidate:", candidates);
+  console.log("job data :", jobs);
 
   return (
     <>
@@ -255,14 +329,27 @@ export default function page({ params }) {
                             </span>
                             <AccordionIcon />
                           </AccordionButton>
-                          <button className="m-5  w-[113px] h-10 bg-[#bf5f82] text-white  rounded-2xl text-[16px] text-right px-[20px] absolute right-[50px] bottom-[15px]">
-                            CLOSE
+                          <button
+                            className={`m-5  w-[113px] h-10 bg-[#bf5f82] hover:bg-pink-700 text-white  rounded-2xl text-[16px] text-right px-[20px] absolute right-[50px] bottom-[15px]
+                          ${
+                            job.closed_status === true
+                              ? "bg-[#BF5F82]"
+                              : job.closed_status === false
+                              ? "bg-gray-500"
+                              : job.closed_status === true
+                          }`}
+                            onClick={(event) => {
+                              event.preventDefault();
+                              toggleClose(job.id, job.closed_status);
+                            }}
+                          >
+                            {job.closed_status ? "Close" : "Closed"}
                             <Image
                               src="/x-icon.svg"
                               width={23}
                               height={23}
                               alt="arrow"
-                              className="absolute left-[15px] bottom-[8px] "
+                              className="absolute left-[15px] bottom-[8px]"
                             />
                           </button>
                         </div>
@@ -366,121 +453,159 @@ export default function page({ params }) {
           <div>
             <Accordion allowToggle>
               {/*Job title*/}
-              {candidates.map((data) => {
-                return (
-                  <div
-                    key={data.id}
-                    className="border border-slate-300 shadow-lg shadow-slate-400  rounded-[10px] w-[950px]  mb-6"
-                  >
-                    <AccordionItem className="rounded-lg border-none ">
-                      <h2>
-                        <div className="warpper flex relative">
-                          <AccordionButton>
-                            <span className="flex flex-row w-[1020px] h-[70px] mb-3 ">
-                              <div className=" w-[250px] p-2 ">
-                                {/*left-container*/}
-                                <h2
-                                  className="  text-neutral-700 text-[22px] font-medium text-left"
-                                  style={montserrat.style}
-                                >
-                                  {data.name}
-                                </h2>
-                                <div className="flex flex-row">
-                                  <div className="flex flex-row mr-1">
-                                    <Image
-                                      src="/linkedin-box.svg"
-                                      width={15}
-                                      height={15}
-                                      className="m-1"
-                                    />
-                                    <p className=" text-[#8e8e8e] text-[12px] w-[200px] text-left">
-                                      {data.linkedin}
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="flex flex-row ">
-                                {/* middle-container */}
-                                <div className="flex flex-col justify-center items-start m-2 text-[#8e8e8e] text-[12px] w-[230px] ">
-                                  <div className="flex mb-1">
-                                    <Image
-                                      src="/mail-line.svg"
-                                      width={20}
-                                      height={20}
-                                      className="mr-1"
-                                    />
-                                    <p className="text-[#8e8e8e] text-[12px] w-[200px] text-left">
-                                      {data.email}
-                                    </p>
-                                  </div>
-                                  <div className="flex">
-                                    <Image
-                                      src="/phone-line.svg"
-                                      width={20}
-                                      height={20}
-                                      className="mr-1"
-                                    />
-                                    <a>{data.phonenumber}</a>
-                                  </div>
-                                </div>
-                                <div className="flex flex-col justify-center items-center m-2 ">
-                                  <Image
-                                    src="/mail-line-black.svg"
-                                    width={20}
-                                    height={20}
-                                  />
-                                  <p>Sent 5 days</p>
-                                  <p>ago</p>
-                                </div>
-                                <div className="flex flex-col justify-center items-center m-2">
-                                  <Image
-                                    src="/pause-icon.svg"
-                                    width={20}
-                                    height={20}
-                                  />
-                                  <p className="text-[#f495b5]">Waiting for</p>
-                                  <p className="text-[#f495b5]">review</p>
-                                </div>
-                              </div>
-                            </span>
-                            <AccordionIcon />
-                          </AccordionButton>
-                          <button className="m-5  w-[180px] h-[40px] border-[1px] border-[#f495b5]   rounded-2xl text-[16px] text-right px-[20px] absolute right-[20px] bottom-[15px] uppercase">
-                            mark as started
-                          </button>
-                        </div>
-                      </h2>
-                      <AccordionPanel
-                        pb={4}
-                        style={montserrat.style}
-                        className="font-medium"
+              {candidates &&
+                candidates
+                  .filter((job) => {
+                    return selectedFilter === "all"
+                      ? true
+                      : selectedFilter === "waiting"
+                      ? job.review_status === "Waiting for review"
+                      : selectedFilter === "in-progress"
+                      ? job.review_status === "Review in progress"
+                      : selectedFilter === "finished"
+                      ? job.review_status === "Review finished"
+                      : null;
+                  })
+                  .map((data) => {
+                    return (
+                      <div
+                        key={data.id}
+                        className="border border-slate-300 shadow-lg shadow-slate-400  rounded-[10px] w-[950px]  mb-6"
                       >
-                        {" "}
-                        <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
-                          Professional experience
-                        </h2>
-                        <p>{data.experience}</p>
-                        <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
-                          Why are you interested in working at The company name
-                          SA
-                        </h2>
-                        <p>{data.description}</p>
-                        <div className="flex relative left-[350px] bottom-[5px] mt-[20px]">
-                          <Image
-                            src="/download-icon.svg"
-                            width={20}
-                            height={20}
-                            className="absolute left-[10px] top-[10px]"
-                          />
-                          <button className=" w-[180px] h-[40px] border-[1px] border-[#f495b5]   rounded-2xl text-[16px] text-right pr-[15px]  uppercase ">
-                            download cv
-                          </button>
-                        </div>
-                      </AccordionPanel>
-                    </AccordionItem>
-                  </div>
-                );
-              })}
+                        <AccordionItem className="rounded-lg border-none ">
+                          <h2>
+                            <div className="warpper flex relative">
+                              <AccordionButton>
+                                <span className="flex flex-row w-[1020px] h-[70px] mb-3 ">
+                                  <div className=" w-[250px] p-2 ">
+                                    {/*left-container*/}
+                                    <h2
+                                      className="  text-neutral-700 text-[22px] font-medium text-left"
+                                      style={montserrat.style}
+                                    >
+                                      {data.name}
+                                    </h2>
+                                    <div className="flex flex-row">
+                                      <div className="flex flex-row mr-1">
+                                        <Image
+                                          src="/linkedin-box.svg"
+                                          width={15}
+                                          height={15}
+                                          className="m-1"
+                                        />
+                                        <p className=" text-[#8e8e8e] text-[12px] w-[200px] text-left">
+                                          {data.linkedin}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="flex flex-row ">
+                                    {/* middle-container */}
+                                    <div className="flex flex-col justify-center items-start m-2 text-[#8e8e8e] text-[12px] w-[230px] ">
+                                      <div className="flex mb-1">
+                                        <Image
+                                          src="/mail-line.svg"
+                                          width={20}
+                                          height={20}
+                                          className="mr-1"
+                                        />
+                                        <p className="text-[#8e8e8e] text-[12px] w-[200px] text-left">
+                                          {data.email}
+                                        </p>
+                                      </div>
+                                      <div className="flex">
+                                        <Image
+                                          src="/phone-line.svg"
+                                          width={20}
+                                          height={20}
+                                          className="mr-1"
+                                        />
+                                        <a>{data.phonenumber}</a>
+                                      </div>
+                                    </div>
+                                    <div className="flex flex-col justify-center items-center m-2 ">
+                                      <Image
+                                        src="/mail-line-black.svg"
+                                        width={20}
+                                        height={20}
+                                      />
+                                      <p>Sent 5 days</p>
+                                      <p>ago</p>
+                                    </div>
+                                    <div className="flex flex-col justify-center items-center m-2">
+                                      <Image
+                                        src="/pause-icon.svg"
+                                        width={20}
+                                        height={20}
+                                      />
+
+                                      <p className="text-[#f495b5] w-[80px]">
+                                        {data.review_status}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </span>
+                                <AccordionIcon />
+                              </AccordionButton>
+                              <button
+                                className={`hover:bg-slate-200 m-5  h-[40px] border-[1px] font-normal rounded-2xl text-[16px] text-right px-[20px] absolute right-[20px] bottom-[15px] uppercase ${
+                                  data.review_status === "Waiting for review"
+                                    ? "border-[#f495b5] "
+                                    : data.review_status ===
+                                      "Review in progress"
+                                    ? "border-[#f495b5] "
+                                    : data.review_status === "Review finished"
+                                    ? "bg-gray-300 text-slate-500"
+                                    : data.review_status === "Decline"
+                                    ? "bg-gray-300 text-slate-500"
+                                    : ""
+                                }`}
+                                onClick={(event) => {
+                                  event.preventDefault();
+                                  toggleStatus(data.id, data.review_status);
+                                }}
+                              >
+                                {data.review_status === "Waiting for review" &&
+                                  "MARK AS STARTED"}
+                                {data.review_status === "Review in progress" &&
+                                  "MARK AS FINISHED"}
+                                {data.review_status === "Review finished" &&
+                                  "FINISHED"}
+                                {data.review_status === "Decline" && "Decline"}
+                              </button>
+                            </div>
+                          </h2>
+                          <AccordionPanel
+                            pb={4}
+                            style={montserrat.style}
+                            className="font-medium"
+                          >
+                            {" "}
+                            <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
+                              Professional experience
+                            </h2>
+                            <p>{data.experience}</p>
+                            <h2 className="  text-[#c67190] text-[20px] font-medium text-left my-2">
+                              Why are you interested in working at The company
+                              name SA
+                            </h2>
+                            <p>{data.interesting}</p>
+                            <div className="flex relative left-[350px] bottom-[5px] mt-[20px]">
+                              <Image
+                                src="/download-icon.svg"
+                                width={20}
+                                height={20}
+                                className="absolute left-[10px] top-[10px]"
+                              />
+                              <button className=" w-[180px] h-[40px] border-[1px] border-[#f495b5]   rounded-2xl text-[16px] text-right pr-[15px]  uppercase ">
+                                download cv
+                              </button>
+                            </div>
+                          </AccordionPanel>
+                        </AccordionItem>
+                      </div>
+                    );
+                  })}
             </Accordion>
           </div>
         </div>

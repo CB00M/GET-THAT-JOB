@@ -28,42 +28,41 @@ export default function page() {
   const keepDataD = JSON.parse(localStorage.getItem("keepData"));
   const email = keepDataD?.email || "";
 
-  useEffect(() => {
-    if (email) {
-      setCompanyEmail(email);
-    }
-  }, [email]);
-
   console.log(companyEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
 
   useEffect(() => {
-    if (keepDataD) {
-      const fetchJobs = async () => {
-        try {
-          const { data, error } = await supabase
-            .from("job_posting")
-            .select("*")
-            .eq("company_email", companyEmail);
-
-          if (error) {
-            console.error("error", error);
-            return;
-          }
-
-          setJobs(data || []);
-        } catch (error) {
-          console.error("error", error);
-        }
-      };
-
-      fetchJobs();
+    if (companyEmail) {
+      fetchJobs(companyEmail);
     }
-  }, [companyEmail, keepDataD]);
+    if (email) {
+      setCompanyEmail(email);
+    }
+  }, [companyEmail]);
 
   //logout
   const handleLogoutClick = () => {
     handleLogout();
     alert("You have been logged out.");
+  };
+
+  // ดึงข้อมูล
+  const fetchJobs = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("job_posting")
+        .select("*")
+        .eq("company_email", companyEmail)
+        .order("closed_status", { ascending: false }); // จัดเรียงตาม closed_status
+
+      if (error) {
+        console.error("error", error);
+        return;
+      }
+
+      setJobs(data || []);
+    } catch (error) {
+      console.error("error", error);
+    }
   };
 
   //toggle
@@ -336,7 +335,10 @@ export default function page() {
                                     height={12.5}
                                   />
                                   <p className="">
-                                    open on <br /> 07/11/20
+                                    open on <br />{" "}
+                                    {new Date(
+                                      job.created_at
+                                    ).toLocaleDateString("en-GB")}
                                   </p>
                                 </div>
                                 <div className="flex flex-col items-center ml-[10px]">
@@ -418,7 +420,7 @@ export default function page() {
                                   height={24}
                                 />
                                 <p className="ml-[5px] text-[14px] text-white ">
-                                  {job.closed_status ? "close" : "closed"}
+                                  {job.closed_status ? "Close" : "Closed"}
                                 </p>
                               </button>
                             </div>
