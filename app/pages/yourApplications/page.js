@@ -255,7 +255,7 @@ export default function page() {
               className="  text-neutral-700 text-[22px] font-medium text-left my-[10px]"
               style={montserrat.style}
             >
-              applications found
+              {jobs.length} applications found
             </h2>
           </div>
           {/* <----------------------------------------------------candidate boxs--------------------------------------------------> */}
