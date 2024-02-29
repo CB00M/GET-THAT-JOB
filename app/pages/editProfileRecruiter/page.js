@@ -238,15 +238,9 @@ export default function page() {
                     >
                       COMPANY EMAIL
                     </p>
-                    <input
-                      name="email"
-                      className="w-[389px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2  "
-                      type="text"
-                      placeholder=""
-                      value={item.email}
-                      onChange={(e) => handleInputChange(e, item.id)} // เพิ่มพารามิเตอร์ jobId ในการเรียกใช้ handleInputChange
-                    />
-
+                    <p className="w-[389px] h-9 rounded-lg text-neutral-700 pl-2 py-1">
+                      {item.email}
+                    </p>
                     {/* company name */}
                     <p
                       className=" pt-[10px]
