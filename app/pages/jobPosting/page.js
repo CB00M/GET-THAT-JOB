@@ -66,7 +66,7 @@ export default function page() {
   };
 
   //toggle
-  const toggleStatus = async (jobId, currentStatus) => {
+  /* const toggleStatus = async (jobId, currentStatus) => {
     try {
       // พังก์ชันสลับสถานะ
       const newStatus = !currentStatus;
@@ -79,6 +79,59 @@ export default function page() {
 
       if (error) {
         throw error;
+      }
+
+      // อัปเดตสถานะของงานใน state
+      setJobs((prevJobs) =>
+        prevJobs.map((job) => {
+          if (job.id === jobId) {
+            return { ...job, closed_status: newStatus };
+          }
+          return job;
+        })
+      );
+
+      // แสดงข้อผิดพลาดถ้ามี
+    } catch (error) {
+      console.error("Error toggling job status:", error.message);
+    }
+  };*/
+
+  {
+    /*keep open status*/
+  }
+  const toggleStatus = async (jobId, currentStatus) => {
+    try {
+      // พังก์ชันสลับสถานะ
+      const newStatus = !currentStatus;
+
+      // ถ้าค่าในคอลัม closed_status เป็น true เท่านั้น
+      if (newStatus === true) {
+        // อัปเดตค่าในคอลัม update_at เมื่อค่าในคอลัม closed_status เปลี่ยนแปลงเท่านั้น
+        const updateAt = new Date().toISOString(); // รับค่าเวลาปัจจุบัน
+        const { error } = await supabase
+          .from("job_posting")
+          .update({
+            closed_status: newStatus,
+            update_at: updateAt, // อัปเดตค่า update_at เมื่อมีการเปลี่ยนแปลงสถานะ
+          })
+          .eq("id", jobId);
+
+        if (error) {
+          throw error;
+        }
+      } else {
+        // ถ้าค่าในคอลัม closed_status เป็น false ไม่ต้องทำการอัปเดตค่าในคอลัม update_at
+        const { error } = await supabase
+          .from("job_posting")
+          .update({
+            closed_status: newStatus,
+          })
+          .eq("id", jobId);
+
+        if (error) {
+          throw error;
+        }
       }
 
       // อัปเดตสถานะของงานใน state
@@ -259,6 +312,9 @@ export default function page() {
               Manufacturing
             </span>
           </label>
+          <p className="text-[20px] my-[20px]" style={montserrat}>
+            {jobs.length} jobs posting found
+          </p>
 
           <div id="Accordion" className=" w-[944px] ">
             <Accordion allowToggle>
@@ -336,9 +392,9 @@ export default function page() {
                                   />
                                   <p className="">
                                     open on <br />{" "}
-                                    {new Date(
-                                      job.created_at
-                                    ).toLocaleDateString("en-GB")}
+                                    {new Date(job.update_at).toLocaleDateString(
+                                      "en-GB"
+                                    )}
                                   </p>
                                 </div>
                                 <div className="flex flex-col items-center ml-[10px]">

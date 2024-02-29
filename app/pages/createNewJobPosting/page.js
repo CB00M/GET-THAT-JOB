@@ -4,7 +4,7 @@ import "tailwindcss/tailwind.css";
 import Image from "next/image";
 import { Montserrat, Inter } from "next/font/google";
 import { useEffect, useState } from "react";
-
+import { handleLogout } from "@/app/login/actions";
 import { Textarea } from "@chakra-ui/react";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
@@ -38,7 +38,7 @@ export default function page() {
   console.log(companyEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
 
   const handleSubmit = async (event) => {
-    event.prevent.default();
+    //event.prevent.default();
     try {
       // เก็บข้อมูลลงในตัวแปรในรูปแบบของ JSON object
       const data = {
@@ -52,6 +52,8 @@ export default function page() {
         optionalRequier: optionalRequier,
         //ใส่ข้อมูลidคนlogin
         company_email: companyEmail,
+        // กำหนดค่า update_at ให้เป็นเวลาปัจจุบัน
+        update_at: new Date().toISOString(), // เปลี่ยนเป็นค่าเริ่มต้นที่ต้องการตามความเหมาะสม
       };
 
       // เรียกใช้งานฟังก์ชัน insert() เพื่อเพิ่มข้อมูลลงในตาราง job_posting
@@ -68,6 +70,11 @@ export default function page() {
       console.error("Error inserting job posting:", error.message);
     }
   };
+  //logout
+  const handleLogoutClick = () => {
+    handleLogout();
+    alert("You have been logged out.");
+  };
 
   return (
     <>
@@ -77,47 +84,54 @@ export default function page() {
             <div className="px-4 pb-[32px] flex-col justify-center items-start flex">
               <Image src="/images/gtj-logo.png" width={136} height={40} />
             </div>
-            <Link
-              href={`/pages/jobPosting`}
-              className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex"
-            >
-              <Image src="/images/job-posting-pic.svg" width={22} height={22} />
-              <div
-                className="grow text-zinc-600 leading-normal"
-                style={inter.style}
-              >
-                Job Posting
+            <Link href={"/pages/jobPosting"}>
+              <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
+                <Image
+                  src="/images/job-posting-pic.svg"
+                  width={22}
+                  height={22}
+                />
+                <div
+                  className="grow text-zinc-600 leading-normal"
+                  style={inter.style}
+                >
+                  Job Posting
+                </div>
               </div>
             </Link>
-            <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-100 justify-center items-center flex">
-              <Image
-                src="/images/create-new-job-pic.svg"
-                width={18}
-                height={20}
-              />
-              <div
-                className="grow text-neutral-700 leading-normal"
-                style={inter.style}
-              >
-                Create New Job
+            <Link href={`/pages/createNewJobPosting`}>
+              <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-100 justify-center items-center flex">
+                <Image
+                  src="/images/create-new-job-pic.svg"
+                  width={18}
+                  height={20}
+                />
+                <div
+                  className="grow text-neutral-700 leading-normal"
+                  style={inter.style}
+                >
+                  Create New Job
+                </div>
               </div>
-            </div>
-            <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
-              <Image src="/images/profile.png" width={24} height={24} />
-              <div
-                className="grow text-zinc-600 leading-normal"
-                style={inter.style}
-              >
-                Profile
+            </Link>
+            <Link href={`/pages/editProfileRecruiter`}>
+              <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
+                <Image src="/images/profile.png" width={24} height={24} />
+                <div
+                  className="grow text-zinc-600 leading-normal"
+                  style={inter.style}
+                >
+                  Profile
+                </div>
               </div>
-            </div>
+            </Link>
             <div className="w-60 px-4 py-3 bg-neutral-200 justify-start items-start gap-2 inline-flex">
               <Image src="/images/logout.png" width={24} height={24} />
               <div
                 className=" text-zinc-600 leading-normal"
                 style={inter.style}
               >
-                Log out
+                <button onClick={handleLogoutClick}>Log out</button>
               </div>
             </div>
           </div>
