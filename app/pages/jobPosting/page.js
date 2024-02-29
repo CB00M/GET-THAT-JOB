@@ -21,7 +21,7 @@ export default function page() {
   const supabase = createClient();
   const [jobs, setJobs] = useState([]);
   const [selectOption, setSelectOption] = useState("");
-
+  const [candidate, setCandidate] = useState([]);
   //เก็บข้อมูลจากหน้าlogin
   const [companyEmail, setCompanyEmail] = useState("");
 
@@ -46,13 +46,14 @@ export default function page() {
   };
 
   // ดึงข้อมูล
+  // ในส่วนของการดึงข้อมูล
   const fetchJobs = async () => {
     try {
       const { data, error } = await supabase
         .from("job_posting")
         .select("*")
         .eq("company_email", companyEmail)
-        .order("closed_status", { ascending: false }); // จัดเรียงตาม closed_status
+        .order("closed_status", { ascending: false });
 
       if (error) {
         console.error("error", error);
@@ -60,42 +61,33 @@ export default function page() {
       }
 
       setJobs(data || []);
+
+      // เรียกใช้ fetchCandidate เมื่อโหลดข้อมูลตำแหน่งงานเสร็จสิ้น
+      fetchCandidate(data.map((job) => job.id)); // ส่งรายการ ID ของตำแหน่งงานทั้งหมดเข้าไป
     } catch (error) {
       console.error("error", error);
     }
   };
-
-  //toggle
-  /* const toggleStatus = async (jobId, currentStatus) => {
+  //
+  // ในส่วนของการดึงข้อมูลผู้สมัคร
+  const fetchCandidate = async (jobIds) => {
     try {
-      // พังก์ชันสลับสถานะ
-      const newStatus = !currentStatus;
+      const { data, error: candidateError } = await supabase
+        .from("your_applications")
+        .select("*")
+        .in("job_following_id", jobIds); // ใช้ in แทน eq เพื่อระบุหลาย ID
 
-      // อัปเดตข้อมูลในฐานข้อมูล
-      const { error } = await supabase
-        .from("job_posting")
-        .update({ closed_status: newStatus })
-        .eq("id", jobId);
-
-      if (error) {
-        throw error;
+      if (candidateError) {
+        console.error("Error fetching candidates:", candidateError);
+        return;
       }
 
-      // อัปเดตสถานะของงานใน state
-      setJobs((prevJobs) =>
-        prevJobs.map((job) => {
-          if (job.id === jobId) {
-            return { ...job, closed_status: newStatus };
-          }
-          return job;
-        })
-      );
-
-      // แสดงข้อผิดพลาดถ้ามี
+      setCandidate(data || []);
+      console.log(data);
     } catch (error) {
-      console.error("Error toggling job status:", error.message);
+      console.error("Error:", error);
     }
-  };*/
+  };
 
   {
     /*keep open status*/
@@ -149,6 +141,57 @@ export default function page() {
       console.error("Error toggling job status:", error.message);
     }
   };
+  /*const toggleStatus = async (jobId, currentStatus) => {
+    try {
+      // พังก์ชันสลับสถานะ
+      const newStatus = !currentStatus;
+
+      // ถ้าค่าในคอลัม closed_status เป็น true เท่านั้น
+      if (newStatus === true) {
+        // อัปเดตค่าในคอลัม update_at เมื่อค่าในคอลัม closed_status เปลี่ยนแปลงเท่านั้น
+        const updateAt = new Date().toISOString(); // รับค่าเวลาปัจจุบัน
+        const { error } = await supabase
+          .from("job_posting")
+          .update({
+            closed_status: newStatus,
+            update_at: updateAt, // อัปเดตค่า update_at เมื่อมีการเปลี่ยนแปลงสถานะ
+          })
+          .eq("id", jobId);
+
+        if (error) {
+          throw error;
+        }
+      } else {
+        // ถ้าค่าในคอลัม closed_status เป็น false ไม่ต้องทำการอัปเดตค่าในคอลัม update_at
+        const updateAt = new Date().toISOString(); // รับค่าเวลาปัจจุบัน
+        const { error } = await supabase
+          .from("job_posting")
+          .update({
+            closed_status: newStatus,
+            update_at: updateAt, // อัปเดตค่า update_at เมื่อมีการเปลี่ยนแปลงสถานะ
+          })
+          .eq("id", jobId);
+
+        if (error) {
+          throw error;
+        }
+      }
+
+      // อัปเดตสถานะของงานใน state
+      setJobs((prevJobs) =>
+        prevJobs.map((job) => {
+          if (job.id === jobId) {
+            return { ...job, closed_status: newStatus };
+          }
+          return job;
+        })
+      );
+
+      // แสดงข้อผิดพลาดถ้ามี
+    } catch (error) {
+      console.error("Error toggling job status:", error.message);
+    }
+  };*/
 
   return (
     <>
@@ -293,25 +336,6 @@ export default function page() {
             </span>
           </label>
 
-          {/*ทดลองmanufacturing */}
-          <label className="ml-4">
-            <input
-              type="radio"
-              name="filter"
-              value="manufacturing"
-              className=" w-[12px] h-[12px] accent-pink-500"
-              onChange={(event) => {
-                setSelectOption(event.target.value);
-              }}
-            />
-            <span
-              className=" 
-            text-zinc-600 text-[14px] ml-1"
-              style={inter.style}
-            >
-              Manufacturing
-            </span>
-          </label>
           <p className="text-[20px] my-[20px]" style={montserrat}>
             {jobs.length} jobs posting found
           </p>
@@ -326,6 +350,10 @@ export default function page() {
                       ? true
                       : selectOption === "Closed"
                       ? job.closed_status === false
+                      : selectOption === "candidates on track"
+                      ? candidate.filter(
+                          (item) => item.job_following_id === job.id
+                        ).length > 0
                       : job.category.includes(selectOption);
                   })
                   .map((job) => {
@@ -382,52 +410,83 @@ export default function page() {
                                 </div>
                               </div>
                               {/* job status*/}
-                              <div className="flex flex-row   absolute top-[15px] left-[400px] text-[12px] text-[#616161]">
-                                <div className="flex flex-col justify-center items-center">
-                                  <Image
-                                    src="/mail-box.svg"
-                                    alt="mail-box-pic"
-                                    width={12.5}
-                                    height={12.5}
-                                  />
-                                  <p className="">
-                                    open on <br />{" "}
-                                    {new Date(job.update_at).toLocaleDateString(
-                                      "en-GB"
-                                    )}
-                                  </p>
-                                </div>
-                                <div className="flex flex-col items-center ml-[10px]">
-                                  <div className="flex flex-row">
-                                    <Image
-                                      src="/man-icon-black.svg"
-                                      alt="man-icon-pic"
-                                      width={12.5}
-                                      height={12.5}
-                                    />
-                                    <p className=" ml-[2px] ">5</p>
-                                  </div>
-                                  <p className="  ">
-                                    Total <br /> Candidates
-                                  </p>
-                                </div>
-                                <div className="flex flex-col items-center ml-[10px] text-[#f495b5]">
-                                  <div className="flex flex-row  ">
-                                    <Image
-                                      src="/man-icon-pink.svg"
-                                      alt="man-icon-pic"
-                                      width={12.5}
-                                      height={12.5}
-                                    />
-                                    <p className=" ml-[2px] ">3</p>
-                                  </div>
-                                  <p className="  ">
-                                    Candidates
-                                    <br />
-                                    on track
-                                  </p>
-                                </div>
-                              </div>
+
+                              {candidate.map((item) => {
+                                return (
+                                  <>
+                                    <div
+                                      className="flex flex-row   absolute top-[15px] left-[400px] text-[12px] text-[#616161]"
+                                      key={item.id}
+                                    >
+                                      <div className="flex flex-col justify-center items-center">
+                                        <Image
+                                          src="/mail-box.svg"
+                                          alt="mail-box-pic"
+                                          width={12.5}
+                                          height={12.5}
+                                        />
+                                        <p className="">
+                                          open on <br />{" "}
+                                          {new Date(
+                                            job.update_at
+                                          ).toLocaleDateString("en-GB")}
+                                        </p>
+                                      </div>
+
+                                      <div className="flex flex-col items-center ml-[10px]">
+                                        <div className="flex flex-row">
+                                          <Image
+                                            src="/man-icon-black.svg"
+                                            alt="man-icon-pic"
+                                            width={12.5}
+                                            height={12.5}
+                                          />
+                                          <p className=" ml-[2px] ">
+                                            {candidate.length || 0}
+                                          </p>
+                                        </div>
+
+                                        <p className="  ">
+                                          Total <br /> Candidates
+                                        </p>
+                                      </div>
+                                      <div className="flex flex-col items-center ml-[10px] text-[#f495b5]">
+                                        {job.closed_status ? (
+                                          <div className="flex flex-row">
+                                            <Image
+                                              src="/man-icon-pink.svg"
+                                              alt="man-icon-pic"
+                                              width={12.5}
+                                              height={12.5}
+                                            />
+                                            <p className="ml-[2px]">
+                                              {candidate.filter(
+                                                (item) =>
+                                                  item.job_following_id ===
+                                                  job.id
+                                              ).length || 0}
+                                            </p>
+                                          </div>
+                                        ) : null}
+                                        <p className="">
+                                          {job.closed_status
+                                            ? "Candidates"
+                                            : "Closed "}
+                                          <br />
+                                          {job.closed_status
+                                            ? "on track"
+                                            : "This"}
+                                          <br />
+                                          {job.closed_status
+                                            ? ""
+                                            : " Position Now"}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </>
+                                );
+                              })}
+
                               {/*button village */}
                               <div>
                                 <Link href={`/pages/jobPosting/${job.id}/show`}>
