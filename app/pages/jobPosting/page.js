@@ -476,7 +476,7 @@ export default function page() {
                                   height={24}
                                 />
                                 <p className="ml-[5px] text-[14px] text-white ">
-                                  {job.closed_status ? "close" : "closed"}
+                                  {job.closed_status ? "Close" : "Closed"}
                                 </p>
                               </button>
                             </div>
