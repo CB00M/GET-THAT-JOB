@@ -24,7 +24,7 @@ export default function page() {
 
   const fetchFindJobs = async () => {
     let { data, error } = await supabase.from("job_posting").select("*");
-
+    console.log(data);
     if (error || !data) {
       console.log("error:", error);
     }
@@ -44,9 +44,21 @@ export default function page() {
   const handleSelectJobType = (event) => {
     setSelectedJobType(event.target.value);
   };
+  // ดึงรูปภาพโลโก้จาก recruiterUsers
+  // const getLogoCompany = async () => {
+  //   let { data, error } = await supabase.from("job_posting").select(`
+  //   *,
+  //   Recruiterusers(*)
+  // `);
+  //   console.log(data);
+  //   if (error) {
+  //     console.log("ดึงไฟล์รูปไม่ได้", error);
+  //   }
+  // };
 
   useEffect(() => {
     fetchFindJobs();
+    //getLogoCompany();
   }, []);
 
   //logout
@@ -54,6 +66,7 @@ export default function page() {
     handleLogout();
     alert("You have been logged out.");
   };
+
   return (
     <>
       <div className="w-full h-[1050px] bg-neutral-100  items-start inline-flex">
@@ -271,7 +284,7 @@ export default function page() {
                   maxRangeMatch
                 );
               }).length
-            }{" "}
+            }
             jobs for you
           </p>
           <div className="flex flex-wrap gap-5 mt-3">

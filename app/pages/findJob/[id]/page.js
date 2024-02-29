@@ -19,6 +19,7 @@ export default function post({ params }) {
   const supabase = createClient();
 
   const [job, setJob] = useState([]);
+
   // ดึงข้อมูลบริษัท
   const [companyData, setCompanyData] = useState([]);
 
