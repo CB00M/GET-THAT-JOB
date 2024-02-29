@@ -57,6 +57,9 @@ export default function post({ params }) {
     }
   }, [job.company_email]); // ให้เรียกใช้ getAboutCompany เมื่อมีการเปลี่ยนแปลง job.company_email
 
+  console.log("job company", job.company_email);
+  console.log("company data", companyData);
+
   return (
     <>
       <div
