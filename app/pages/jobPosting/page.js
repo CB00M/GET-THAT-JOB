@@ -58,7 +58,7 @@ export default function page() {
 
       fetchJobs();
     }
-  }, [companyEmail, keepDataD]);
+  }, [userEmail, keepDataD]);
 
   //logout
   const handleLogoutClick = () => {
