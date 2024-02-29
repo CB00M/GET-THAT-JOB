@@ -86,24 +86,17 @@ export default function page() {
                 </div>
               </div>
             </Link>
-            <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
-              <img className="w-[24px] h-[24px]" src="/images/following.png" />
-              <div
-                className="grow shrink basis-0 text-zinc-600 leading-normal"
-                style={inter.style}
-              >
-                Following
+            <Link href={"/pages/editProfileProfessional"}>
+              <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
+                <img className="w-[24px] h-[24px]" src="/images/profile.png" />
+                <div
+                  className="grow text-zinc-600 leading-normal"
+                  style={inter.style}
+                >
+                  Profile
+                </div>
               </div>
-            </div>
-            <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
-              <img className="w-[24px] h-[24px]" src="/images/profile.png" />
-              <div
-                className="grow text-zinc-600 leading-normal"
-                style={inter.style}
-              >
-                Profile
-              </div>
-            </div>
+            </Link>
             <div className="w-60 px-4 py-3 bg-neutral-200 justify-start items-start gap-2 inline-flex">
               <img className="w-[24px] h-[24px]" src="/images/logout.png" />
               <div

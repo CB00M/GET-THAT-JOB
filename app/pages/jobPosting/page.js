@@ -114,29 +114,34 @@ export default function page() {
                 alt="logo-get-that-job"
               />
             </div>
-            <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-100 justify-center items-center flex">
-              <Image src="/images/job-posting-pic.svg" width={22} height={22} />
-              <div
-                className="grow text-zinc-600 leading-normal"
-                style={inter.style}
-              >
-                Job Posting
+            <Link href={"/GET-THAT-JOB/app/pages/jobPosting"}>
+              <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-100 justify-center items-center flex">
+                <Image
+                  src="/images/job-posting-pic.svg"
+                  width={22}
+                  height={22}
+                />
+                <div
+                  className="grow text-zinc-600 leading-normal"
+                  style={inter.style}
+                >
+                  Job Posting
+                </div>
               </div>
-            </div>
-            <Link
-              href={`/pages/createNewJobPosting`}
-              className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex"
-            >
-              <Image
-                src="/images/create-new-job-pic.svg"
-                width={18}
-                height={20}
-              />
-              <div
-                className="grow text-neutral-700 leading-normal"
-                style={inter.style}
-              >
-                Create New Job
+            </Link>
+            <Link href={`/pages/createNewJobPosting`}>
+              <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
+                <Image
+                  src="/images/create-new-job-pic.svg"
+                  width={18}
+                  height={20}
+                />
+                <div
+                  className="grow text-neutral-700 leading-normal"
+                  style={inter.style}
+                >
+                  Create New Job
+                </div>
               </div>
             </Link>
             <Link href={`/pages/editProfileRecruiter`}>
