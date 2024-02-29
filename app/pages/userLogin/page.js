@@ -21,11 +21,6 @@ import {
 const montserrat = Montserrat({ subsets: ["latin"] });
 const inter = Inter({ weight: "400", preload: false });
 
-// const supabase = createClient(
-//   "https://xldcnixdyucdznvziubx.supabase.co",
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhsZGNuaXhkeXVjZHpudnppdWJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDY3MDEzMzEsImV4cCI6MjAyMjI3NzMzMX0.8oPe4EzhETnEG_9YloGRei_hoMNqEsd53SHAUg8LCRw"
-// );
-
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -129,13 +124,9 @@ function LoginPage() {
               onChange={handlePassword}
               required
             />
-
-            <Link href={"/pages/findJob"}>
-              <button className="p-2 w-20 h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm">
-                LOGIN
-              </button>
-            </Link>
-
+            <button className="p-2 w-20 h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm">
+              LOGIN
+            </button>
           </div>
         </form>
         <div>
