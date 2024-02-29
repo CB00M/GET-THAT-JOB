@@ -150,7 +150,7 @@ export default function page() {
 
   return (
     <>
-      <div className="w-full h-[900px] bg-neutral-100  items-start inline-flex">
+      <div className="w-full h-[1300px] bg-neutral-100  items-start inline-flex">
         {/*nav bar */}
         <div className="self-stretch py-8 bg-neutral-200 flex-col justify-between items-start inline-flex">
           <div className="flex-col justify-start items-start flex">

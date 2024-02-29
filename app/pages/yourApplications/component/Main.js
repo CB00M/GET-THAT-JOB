@@ -116,7 +116,7 @@ let Main = () => {
 
   return (
     <>
-      <div className=" py-[10px] px-[20px] ml-[150px] ">
+      <div className=" py-[10px] px-[20px] ml-[150px] h-full ">
         <p
           className=" py-[10px]  text-neutral-700 text-[34px] "
           style={montserrat.style}
@@ -207,9 +207,9 @@ let Main = () => {
               return (
                 <div key={job.id}>
                   {/*Job title*/}
-                  <div className="border border-slate-300 shadow-lg shadow-slate-300 rounded-lg bg-white w-[944px]">
+                  <div className=" w-[944px] mt-4">
                     <AccordionItem
-                      className="mt-4 rounded-lg "
+                      className="mt-4 pt-4 border border-slate-300 shadow-lg shadow-slate-300 rounded-lg bg-white"
                       style={montserrat.style}
                     >
                       <h2>
