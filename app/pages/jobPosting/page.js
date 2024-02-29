@@ -28,37 +28,16 @@ export default function page() {
   const keepDataD = JSON.parse(localStorage.getItem("keepData"));
   const email = keepDataD?.email || "";
 
-  useEffect(() => {
-    if (email) {
-      setCompanyEmail(email);
-    }
-  }, [email]);
-
   console.log(companyEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
 
   useEffect(() => {
-    if (keepDataD) {
-      const fetchJobs = async () => {
-        try {
-          const { data, error } = await supabase
-            .from("job_posting")
-            .select("*")
-            .eq("company_email", companyEmail);
-
-          if (error) {
-            console.error("error", error);
-            return;
-          }
-
-          setJobs(data || []);
-        } catch (error) {
-          console.error("error", error);
-        }
-      };
-
-      fetchJobs();
+    if (companyEmail) {
+      fetchJobs(companyEmail);
     }
-  }, [companyEmail, keepDataD]);
+    if (email) {
+      setCompanyEmail(email);
+    }
+  }, [companyEmail]);
 
   //logout
   const handleLogoutClick = () => {
@@ -66,8 +45,28 @@ export default function page() {
     alert("You have been logged out.");
   };
 
+  // ดึงข้อมูล
+  const fetchJobs = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("job_posting")
+        .select("*")
+        .eq("company_email", companyEmail)
+        .order("closed_status", { ascending: false }); // จัดเรียงตาม closed_status
+
+      if (error) {
+        console.error("error", error);
+        return;
+      }
+
+      setJobs(data || []);
+    } catch (error) {
+      console.error("error", error);
+    }
+  };
+
   //toggle
-  const toggleStatus = async (jobId, currentStatus) => {
+  /* const toggleStatus = async (jobId, currentStatus) => {
     try {
       // พังก์ชันสลับสถานะ
       const newStatus = !currentStatus;
@@ -80,6 +79,59 @@ export default function page() {
 
       if (error) {
         throw error;
+      }
+
+      // อัปเดตสถานะของงานใน state
+      setJobs((prevJobs) =>
+        prevJobs.map((job) => {
+          if (job.id === jobId) {
+            return { ...job, closed_status: newStatus };
+          }
+          return job;
+        })
+      );
+
+      // แสดงข้อผิดพลาดถ้ามี
+    } catch (error) {
+      console.error("Error toggling job status:", error.message);
+    }
+  };*/
+
+  {
+    /*keep open status*/
+  }
+  const toggleStatus = async (jobId, currentStatus) => {
+    try {
+      // พังก์ชันสลับสถานะ
+      const newStatus = !currentStatus;
+
+      // ถ้าค่าในคอลัม closed_status เป็น true เท่านั้น
+      if (newStatus === true) {
+        // อัปเดตค่าในคอลัม update_at เมื่อค่าในคอลัม closed_status เปลี่ยนแปลงเท่านั้น
+        const updateAt = new Date().toISOString(); // รับค่าเวลาปัจจุบัน
+        const { error } = await supabase
+          .from("job_posting")
+          .update({
+            closed_status: newStatus,
+            update_at: updateAt, // อัปเดตค่า update_at เมื่อมีการเปลี่ยนแปลงสถานะ
+          })
+          .eq("id", jobId);
+
+        if (error) {
+          throw error;
+        }
+      } else {
+        // ถ้าค่าในคอลัม closed_status เป็น false ไม่ต้องทำการอัปเดตค่าในคอลัม update_at
+        const { error } = await supabase
+          .from("job_posting")
+          .update({
+            closed_status: newStatus,
+          })
+          .eq("id", jobId);
+
+        if (error) {
+          throw error;
+        }
       }
 
       // อัปเดตสถานะของงานใน state
@@ -114,34 +166,29 @@ export default function page() {
                 alt="logo-get-that-job"
               />
             </div>
-            <Link href={"/GET-THAT-JOB/app/pages/jobPosting"}>
-              <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-100 justify-center items-center flex">
-                <Image
-                  src="/images/job-posting-pic.svg"
-                  width={22}
-                  height={22}
-                />
-                <div
-                  className="grow text-zinc-600 leading-normal"
-                  style={inter.style}
-                >
-                  Job Posting
-                </div>
+            <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-100 justify-center items-center flex">
+              <Image src="/images/job-posting-pic.svg" width={22} height={22} />
+              <div
+                className="grow text-zinc-600 leading-normal"
+                style={inter.style}
+              >
+                Job Posting
               </div>
-            </Link>
-            <Link href={`/pages/createNewJobPosting`}>
-              <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
-                <Image
-                  src="/images/create-new-job-pic.svg"
-                  width={18}
-                  height={20}
-                />
-                <div
-                  className="grow text-neutral-700 leading-normal"
-                  style={inter.style}
-                >
-                  Create New Job
-                </div>
+            </div>
+            <Link
+              href={`/pages/createNewJobPosting`}
+              className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex"
+            >
+              <Image
+                src="/images/create-new-job-pic.svg"
+                width={18}
+                height={20}
+              />
+              <div
+                className="grow text-neutral-700 leading-normal"
+                style={inter.style}
+              >
+                Create New Job
               </div>
             </Link>
             <Link href={`/pages/editProfileRecruiter`}>
@@ -265,6 +312,9 @@ export default function page() {
               Manufacturing
             </span>
           </label>
+          <p className="text-[20px] my-[20px]" style={montserrat}>
+            {jobs.length} jobs posting found
+          </p>
 
           <div id="Accordion" className=" w-[944px] ">
             <Accordion allowToggle>
@@ -341,7 +391,10 @@ export default function page() {
                                     height={12.5}
                                   />
                                   <p className="">
-                                    open on <br /> 07/11/20
+                                    open on <br />{" "}
+                                    {new Date(job.update_at).toLocaleDateString(
+                                      "en-GB"
+                                    )}
                                   </p>
                                 </div>
                                 <div className="flex flex-col items-center ml-[10px]">

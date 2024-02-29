@@ -10,7 +10,7 @@ const montserrat = Montserrat({ subsets: ["latin"] });
 export default function page() {
   return (
     <>
-      <div className="w-full h-[900px] bg-neutral-100  items-start inline-flex">
+      <div className="w-full h-full bg-neutral-100  items-start inline-flex">
         {/*Sidebar */}
         <Sidebarr />
         {/*your application */}

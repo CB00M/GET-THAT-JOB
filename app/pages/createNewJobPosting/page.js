@@ -38,7 +38,7 @@ export default function page() {
   console.log(companyEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
 
   const handleSubmit = async (event) => {
-    event.prevent.default();
+    //event.prevent.default();
     try {
       // เก็บข้อมูลลงในตัวแปรในรูปแบบของ JSON object
       const data = {
@@ -52,6 +52,8 @@ export default function page() {
         optionalRequier: optionalRequier,
         //ใส่ข้อมูลidคนlogin
         company_email: companyEmail,
+        // กำหนดค่า update_at ให้เป็นเวลาปัจจุบัน
+        update_at: new Date().toISOString(), // เปลี่ยนเป็นค่าเริ่มต้นที่ต้องการตามความเหมาะสม
       };
 
       // เรียกใช้งานฟังก์ชัน insert() เพื่อเพิ่มข้อมูลลงในตาราง job_posting
@@ -68,7 +70,6 @@ export default function page() {
       console.error("Error inserting job posting:", error.message);
     }
   };
-
   //logout
   const handleLogoutClick = () => {
     handleLogout();

@@ -15,7 +15,7 @@ let Sidebarr = () => {
   };
   return (
     <>
-      <div className="self-stretch py-8 bg-neutral-200 flex-col justify-between items-start inline-flex">
+      <div className="self-stretch py-8 bg-neutral-200 flex-col justify-between items-start inline-flex h-[1000px]">
         <div className="flex-col justify-start items-start flex">
           <div className="px-4 pb-[32px] flex-col justify-center items-start flex">
             <img className="w-[136px] h-10" src="/images/gtj-logo.png" />
