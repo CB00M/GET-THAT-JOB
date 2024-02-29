@@ -48,10 +48,10 @@ let Main = () => {
   }, [email]); // เพิ่ม userEmail เป็น dependency ที่ useEffect นี้
 
   useEffect(() => {
-    if (keepUserDataD) {
-      fetchApplication(keepUserDataD);
+    if (userEmail) {
+      fetchApplication(userEmail);
     }
-  }, [keepUserDataD, userEmail]); // เพิ่ม userEmail เป็น dependency ที่ useEffect นี้
+  }, [userEmail]); // เพิ่ม userEmail เป็น dependency ที่ useEffect นี้
 
   useEffect(() => {
     if (application.length > 0) {
