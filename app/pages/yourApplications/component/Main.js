@@ -121,6 +121,33 @@ let Main = () => {
     setSelectedFilter(event.target.value);
   };
 
+  //กดยกเลิกสมัครงาน
+  const toggleStatus = async (candidateId, currentStatus) => {
+    try {
+      // พังก์ชันสลับสถานะ
+      if (currentStatus !== "Decline") {
+        // อัปเดตข้อมูลในฐานข้อมูล
+        const { data } = await supabase
+          .from("your_applications")
+          .update({ review_status: "Decline" })
+          .eq("id", candidateId);
+        fetchApplication();
+        console.log("status1", data);
+      } else if (currentStatus === "Decline") {
+        const { data } = await supabase
+          .from("your_applications")
+          .update({ review_status: "Waiting for review" })
+          .eq("id", candidateId);
+        fetchApplication();
+        console.log("status2", data);
+      }
+
+      // แสดงข้อผิดพลาดถ้ามี
+    } catch (error) {
+      console.error("Error toggling job status:", error.message);
+    }
+  };
+
   return (
     <>
       <div className=" py-[10px] px-[20px] ml-[150px] h-full ">
@@ -194,11 +221,11 @@ let Main = () => {
             <span>
               <input
                 type="radio"
-                id="declined"
+                id="decline"
                 name="filter-your-applications"
-                value="declined"
+                value="decline"
                 className="scale-150 mr-[6px] relative top-[2px] accent-pink-500"
-                checked={selectedFilter === "declined"}
+                checked={selectedFilter === "decline"}
                 onChange={handleFilterChange}
               />
               Declined
@@ -222,16 +249,35 @@ let Main = () => {
           <Accordion allowToggle>
             {jobs &&
               jobs
-                .filter((application) => {
+                //กรองเอา id งาน ตรงกับ id คน login แล้วเช็ค สถานะ
+                .filter((job) => {
                   return selectedFilter === "all"
                     ? true
                     : selectedFilter === "waiting"
-                    ? application.review_status === "Waiting for review"
+                    ? application.some(
+                        (item) =>
+                          item.job_following_id === job.id &&
+                          item.review_status === "Waiting for review"
+                      )
                     : selectedFilter === "in-progress"
-                    ? application.review_status === "Review in progress"
+                    ? application.some(
+                        (item) =>
+                          item.job_following_id === job.id &&
+                          item.review_status === "Review in progress"
+                      )
                     : selectedFilter === "finished"
-                    ? application.review_status === "Review finished"
-                    : null;
+                    ? application.some(
+                        (item) =>
+                          item.job_following_id === job.id &&
+                          item.review_status === "Review finished"
+                      )
+                    : selectedFilter === "decline"
+                    ? application.some(
+                        (item) =>
+                          item.job_following_id === job.id &&
+                          item.review_status === "Decline"
+                      )
+                    : false;
                 })
                 .map((job) => {
                   return (
@@ -385,7 +431,16 @@ let Main = () => {
                                         height={20}
                                         className="absolute left-[14px] top-[6px]"
                                       />
-                                      <button className="  text-white absolute   text-[14px]  left-[50px] top-[10px]   uppercase ">
+                                      <button
+                                        className="  text-white absolute   text-[14px]  left-[50px] top-[10px]   uppercase "
+                                        onClick={(event) => {
+                                          event.preventDefault();
+                                          toggleStatus(
+                                            app.id,
+                                            app.review_status
+                                          );
+                                        }}
+                                      >
                                         decline application
                                       </button>
                                     </div>
