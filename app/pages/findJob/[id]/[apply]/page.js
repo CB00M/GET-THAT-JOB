@@ -37,7 +37,7 @@ export default function ApplyPage({ params }) {
   const keepUserDataD = JSON.parse(localStorage.getItem("keepUserData"));
   const email = keepUserDataD?.email || "";
 
-  //const [uploadCV, setUploadCV] = useState(false);
+  const [uploadCV, setUploadCV] = useState(false);
 
   /*async function getDetailJob() {
     let { data, error } = await supabase
@@ -47,7 +47,7 @@ export default function ApplyPage({ params }) {
     if (error || !data) {
       console.log("error:", error);
     }
-    setJob(data[0]);
+    setJobs(data[0]);
   }
 
   useEffect(() => {
@@ -385,6 +385,7 @@ export default function ApplyPage({ params }) {
                     id="all"
                     name="filter-your-candidates"
                     className="scale-150 mr-[6px] relative top-[2px] accent-pink-500"
+                    onClick={() => setUploadCV(!uploadCV)}
                   />
                   Use current CV
                 </span>
@@ -394,6 +395,7 @@ export default function ApplyPage({ params }) {
                     id="waiting"
                     name="filter-your-candidates"
                     className="scale-150 mr-[6px] relative top-[2px] accent-pink-500"
+                    onClick={() => setUploadCV(true)}
                   />
                   Upload new CV
                 </span>
@@ -401,29 +403,31 @@ export default function ApplyPage({ params }) {
             </div>
 
             {/* Upload CV Button */}
-
-            <div>
-              <div className="relative flex pt-[10px]">
-                <Image
-                  src="/upload-icon.png"
-                  width={20}
-                  height={20}
-                  alt="arrow"
-                  className="absolute left-[10px] top-[8px] pt-[10px]"
-                />
-                <input
-                  type="file"
-                  name="newCV"
-                  className="customfile text-sm "
-                />
+            {uploadCV && (
+              <div>
+                <div className="relative flex pt-[10px]">
+                  <Image
+                    src="/upload-icon.png"
+                    width={20}
+                    height={20}
+                    alt="arrow"
+                    className="absolute left-[10px] top-[8px] pt-[10px]"
+                  />
+                  <input
+                    type="file"
+                    name="newCV"
+                    className="customfile text-sm "
+                  />
+                </div>
+                <p
+                  className="text-[12px] text-[#8E8E8E] pt-[5px] tracking-wider"
+                  style={inter.style}
+                >
+                  Only PDF.Max size 5MB
+                </p>
               </div>
-              <p
-                className="text-[12px] text-[#8E8E8E] pt-[5px] tracking-wider"
-                style={inter.style}
-              >
-                Only PDF.Max size 5MB
-              </p>
-            </div>
+            )}
+
             {/* Upload CV Button จบ*/}
             {/* ส่วนของข้อมูลผู้ใช้ */}
             {userData.map((user) => {

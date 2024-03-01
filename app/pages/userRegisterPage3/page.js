@@ -2,7 +2,7 @@
 import Image from "next/image";
 import "tailwindcss/tailwind.css";
 import Header from "@/app/components/Navbar/Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import { register } from "./api/action";
 import Link from "next/link.js";
@@ -10,10 +10,12 @@ import "../../globals.css";
 import { useContext } from "react";
 import { ProfessionalContext } from "@/app/context/professionalContext";
 import { useFormState } from "react-dom";
+import { useRouter } from "next/navigation";
 
 const initialState = { success: false, message: null };
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [state, formAction] = useFormState(register, initialState);
   const { email, password, name, phoneNumber, birthdate, linkedin } =
     useContext(ProfessionalContext);
@@ -25,6 +27,10 @@ export default function RegisterPage() {
     setTitle(title);
     setExperience(experience);
     setEducation(education);
+
+    setTimeout(() => {
+      router.push("/pages/userLogin");
+    }, 6000);
   };
 
   return (
@@ -189,7 +195,6 @@ export default function RegisterPage() {
                 className="absolute right-[2px] bottom-[10px]"
               />
             </button>
-
             <button
               onClick={handleSubmit}
               type="submit"
@@ -202,15 +207,16 @@ export default function RegisterPage() {
                 height={20}
                 alt="arrow"
                 className="absolute right-[2px] bottom-[10px]"
-              />{" "}
+              />
             </button>
+
             {state.message && (
-              <div className="bg-red-500 p-4 w-28 rounded-xl">
+              <div className="bg-red-500 text-white ml-32  p-4 w-fit rounded-xl">
                 Error:{state.message}
               </div>
             )}
             {state.success && (
-              <div className="bg-green-500 p-4 w-28 rounded-xl">
+              <div className="bg-green-600 text-white ml-32 p-4 w-28 rounded-xl">
                 Register Successful
               </div>
             )}
