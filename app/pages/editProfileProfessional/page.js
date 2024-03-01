@@ -343,9 +343,9 @@ export default function page() {
                   >
                     PROFESSIONAL EXPERIENCE
                   </p>
-                  <input
-                    name="PROFESSIONAL EXPERIENCE"
-                    className="w-[760px] h-[272px] rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2  "
+                  <textarea
+                    name="EXPERIENCE"
+                    className="w-[760px] h-[272px] rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2 p-2 "
                     type="text"
                     placeholder=""
                     value={item.experience}
@@ -358,9 +358,9 @@ export default function page() {
                   >
                     EDUCATION
                   </p>
-                  <input
+                  <textarea
                     name="EDUCATION"
-                    className="w-[760px] h-[132px]  rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2  "
+                    className="w-[760px] h-[132px]  rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2 p-2 "
                     type="text"
                     placeholder=""
                     value={item.education}
