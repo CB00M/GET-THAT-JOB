@@ -25,7 +25,7 @@ export default function page() {
     setUserEmail(email);
   }, []);
 
-  console.log(userEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
+  //console.log(userEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
 
   //fetchข้อมูลcompany
 
@@ -102,6 +102,7 @@ export default function page() {
       if (error) {
         console.error("Error uploading CV:", error.message);
       } else {
+        setCvFile(data);
         console.log("CV uploaded successfully:", data);
         // ทำตามกระบวนการที่ต้องการหลังจากอัปโหลดเสร็จ
       }
@@ -110,7 +111,7 @@ export default function page() {
     }
   };
 
-  // const handleInputChange = (e, id) => {
+  //const handleInputChange = (e, id) => {
   //   const { name, value } = e.target;
 
   //   const updatedProfile = profile.map((item) => {
@@ -238,14 +239,9 @@ export default function page() {
                   >
                     EMAIL
                   </p>
-                  <input
-                    name="EMAIL"
-                    className="w-[389px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2  "
-                    type="text"
-                    placeholder=""
-                    value={item.email}
-                    onChange={(e) => handleInputChange(e, item.id)}
-                  />
+                  <p className="w-[389px] h-9 rounded-lg text-neutral-700 py-1 ">
+                    {item.email}
+                  </p>
                   <p
                     className=" pt-[10px]
         text-[10px] tracking-widest"
@@ -273,7 +269,7 @@ export default function page() {
                     className="w-[389px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2  "
                     type="number"
                     placeholder=""
-                    value={item.phone}
+                    value={item.phonenumber}
                     onChange={(e) => handleInputChange(e, item.id)}
                   />
                   <p
@@ -348,7 +344,7 @@ export default function page() {
                     PROFESSIONAL EXPERIENCE
                   </p>
                   <input
-                    name="TITLE"
+                    name="PROFESSIONAL EXPERIENCE"
                     className="w-[760px] h-[272px] rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2  "
                     type="text"
                     placeholder=""
@@ -363,7 +359,7 @@ export default function page() {
                     EDUCATION
                   </p>
                   <input
-                    name="TITLE"
+                    name="EDUCATION"
                     className="w-[760px] h-[132px]  rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2  "
                     type="text"
                     placeholder=""

@@ -199,7 +199,7 @@ export default function page() {
           </div>
         </div>
         {/* main */}
-        <div className="w-[1000px] h-[900px] py-[10px] px-[20px] ml-[150px] border border-black">
+        <div className="w-[1000px] h-[900px] py-[10px] px-[20px] ml-[150px] ">
           {/* Profile */}
           {Array.isArray(profile) &&
             profile.map((item) => {
@@ -214,7 +214,7 @@ export default function page() {
                   {/* Company logo */}
                   <div>
                     <div>
-                      <img />
+                      <Image />
                     </div>
                     <div>
                       <p
@@ -222,7 +222,7 @@ export default function page() {
               text-[10px] "
                         style={inter.style}
                       >
-                        COMPANY LOCO
+                        COMPANY LOGO
                       </p>
                       <div className="relative">
                         <Image
@@ -238,7 +238,12 @@ export default function page() {
                           className="customfile text-sm  "
                         />
                       </div>
-                      <p>PNG, JPEG, IMG</p>
+                      <p
+                        style={inter.style}
+                        className="text-[12px] text-[#8E8E8E]"
+                      >
+                        PNG, JPEG, IMG
+                      </p>
                     </div>
                     {/* company email */}
                     <p
