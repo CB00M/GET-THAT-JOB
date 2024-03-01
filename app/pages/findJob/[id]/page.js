@@ -19,6 +19,7 @@ export default function post({ params }) {
   const supabase = createClient();
 
   const [job, setJob] = useState([]);
+  const [logoCompany, setLogoCompany] = useState("");
 
   // ดึงข้อมูลบริษัท
   const [companyData, setCompanyData] = useState([]);
@@ -28,13 +29,28 @@ export default function post({ params }) {
       .from("Recruiterusers")
       .select("*")
       .eq("email", job.company_email);
+
     if (error || !data) {
       console.log("error:", error);
       NotFound(); // แก้เป็น router.push("/404") หรือหน้าที่เหมาะสมสำหรับการแสดงผลเมื่อไม่พบข้อมูลบริษัท
     }
-
     setCompanyData(data);
   };
+
+  const getLogoCompany = () => {
+    let { publicURL, error } = supabase
+      .from("Recruiterusers")
+      .getPublicUrl("companyLogo");
+    console.log(publicURL);
+    if (error) {
+      console.log("ดึงรูปไม่ได้", error);
+    }
+    setLogoCompany(publicURL);
+  };
+
+  useEffect(() => {
+    getLogoCompany();
+  }, []);
 
   const getDetailJob = async () => {
     let { data, error } = await supabase
@@ -85,11 +101,7 @@ export default function post({ params }) {
                 <div>
                   <header className="flex justify-between items-center">
                     <div className="flex gap-2">
-                      <Image
-                        src="/images/logo-web/Web-logo.svg"
-                        width={80}
-                        height={80}
-                      ></Image>
+                      <Image src="" width={80} height={80}></Image>
                       <div className="flex flex-col tracking-wide">
                         <h2 className="text-2xl">{item.company}</h2>
 
