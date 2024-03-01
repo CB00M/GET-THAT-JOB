@@ -38,20 +38,20 @@ export default function post({ params }) {
     setCompanyData(data);
   };
 
-  const getLogoCompany = () => {
-    let { publicURL, error } = supabase
-      .from("Recruiterusers")
-      .getPublicUrl("companyLogo");
-    console.log(publicURL);
-    if (error) {
-      console.log("ดึงรูปไม่ได้", error);
-    }
-    setLogoCompany(publicURL);
-  };
+  // const getLogoCompany = () => {
+  //   let { publicURL, error } = supabase
+  //     .from("Recruiterusers")
+  //     .getPublicUrl("companyLogo");
+  //   console.log(publicURL);
+  //   if (error) {
+  //     console.log("ดึงรูปไม่ได้", error);
+  //   }
+  //   setLogoCompany(publicURL);
+  // };
 
-  useEffect(() => {
-    getLogoCompany();
-  }, []);
+  // useEffect(() => {
+  //   getLogoCompany();
+  // }, []);
 
   const getDetailJob = async () => {
     let { data, error } = await supabase
