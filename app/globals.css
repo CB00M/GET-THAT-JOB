@@ -26,6 +26,10 @@ body {
 }
 
 .customfile::-webkit-file-upload-button:hover {
-  background-color: #bf5f82;
+  background-color: rgb(236 72 153);
   color: white;
+}
+
+.content-word {
+  max-width: 13ch;
 }

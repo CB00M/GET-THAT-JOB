@@ -6,10 +6,12 @@ import { Montserrat } from "next/font/google";
 import { useState, useContext } from "react";
 import Link from "next/link";
 import { ProfessionalContext } from "@/app/context/professionalContext";
+import { useRouter } from "next/navigation";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export default function RegisterPage2() {
+  const router = useRouter();
   const { addName, addPhoneNumber, addBirthdate, addLinkedin } =
     useContext(ProfessionalContext);
   const [name, setName] = useState("");
@@ -22,13 +24,15 @@ export default function RegisterPage2() {
     addPhoneNumber(phoneNumber);
     addBirthdate(birthdate);
     addLinkedin(linkedin);
+
+    router.push("/pages/userRegisterPage3");
   };
 
   return (
     <>
       <Header />
       <div className="wrapper ml-[400px] mb-[100px] relative mt-8 ">
-        <h1 className="text-[48px] mb-4 " style={montserrat.style}>
+        <h1 className="text-[48px] mb-4" style={montserrat.style}>
           Good choice!
         </h1>
         <h2 className="text-[20px] mb-8" style={montserrat.style}>
@@ -37,14 +41,17 @@ export default function RegisterPage2() {
         <div className="status-user text-[14px] flex gap-[6px] mb-[36px]">
           <div className="mr-1">
             <p style={montserrat.style}>PROFESSIONAL</p>
-            <hr className="w-[112px] border-b-[1px] border-[#F48FB1] " />
+            <hr className="w-[112px] border-b-[3px] border-[#F48FB1] " />
           </div>
           <div>
             <Link href="/pages/recruiterRegisterPage1">
-              <p className="text-[#bdbdbd]" style={montserrat.style}>
+              <p
+                className="text-[#bdbdbd] hover:text-black"
+                style={montserrat.style}
+              >
                 RECRUITER
               </p>
-              <hr className="w-[83px] border-b-[1px] border-[#bdbdbd]" />
+              <hr className="w-[83px] border-b-[3px] border-[#bdbdbd]" />
             </Link>
           </div>
         </div>
@@ -179,38 +186,30 @@ export default function RegisterPage2() {
             style={montserrat.style}
           />
         </div>
-        <div className="w-[350px] flex   items-center justify-center ">
-          <Link
-            href={{
-              pathname: "/pages/userRegisterPage3",
-            }}
+        <div className="w-[350px] ml-20">
+          <button
             type="submit"
+            onClick={setStateContext}
             className="p-2 w-[100px] h-10  border border-[#F48FB1] mt-4 mx-2 rounded-2xl text-sm hover:bg-[#FFC1E3]"
             style={montserrat.style}
           >
             SKIP THIS!
-          </Link>
+          </button>
 
-          <Link
-            href={{
-              pathname: "/pages/userRegisterPage3",
-            }}
+          <button
+            onClick={setStateContext}
+            type="submit"
+            className="p-2 w-20 h-10 bg-[#F48FB1] hover:bg-pink-500 active:bg-pink-700 text-white mt-4 ml-auto rounded-2xl text-sm relative "
           >
-            <button
-              onClick={setStateContext}
-              type="submit"
-              className="p-2 w-20 h-10  bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
-            >
-              NEXT
-              <Image
-                src="/arrow-right.png"
-                width={20}
-                height={20}
-                alt="arrow"
-                className="absolute right-[2px] bottom-[10px]"
-              />
-            </button>
-          </Link>
+            NEXT
+            <Image
+              src="/arrow-right.png"
+              width={20}
+              height={20}
+              alt="arrow"
+              className="absolute right-[4px] bottom-[10px]"
+            />
+          </button>
         </div>
         <Image
           src="/woman.png"

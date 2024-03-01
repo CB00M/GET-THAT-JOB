@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Montserrat, Inter } from "next/font/google";
 import "tailwindcss/tailwind.css";
+import "../../globals.css";
 import Image from "next/image";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
@@ -341,7 +342,7 @@ export default function page() {
                         </p>
                         <p
                           style={montserrat.style}
-                          className="text-xl font-medium"
+                          className="content-word overflow-hidden whitespace-nowrap text-ellipsis text-xl font-medium"
                         >
                           {item.title}
                         </p>
@@ -379,18 +380,9 @@ export default function page() {
                         </div>
                       </div>
                     </div>
-                    <div className="flex justify-center items-center gap-5 mt-3 font-medium text-[#616161] h-10">
-                      <button className="flex items-center gap-3 active:text-[#BF5F82]">
-                        <Image
-                          src="/images/logo-web/Vector.svg"
-                          alt="logoweb"
-                          width={22}
-                          height={22}
-                        ></Image>
-                        FOLLOW
-                      </button>
+                    <div className="flex justify-center items-center  mt-3 font-medium text-[#616161] h-10">
                       <button
-                        className="w-28 rounded-3xl p-1 border-2 border-[#F48FB1] hover:bg-[#BF5F82] hover:text-white active:bg-[#FFC1E3] text-[14px]"
+                        className=" w-28 rounded-3xl p-1 border-2 border-[#F48FB1] hover:bg-[#BF5F82] hover:text-white active:bg-[#FFC1E3] text-[14px]"
                         onClick={() => {
                           router.push(`/pages/findJob/${item.id}`);
                         }}
