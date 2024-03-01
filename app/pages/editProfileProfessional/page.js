@@ -265,13 +265,19 @@ export default function page() {
                     PHONE
                   </p>
                   <input
-                    name="PHONE"
+                    name="PHONENUMBER"
                     className="w-[389px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2  "
                     type="number"
                     placeholder=""
                     value={item.phonenumber}
                     onChange={(e) => handleInputChange(e, item.id)}
                   />
+                  <div
+                    className="text-neutral-400 text-xs font-normal font-['Inter'] leading-none tracking-wide mt-1"
+                    style={montserrat.style}
+                  >
+                    +[country code][number]
+                  </div>
                   <p
                     className=" pt-[10px]
         text-[10px] tracking-widest"
@@ -287,12 +293,6 @@ export default function page() {
                     value={item.birthdate}
                     onChange={(e) => handleInputChange(e, item.id)}
                   />
-                  <div
-                    className="text-neutral-400 text-xs font-normal font-['Inter'] leading-none tracking-wide mt-1"
-                    style={montserrat.style}
-                  >
-                    +[country code][number]
-                  </div>
                   <p
                     className=" pt-[10px]
       text-[10px] tracking-widest"
@@ -301,7 +301,7 @@ export default function page() {
                     LINKEDIN URL
                   </p>
                   <input
-                    name="LINKEDIN URL"
+                    name="LINKEDIN"
                     className="w-[389px] h-9 rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2  "
                     type="text"
                     placeholder=""
@@ -343,9 +343,9 @@ export default function page() {
                   >
                     PROFESSIONAL EXPERIENCE
                   </p>
-                  <input
-                    name="PROFESSIONAL EXPERIENCE"
-                    className="w-[760px] h-[272px] rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2  "
+                  <textarea
+                    name="EXPERIENCE"
+                    className="w-[760px] h-[272px] rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2 p-2 "
                     type="text"
                     placeholder=""
                     value={item.experience}
@@ -358,9 +358,9 @@ export default function page() {
                   >
                     EDUCATION
                   </p>
-                  <input
+                  <textarea
                     name="EDUCATION"
-                    className="w-[760px] h-[132px]  rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2  "
+                    className="w-[760px] h-[132px]  rounded-lg text-neutral-700  border-2 border-[#F48FB1] pl-2 p-2 "
                     type="text"
                     placeholder=""
                     value={item.education}
