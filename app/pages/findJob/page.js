@@ -21,9 +21,24 @@ export default function page() {
   const [maxSalary, setMaxSalary] = useState("");
 
   const [findJobs, setFindJobs] = useState([]);
+  const [companyData, setCompanydata] = useState([]);
+
+  console.log("companyData :", companyData);
+
+  const fetchCompanyData = async () => {
+    let { data, error } = await supabase.from("Recruiterusers").select("*");
+    console.log(data);
+    if (error || !data) {
+      console.log("error:", error);
+    }
+    setCompanydata(data);
+  };
 
   const fetchFindJobs = async () => {
-    let { data, error } = await supabase.from("job_posting").select("*");
+    let { data, error } = await supabase
+      .from("job_posting")
+      .select("*")
+      .eq("closed_status", true);
     console.log(data);
     if (error || !data) {
       console.log("error:", error);
@@ -58,7 +73,7 @@ export default function page() {
 
   useEffect(() => {
     fetchFindJobs();
-    //getLogoCompany();
+    fetchCompanyData();
   }, []);
 
   //logout
@@ -318,7 +333,7 @@ export default function page() {
                 return (
                   <div
                     key={item.id}
-                    className="w-72 h-44 border rounded-lg bg-white"
+                    className=" p-[10px] h-44 border rounded-lg bg-white "
                   >
                     <div className="mt-4 flex gap-2 justify-center items-center">
                       <div>
@@ -347,9 +362,13 @@ export default function page() {
                         </p>
                         <p
                           style={montserrat.style}
-                          className="font-medium text-sm"
+                          className="font-medium text-sm w-[220px]"
                         >
-                          The Company Name
+                          {companyData.map((data) => {
+                            if (data.email === item.company_email) {
+                              return data.company;
+                            }
+                          })}
                         </p>
                         <div className="flex gap-3 text-neutral-400">
                           <p
