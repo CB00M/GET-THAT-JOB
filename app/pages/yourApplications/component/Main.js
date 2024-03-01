@@ -23,6 +23,7 @@ let Main = () => {
   const supabase = createClient();
   const [application, setApplication] = useState([]);
   const [jobs, setJobs] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState("all");
 
   //ดึงemailจากหน้าlogin
   const [userEmail, setUserEmail] = useState("");
@@ -30,6 +31,8 @@ let Main = () => {
   const keepUserDataD = JSON.parse(localStorage.getItem("keepUserData"));
   const email = keepUserDataD?.email || "";
 
+  console.log("jobs :", jobs);
+  console.log("app :", application);
   /*useEffect(() => {
     if (email) {
       setUserEmail(email);
@@ -114,6 +117,10 @@ let Main = () => {
     }
   };
 
+  const handleFilterChange = (event) => {
+    setSelectedFilter(event.target.value);
+  };
+
   return (
     <>
       <div className=" py-[10px] px-[20px] ml-[150px] h-full ">
@@ -143,6 +150,8 @@ let Main = () => {
                 name="filter-your-applications"
                 value="all"
                 className="scale-150 mr-[6px] relative top-[2px] form-radio accent-pink-500 "
+                checked={selectedFilter === "all"}
+                onChange={handleFilterChange}
               />
               All
             </span>
@@ -153,6 +162,8 @@ let Main = () => {
                 name="filter-your-applications"
                 value="waiting"
                 className="scale-150 mr-[6px] relative top-[2px] accent-pink-500"
+                checked={selectedFilter === "waiting"}
+                onChange={handleFilterChange}
               />
               Waiting
             </span>
@@ -163,6 +174,8 @@ let Main = () => {
                 name="filter-your-applications"
                 value="in-progress"
                 className="scale-150 mr-[6px] relative top-[2px] accent-pink-500"
+                checked={selectedFilter === "in-progress"}
+                onChange={handleFilterChange}
               />
               In progress
             </span>
@@ -173,6 +186,8 @@ let Main = () => {
                 name="filter-your-applications"
                 value="finished"
                 className="scale-150 mr-[6px] relative top-[2px] accent-pink-500"
+                checked={selectedFilter === "finished"}
+                onChange={handleFilterChange}
               />
               Finished
             </span>
@@ -183,6 +198,8 @@ let Main = () => {
                 name="filter-your-applications"
                 value="declined"
                 className="scale-150 mr-[6px] relative top-[2px] accent-pink-500"
+                checked={selectedFilter === "declined"}
+                onChange={handleFilterChange}
               />
               Declined
             </span>
@@ -203,159 +220,187 @@ let Main = () => {
           {/*ดึงข้อมูล job*/}
 
           <Accordion allowToggle>
-            {jobs.map((job) => {
-              return (
-                <div key={job.id}>
-                  {/*Job title*/}
-                  <div className=" w-[944px] mt-4">
-                    <AccordionItem
-                      className="mt-4 pt-4 border border-slate-300 shadow-lg shadow-slate-300 rounded-lg bg-white"
-                      style={montserrat.style}
-                    >
-                      <h2>
-                        <div className="warpper flex relative">
-                          <AccordionButton>
-                            <span className="flex flex-row w-[1020px] h-[70px]  ml-[10px]">
-                              <div className=" w-[350px] p-2 flex flex-row">
-                                {/*left-container*/}
-                                <Image src="/logo.png" width={64} height={64} />
+            {jobs &&
+              jobs
+                .filter((application) => {
+                  return selectedFilter === "all"
+                    ? true
+                    : selectedFilter === "waiting"
+                    ? application.review_status === "Waiting for review"
+                    : selectedFilter === "in-progress"
+                    ? application.review_status === "Review in progress"
+                    : selectedFilter === "finished"
+                    ? application.review_status === "Review finished"
+                    : null;
+                })
+                .map((job) => {
+                  return (
+                    <div key={job.id}>
+                      {/*Job title*/}
+                      <div className=" w-[944px] mt-4">
+                        <AccordionItem
+                          className="mt-4 pt-4 border border-slate-300 shadow-lg shadow-slate-300 rounded-lg bg-white"
+                          style={montserrat.style}
+                        >
+                          <h2>
+                            <div className="warpper flex relative">
+                              <AccordionButton>
+                                <span className="flex flex-row w-[1020px] h-[70px]  ml-[10px]">
+                                  <div className=" w-[350px] p-2 flex flex-row">
+                                    {/*left-container*/}
+                                    <Image
+                                      src="/logo.png"
+                                      width={64}
+                                      height={64}
+                                    />
 
-                                <div className="flex flex-col ml-4">
-                                  <h2
-                                    className="   text-[20px] font-medium text-left"
-                                    style={montserrat.style}
-                                  >
-                                    {job.title}
-                                  </h2>
+                                    <div className="flex flex-col ml-4">
+                                      <h2
+                                        className="   text-[20px] font-medium text-left"
+                                        style={montserrat.style}
+                                      >
+                                        {job.title}
+                                      </h2>
 
-                                  <p className="  text-[#616161] text-[14px] font-medium">
-                                    The Company Name SA
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="flex flex-row  ">
-                                {/* middle-container */}
-                                <div className="text-[#8e8e8e] text-[12px] mr-[150px]">
-                                  <div className="flex flex-row justify-start content-end  ">
-                                    <div className="flex flex-row ml-1 ">
-                                      <Image
-                                        src="/factory.svg"
-                                        width={15}
-                                        height={15}
-                                      />
-                                      <p className=" py-[10px] text-[#8e8e8e] text-[12px] mx-2">
-                                        {job.category}
-                                      </p>
-                                    </div>
-                                    <div className="flex flex-row ml-1">
-                                      <Image
-                                        src="/calendar-2-line.svg"
-                                        width={15}
-                                        height={15}
-                                      />
-                                      <p className=" py-[10px] text-[#8e8e8e] text-[12px] mx-2">
-                                        {job.type}
+                                      <p className="  text-[#616161] text-[14px] font-medium">
+                                        The Company Name SA
                                       </p>
                                     </div>
                                   </div>
-                                  <div className="flex flex-row   relative bottom-3">
-                                    <div className="flex flex-row ml-1 ">
-                                      <Image
-                                        src="/dollar.svg"
-                                        width={15}
-                                        height={15}
-                                      />
-                                      <p className=" py-[10px] text-[#8e8e8e] text-[12px] mx-2">
-                                        {job.minRange} - {job.maxRange}
-                                      </p>
+                                  <div className="flex flex-row  ">
+                                    {/* middle-container */}
+                                    <div className="text-[#8e8e8e] text-[12px] mr-[150px]">
+                                      <div className="flex flex-row justify-start content-end  ">
+                                        <div className="flex flex-row ml-1 ">
+                                          <Image
+                                            src="/factory.svg"
+                                            width={15}
+                                            height={15}
+                                          />
+                                          <p className=" py-[10px] text-[#8e8e8e] text-[12px] mx-2">
+                                            {job.category}
+                                          </p>
+                                        </div>
+                                        <div className="flex flex-row ml-1">
+                                          <Image
+                                            src="/calendar-2-line.svg"
+                                            width={15}
+                                            height={15}
+                                          />
+                                          <p className=" py-[10px] text-[#8e8e8e] text-[12px] mx-2">
+                                            {job.type}
+                                          </p>
+                                        </div>
+                                      </div>
+                                      <div className="flex flex-row   relative bottom-3">
+                                        <div className="flex flex-row ml-1 ">
+                                          <Image
+                                            src="/dollar.svg"
+                                            width={15}
+                                            height={15}
+                                          />
+                                          <p className=" py-[10px] text-[#8e8e8e] text-[12px] mx-2">
+                                            {job.minRange} - {job.maxRange}
+                                          </p>
+                                        </div>
+                                        <div className="flex flex-row mr-1 ">
+                                          <Image
+                                            src="/clock.svg"
+                                            width={15}
+                                            height={15}
+                                          />
+                                          <p className=" py-[10px] text-[#8e8e8e] text-[12px] mx-2">
+                                            Posted 2 days ago
+                                          </p>
+                                        </div>
+                                      </div>
                                     </div>
-                                    <div className="flex flex-row mr-1 ">
+                                    {application
+                                      .filter(
+                                        (app) => app.job_following_id === job.id
+                                      )
+                                      .map((app) => {
+                                        return (
+                                          <>
+                                            <div className="flex flex-col justify-center items-center m-2 ">
+                                              <Image
+                                                src="/mail-line-black.svg"
+                                                width={15}
+                                                height={15}
+                                              />
+                                              <p className="text-[12px]">
+                                                Sent 5 days
+                                              </p>
+                                              <p className="text-[12px]">ago</p>
+                                            </div>
+
+                                            <div className="flex flex-col justify-center items-center m-2">
+                                              <Image
+                                                src="/pause-icon.svg"
+                                                width={20}
+                                                height={20}
+                                              />
+                                              <p className="text-[#f495b5] text-[12px]">
+                                                {app.review_status}
+                                              </p>
+                                            </div>
+                                          </>
+                                        );
+                                      })}
+                                    {/*จบข้อมูล application*/}
+                                  </div>
+                                </span>
+                              </AccordionButton>
+                            </div>
+                          </h2>
+                          <AccordionPanel
+                            className=" w-[800px] pb={4}"
+                            style={montserrat.style}
+                          >
+                            {" "}
+                            {/*ดึงข้อมูล application*/}
+                            {application
+                              .filter((app) => app.job_following_id === job.id)
+                              .map((app) => {
+                                return (
+                                  <div key={app.id}>
+                                    <h2 className=" py-2 text-[#BF5F82] text-[16px] ml-[10px]">
+                                      Professional experience
+                                    </h2>
+                                    <p className=" py-2 text-[14px] ml-[10px]">
+                                      {app.experience}
+                                    </p>
+                                    <h2 className=" py-2 text-[#BF5F82] text-[16px] ml-[10px]">
+                                      Why are you interested in working at the
+                                      company name SA
+                                    </h2>
+                                    <p className=" py-2 text-[14px] ml-[10px]">
+                                      {" "}
+                                      {app.interesting}
+                                    </p>
+                                    <div className=" w-[242px] h-[40px] flex relative left-[350px] bottom-[5px] mt-[20px] bg-[#bf5f82] rounded-[22px]">
                                       <Image
-                                        src="/clock.svg"
-                                        width={15}
-                                        height={15}
+                                        src="/x-icon.svg"
+                                        width={28}
+                                        height={20}
+                                        className="absolute left-[14px] top-[6px]"
                                       />
-                                      <p className=" py-[10px] text-[#8e8e8e] text-[12px] mx-2">
-                                        Posted 2 days ago
-                                      </p>
+                                      <button className="  text-white absolute   text-[14px]  left-[50px] top-[10px]   uppercase ">
+                                        decline application
+                                      </button>
                                     </div>
                                   </div>
-                                </div>
-                                <div className="flex flex-col justify-center items-center m-2 ">
-                                  <Image
-                                    src="/mail-line-black.svg"
-                                    width={15}
-                                    height={15}
-                                  />
-                                  <p className="text-[12px]">Sent 5 days</p>
-                                  <p className="text-[12px]">ago</p>
-                                </div>
-                                <div className="flex flex-col justify-center items-center m-2">
-                                  <Image
-                                    src="/pause-icon.svg"
-                                    width={20}
-                                    height={20}
-                                  />
-                                  <p className="text-[#f495b5] text-[12px]">
-                                    Waiting for
-                                  </p>
-                                  <p className="text-[#f495b5] text-[12px]">
-                                    review
-                                  </p>
-                                </div>
-                              </div>
-                            </span>
-                          </AccordionButton>
-                        </div>
-                      </h2>
-                      <AccordionPanel
-                        className=" w-[800px] pb={4}"
-                        style={montserrat.style}
-                      >
-                        {" "}
-                        {/*ดึงข้อมูล application*/}
-                        {application
-                          .filter((app) => app.job_following_id === job.id)
-                          .map((app) => {
-                            return (
-                              <div key={app.id}>
-                                <h2 className=" py-2 text-[#BF5F82] text-[16px] ml-[10px]">
-                                  Professional experience
-                                </h2>
-                                <p className=" py-2 text-[14px] ml-[10px]">
-                                  {app.experience}
-                                </p>
-                                <h2 className=" py-2 text-[#BF5F82] text-[16px] ml-[10px]">
-                                  Why are you interested in working at the
-                                  company name SA
-                                </h2>
-                                <p className=" py-2 text-[14px] ml-[10px]">
-                                  {" "}
-                                  {app.interesting}
-                                </p>
-                                <div className=" w-[242px] h-[40px] flex relative left-[350px] bottom-[5px] mt-[20px] bg-[#bf5f82] rounded-[22px]">
-                                  <Image
-                                    src="/x-icon.svg"
-                                    width={28}
-                                    height={20}
-                                    className="absolute left-[14px] top-[6px]"
-                                  />
-                                  <button className="  text-white absolute   text-[14px]  left-[50px] top-[10px]   uppercase ">
-                                    decline application
-                                  </button>
-                                </div>
-                              </div>
-                            );
-                          })}
-                        {/*จบข้อมูล application*/}
-                      </AccordionPanel>
+                                );
+                              })}
+                            {/*จบข้อมูล application*/}
+                          </AccordionPanel>
 
-                      <AccordionIcon className="ml-[900px] " />
-                    </AccordionItem>
-                  </div>
-                </div>
-              );
-            })}
+                          <AccordionIcon className="ml-[900px] " />
+                        </AccordionItem>
+                      </div>
+                    </div>
+                  );
+                })}
           </Accordion>
         </div>
         {/*จบดึงข้อมูล job*/}
