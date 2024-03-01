@@ -28,7 +28,7 @@ export default function page() {
   const keepDataD = JSON.parse(localStorage.getItem("keepData"));
   const email = keepDataD?.email || "";
 
-  console.log(companyEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
+  //console.log(companyEmail); // ตรวจสอบค่า companyEmail ว่าถูกต้องหรือไม่
 
   useEffect(() => {
     if (companyEmail) {
@@ -83,7 +83,7 @@ export default function page() {
       }
 
       setCandidate(data || []);
-      console.log(data);
+      //console.log(data);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -141,57 +141,6 @@ export default function page() {
       console.error("Error toggling job status:", error.message);
     }
   };
-  /*const toggleStatus = async (jobId, currentStatus) => {
-    try {
-      // พังก์ชันสลับสถานะ
-      const newStatus = !currentStatus;
-
-      // ถ้าค่าในคอลัม closed_status เป็น true เท่านั้น
-      if (newStatus === true) {
-        // อัปเดตค่าในคอลัม update_at เมื่อค่าในคอลัม closed_status เปลี่ยนแปลงเท่านั้น
-        const updateAt = new Date().toISOString(); // รับค่าเวลาปัจจุบัน
-        const { error } = await supabase
-          .from("job_posting")
-          .update({
-            closed_status: newStatus,
-            update_at: updateAt, // อัปเดตค่า update_at เมื่อมีการเปลี่ยนแปลงสถานะ
-          })
-          .eq("id", jobId);
-
-        if (error) {
-          throw error;
-        }
-      } else {
-        // ถ้าค่าในคอลัม closed_status เป็น false ไม่ต้องทำการอัปเดตค่าในคอลัม update_at
-        const updateAt = new Date().toISOString(); // รับค่าเวลาปัจจุบัน
-        const { error } = await supabase
-          .from("job_posting")
-          .update({
-            closed_status: newStatus,
-            update_at: updateAt, // อัปเดตค่า update_at เมื่อมีการเปลี่ยนแปลงสถานะ
-          })
-          .eq("id", jobId);
-
-        if (error) {
-          throw error;
-        }
-      }
-
-      // อัปเดตสถานะของงานใน state
-      setJobs((prevJobs) =>
-        prevJobs.map((job) => {
-          if (job.id === jobId) {
-            return { ...job, closed_status: newStatus };
-          }
-          return job;
-        })
-      );
-
-      // แสดงข้อผิดพลาดถ้ามี
-    } catch (error) {
-      console.error("Error toggling job status:", error.message);
-    }
-  };*/
 
   return (
     <>
@@ -404,7 +353,7 @@ export default function page() {
                                     width={12.5}
                                     height={12.5}
                                   />
-                                  <p className="   text-[12px] text-[#616161] ml-[4px]">
+                                  <p className=" text-[12px] font-normal text-[#616161] ml-[4px]">
                                     {job.minRange} - {job.maxRange}
                                   </p>
                                 </div>
@@ -425,7 +374,7 @@ export default function page() {
                                           width={12.5}
                                           height={12.5}
                                         />
-                                        <p className="">
+                                        <p className="font-light ">
                                           open on <br />{" "}
                                           {new Date(
                                             job.update_at
@@ -441,12 +390,12 @@ export default function page() {
                                             width={12.5}
                                             height={12.5}
                                           />
-                                          <p className=" ml-[2px] ">
+                                          <p className="font-light  ml-[2px] ">
                                             {candidate.length || 0}
                                           </p>
                                         </div>
 
-                                        <p className="  ">
+                                        <p className="font-light text-[#616161]  ">
                                           Total <br /> Candidates
                                         </p>
                                       </div>
@@ -459,7 +408,7 @@ export default function page() {
                                               width={12.5}
                                               height={12.5}
                                             />
-                                            <p className="ml-[2px]">
+                                            <p className="ml-[2px] ">
                                               {candidate.filter(
                                                 (item) =>
                                                   item.job_following_id ===
