@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { Montserrat } from "next/font/google";
 import "tailwindcss/tailwind.css";
 import Header from "@/app/components/Navbar/Header";
 import { useEffect, useState } from "react";
@@ -11,7 +12,7 @@ import { useContext } from "react";
 import { ProfessionalContext } from "@/app/context/professionalContext";
 import { useFormState } from "react-dom";
 import { useRouter } from "next/navigation";
-
+const montserrat = Montserrat({ subsets: ["latin"] });
 const initialState = { success: false, message: null };
 
 export default function RegisterPage() {
@@ -38,17 +39,26 @@ export default function RegisterPage() {
       <Header />
 
       <div className="wrapper ml-[400px] relative ">
-        <h1 className="text-[48px] mb-4">Good choice!</h1>
-        <h2 className="text-[20px] mb-8">Create a new account as...</h2>
+        <h1 style={montserrat.style} className="text-[48px] mb-4">
+          Good choice!
+        </h1>
+        <h2 style={montserrat.style} className="text-[20px] mb-8">
+          Create a new account as...
+        </h2>
         <div className="status-user text-[14px] flex gap-[6px] mb-[36px]">
           <div className="mr-1">
-            <p>PROFESSIONAL</p>
-            <hr className="w-[100px] border-b-[3px] border-[#F48FB1] " />
+            <p style={montserrat.style}>PROFESSIONAL</p>
+            <hr className="w-[113px] border-b-[3px] border-[#F48FB1] " />
           </div>
           <div>
             <Link href="/pages/recruiterSignUp1">
-              <p className="text-[#bdbdbd]">RECRUITER</p>
-              <hr className="w-[70px] border-b-[3px] border-[#bdbdbd]" />
+              <p
+                style={montserrat.style}
+                className="text-[#bdbdbd] hover:text-black"
+              >
+                RECRUITER
+              </p>
+              <hr className="w-[83px] border-b-[3px] border-[#bdbdbd]" />
             </Link>
           </div>
         </div>
@@ -167,10 +177,10 @@ export default function RegisterPage() {
             <p className="text-[10px] text-[#8E8E8E] ">Only PDF.Max size 5MB</p>
           </div>
           <div className="change-page ">
-            <Link href="/pages/userRegisterPage1">
+            <Link href="/pages/userRegisterPage2">
               <button
                 type="submit"
-                className="m-5 p-2 w-[120px] h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
+                className="m-5 p-2 w-[120px] h-10 bg-[#F48FB1] hover:bg-pink-500 active:bg-pink-700 text-white mt-4 ml-auto rounded-2xl text-sm relative "
               >
                 PREVIOUS
                 <Image
@@ -184,21 +194,15 @@ export default function RegisterPage() {
             </Link>
             <button
               type="submit"
-              className="m-5 p-2 w-[120px] h-10 border border-[#F48FB1] mt-4 ml-auto rounded-2xl text-sm relative "
+              onClick={handleSubmit}
+              className="m-5 p-2 w-[120px] h-10 border border-[#F48FB1] hover:bg-[#FFC1E3] mt-4 ml-auto rounded-2xl text-sm relative "
             >
-              SKIP THIS!
-              <Image
-                src="/arrow-right.png"
-                width={20}
-                height={20}
-                alt="arrow"
-                className="absolute right-[2px] bottom-[10px]"
-              />
+              SKIP THIS !
             </button>
             <button
               onClick={handleSubmit}
               type="submit"
-              className="m-5 p-2 w-[120px] h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative "
+              className="m-5 p-2 w-[120px] h-10 bg-[#F48FB1] hover:bg-pink-500 active:bg-pink-700 text-white mt-4 ml-auto rounded-2xl text-sm relative "
             >
               FINISH
               <Image

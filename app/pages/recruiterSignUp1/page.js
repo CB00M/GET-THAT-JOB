@@ -8,15 +8,57 @@ import { Montserrat } from "next/font/google";
 import { Inter } from "next/font/google";
 import { useContext, useState } from "react";
 import { RecruiterContext } from "../../context/recruiterContext";
+import { useRouter } from "next/navigation";
+import * as yup from "yup";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 const inter = Inter({ weight: "400", preload: false });
 
 export default function Page() {
+  const router = useRouter();
   const { addCompany, addEmail, addPassword } = useContext(RecruiterContext);
   const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const recruiterSchema = yup.object().shape({
+    company: yup.string("Please assign your company name").required(),
+    email: yup.string().email("invalid email").required(),
+    password: yup
+      .string()
+      .required()
+      .min(5, "Please Enter password at least 5 letters")
+      .max(12, "Please Enter less than 12 letters"),
+    confirmPassword: yup
+      .string()
+      .required("This field id required.")
+      .oneOf([yup.ref("password"), null, " "]),
+  });
+
+  const createRecruiter = async (event) => {
+    event.preventDefault();
+    const formData = {
+      company: company,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+    };
+
+    const isValid = await recruiterSchema.isValid(formData);
+    console.log(formData);
+    console.log(isValid);
+
+    if (formData.password.length <= 5) {
+      alert("Please Enter password at least 5 letters");
+    } else if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+    }
+    if (isValid) {
+      setContextState();
+      router.push("/pages/recruiterSignUp2");
+    }
+  };
 
   const setContextState = () => {
     addCompany(company);
@@ -82,61 +124,59 @@ export default function Page() {
               />
             </div>
           </div>
-          <div style={inter.style} className="input-information">
-            <p className="text-[10px]">COMPANY NAME</p>
-            <input
-              className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
-              type="text"
-              id="company"
-              name="company"
-              placeholder="My Company S.A"
-              value={company}
-              onChange={(e) => {
-                setCompany(e.target.value);
-              }}
-            />
-            <p className="text-[10px]"> EMAIL </p>
-            <input
-              className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
-              type="email"
-              id="email"
-              name="email"
-              placeholder="some.user@mail.com"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-            <p className="text-[10px]"> PASSWORD</p>
-            <input
-              className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
-              type="password"
-              id="password"
-              name="password"
-              placeholder="******"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-            <p className="text-[10px]">PASSWORD CONFIRMATION</p>
-            <input
-              className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
-              type="password"
-              id="confirm-password"
-              name="password"
-              placeholder="******"
-            />{" "}
-            <br />
-            <Link
-              href={{
-                pathname: "/pages/recruiterSignUp2",
-              }}
-            >
-              <button
-                className="p-2 w-20 h-10 bg-[#F48FB1] text-white mt-4  rounded-2xl text-sm relative"
-                onClick={setContextState}
-              >
+          <form onSubmit={createRecruiter}>
+            <div style={inter.style} className="input-information">
+              <p className="text-[10px]">COMPANY NAME</p>
+              <input
+                className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
+                type="text"
+                id="company"
+                name="company"
+                placeholder="My Company S.A"
+                value={company}
+                required
+                onChange={(e) => {
+                  setCompany(e.target.value);
+                }}
+              />
+              <p className="text-[10px]"> EMAIL </p>
+              <input
+                className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
+                type="email"
+                id="email"
+                name="email"
+                required
+                placeholder="some.user@mail.com"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+              <p className="text-[10px]"> PASSWORD</p>
+              <input
+                className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="******"
+                value={password}
+                required
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+              <p className="text-[10px]">PASSWORD CONFIRMATION</p>
+              <input
+                className="w-[350px] h-[36px] rounded-lg text-sm p-2 border border-[#F48FB1] mt-1"
+                type="password"
+                id="confirm-password"
+                name="password"
+                required
+                onChange={(event) => setConfirmPassword(event.target.value)}
+                placeholder="******"
+              />
+              <br />
+              <button className="p-2 w-20 h-10 bg-[#F48FB1] hover:bg-pink-500 active:bg-pink-700 text-white mt-4  rounded-2xl text-sm relative">
                 NEXT
                 <Image
                   src="/arrow-right.png"
@@ -146,8 +186,8 @@ export default function Page() {
                   className="absolute right-[2px] bottom-[10px]"
                 />
               </button>
-            </Link>
-          </div>
+            </div>
+          </form>
           {/* Woman Picture */}
         </div>
         <div>

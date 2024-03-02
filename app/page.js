@@ -32,7 +32,7 @@ export default function Page() {
           <br />
           <button
             style={montserrat.style}
-            className="text-sm inline-block border-pink-300 border border-solid p-6 my-8 rounded-3xl text-white bg-[#F48FB1] hover:bg-[#BF5F82] active:bg-[#FFC1E3]"
+            className="text-sm inline-block border-pink-300 border border-solid p-6 my-8 rounded-3xl bg-[#F48FB1] hover:bg-pink-500 active:bg-pink-700 text-white"
           >
             <Link href="/pages/userRegisterPage1">CREATE AN ACCOUNT NOW</Link>
           </button>

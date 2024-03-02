@@ -315,8 +315,8 @@ let Main = () => {
                                   </div>
                                   <div className="flex flex-row  ">
                                     {/* middle-container */}
-                                    <div className="text-[#8e8e8e] text-[12px] mr-[150px]">
-                                      <div className="flex flex-row justify-start content-end  ">
+                                    <div className="text-[#8e8e8e] text-[12px] mr-[50px]">
+                                      <div className="flex justify-start ">
                                         <div className="flex flex-row ml-1 ">
                                           <Image
                                             src="/factory.svg"

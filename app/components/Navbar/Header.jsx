@@ -18,11 +18,12 @@ export default function Header() {
         <div className="mx-2 my-2 p-1">
           <Link
             href={{
-              pathname: "/pages/recruiterSignUp1",
+              pathname: "/pages/userRegisterPage1",
             }}
           >
             <Image
               src="/images/signup.png"
+              alt="signUp"
               width={127}
               height={55}
               className="hover:bg-[#FFC1E3] rounded-xl active:bg-[#eabfcd] "
@@ -37,9 +38,10 @@ export default function Header() {
           >
             <Image
               src="/images/login.png"
+              alt="login"
               height={40}
               width={112}
-              className="hover:bg-[#FFC1E3] rounded-xl active:bg-[#eabfcd] "
+              className="hover:bg-[#FFC1E3] rounded-xl active:bg-[#eabfcd]"
             />
           </Link>
         </div>

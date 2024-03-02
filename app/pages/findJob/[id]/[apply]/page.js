@@ -255,18 +255,6 @@ export default function ApplyPage({ params }) {
                     >
                       {companyName}
                     </h2>
-                    <p
-                      className="flex items-center gap-1 mt-1 font-extrabold text-[14px] tracking-widest text-[#616161]"
-                      style={inter.style}
-                    >
-                      <Image
-                        src="/images/IconButton.svg"
-                        alt="button follow"
-                        width={38}
-                        height={38}
-                      ></Image>
-                      FOLLOWING
-                    </p>
                   </div>
                 </div>
                 <div>

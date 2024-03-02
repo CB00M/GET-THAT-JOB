@@ -11,7 +11,7 @@ import { RecruiterContext } from "@/app/context/recruiterContext";
 import { register } from "./api/recruiterRegister";
 import "../../globals.css";
 import { useFormState } from "react-dom";
-//import { json } from "stream/consumers";
+import { useRouter } from "next/navigation";
 
 const initialState = { success: false, message: null };
 
@@ -19,6 +19,7 @@ const montserrat = Montserrat({ subsets: ["latin"] });
 const inter = Inter({ weight: "400", preload: false });
 
 export default function CompanyInfo() {
+  const router = useRouter();
   const [state, formAction] = useFormState(register, initialState);
 
   const { company, email, password } = useContext(RecruiterContext);
@@ -29,10 +30,14 @@ export default function CompanyInfo() {
     setWebsite(website);
     setAboutCompany(aboutCompany);
     console.log(company, email, password, website, aboutCompany);
+
+    setTimeout(() => {
+      router.push("/pages/recruiterLogin");
+    }, 5000);
   };
 
-  let keepDataD = JSON.parse(localStorage.getItem("keepData"));
-  console.log(keepDataD);
+  // let keepDataD = JSON.parse(localStorage.getItem("keepData"));
+  // console.log(keepDataD);
 
   return (
     <Fragment>
@@ -150,32 +155,35 @@ export default function CompanyInfo() {
                 Only PDF.Max size 5MB
               </p>
             </div>
-            <button className="m-5 ml-[100px] p-2 w-[120px] h-10 border border-[#F48FB1] mt-4 rounded-2xl text-sm relative">
+            <button
+              onClick={handleSubmit}
+              className="m-5 ml-[100px] p-2 w-[120px] h-10 border border-[#F48FB1] hover:bg-[#FFC1E3] mt-4 rounded-2xl text-sm relative"
+            >
               SKIP THIS!
             </button>
-            <Link href={"/pages/recruiterLogin"}>
-              <button
-                type="submit"
-                className="m-5 p-2 w-[120px] h-10 bg-[#F48FB1] text-white mt-4 ml-auto rounded-2xl text-sm relative"
-                onClick={handleSubmit}
-              >
-                FINISH
-                <Image
-                  src="/arrow-right.png"
-                  width={20}
-                  height={20}
-                  alt="arrow"
-                  className="absolute right-[2px] bottom-[10px]"
-                />
-              </button>
-            </Link>
+
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className="m-5 p-2 w-[120px] h-10 bg-[#F48FB1] hover:bg-pink-500 active:bg-pink-700 text-white mt-4 ml-auto rounded-2xl text-sm relative"
+            >
+              FINISH
+              <Image
+                src="/arrow-right.png"
+                width={20}
+                height={20}
+                alt="arrow"
+                className="absolute right-[2px] bottom-[10px]"
+              />
+            </button>
+
             {state.message && (
-              <div className="bg-red-500 p-4 w-28 rounded-xl ml-44">
+              <div className="bg-red-500 text-white ml-32  p-4 w-fit rounded-xl">
                 Error:{state.message}
               </div>
             )}
             {state.success && (
-              <div className="bg-green-500 p-4 w-28 rounded-xl ml-44">
+              <div className="bg-green-600 text-white ml-32 p-4 w-28 rounded-xl">
                 Register Successful
               </div>
             )}
