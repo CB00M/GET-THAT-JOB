@@ -8,8 +8,13 @@ async function applyJobData(formData) {
   const supabase = createClient(cookiesStore);
 
   const interestedWoring = formData.get("interest-working");
+
   const newCV = formData.get("newCV");
   const newFilename = uuidv4();
+
+  const publicCVUrl = supabase.storage
+    .from("file_cv")
+    .getPublicUrl(newFilename);
 
   console.log(interestedWoring);
 
@@ -21,15 +26,14 @@ async function applyJobData(formData) {
     return { message: "Upload is Error" };
   }
 
-  const publicCVUrl = supabase.storage
-    .from("CV_file")
-    .getPublicUrl(newFilename);
-
   console.log("Upload new CV Successfully:", publicCVUrl);
 
-  const { data, error } = await supabase
-    .from("your_applications")
-    .insert([{ interested_comment: interestedWoring }]);
+  const { data, error } = await supabase.from("your_applications").insert([
+    {
+      interested_comment: interestedWoring,
+      file_cv: publicCVUrl.data.publicUrl,
+    },
+  ]);
   if (error) {
     console.log("error", error);
     return { message: "send application is Fail" };

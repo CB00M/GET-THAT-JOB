@@ -324,7 +324,7 @@ export default function page() {
                     <br />
                     <Link href={"/pages/jobPosting"}>
                       <button
-                        className="border-2 border-[#F48FB1] text-white rounded-2xl bg-[#F48FB1] mt-5 mb-5 py-1 px-3"
+                        className="border-2 bg-[#F48FB1] hover:bg-pink-500 active:bg-pink-700 text-white rounded-2xl bg-[#F48FB1] mt-5 mb-5 py-1 px-3"
                         onClick={() => updateJobInSupabase()}
                       >
                         UPDATE PROFILE

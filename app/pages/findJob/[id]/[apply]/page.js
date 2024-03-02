@@ -285,7 +285,7 @@ export default function ApplyPage({ params }) {
                   width={15}
                   height={15}
                 ></Image>
-                POSTED 2 DAYS AGO
+                POSTED 1 DAYS AGO
               </p>
               <div className="flex justify-around items-center my-3">
                 <div className="h-[77px] w-2/6 border border-[#BF5F82] flex flex-col justify-center items-center rounded-lg  p-2 bg-white">
@@ -377,7 +377,7 @@ export default function ApplyPage({ params }) {
                   />
                   Use current CV
                 </span>
-                <span>
+                {/* <span>
                   <input
                     type="radio"
                     id="waiting"
@@ -386,12 +386,12 @@ export default function ApplyPage({ params }) {
                     onClick={() => setUploadCV(true)}
                   />
                   Upload new CV
-                </span>
+                </span> */}
               </div>
             </div>
 
             {/* Upload CV Button */}
-            {uploadCV && (
+            {/* {uploadCV && (
               <div>
                 <div className="relative flex pt-[10px]">
                   <Image
@@ -414,7 +414,7 @@ export default function ApplyPage({ params }) {
                   Only PDF.Max size 5MB
                 </p>
               </div>
-            )}
+            )} */}
 
             {/* Upload CV Button จบ*/}
             {/* ส่วนของข้อมูลผู้ใช้ */}

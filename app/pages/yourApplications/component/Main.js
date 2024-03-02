@@ -375,7 +375,7 @@ let Main = () => {
                                                 height={15}
                                               />
                                               <p className="text-[12px]">
-                                                Sent 5 days
+                                                Sent 1 day
                                               </p>
                                               <p className="text-[12px]">ago</p>
                                             </div>

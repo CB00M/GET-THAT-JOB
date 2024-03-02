@@ -169,18 +169,13 @@ export default function post({ params }) {
                 <div>
                   <header className="flex justify-between items-center">
                     <div className="flex gap-2">
-                      <Image src="" width={80} height={80}></Image>
+                      <Image
+                        src="/images/logo-web/Web-logo.svg"
+                        width={80}
+                        height={80}
+                      ></Image>
                       <div className="flex flex-col tracking-wide">
                         <h2 className="text-2xl">{item.company}</h2>
-
-                        <p className="flex items-start gap-1 mt-1">
-                          <Image
-                            src="/images/IconButton.svg"
-                            width={38}
-                            height={38}
-                          ></Image>
-                          Following
-                        </p>
                       </div>
                     </div>
                     <div>
@@ -201,10 +196,7 @@ export default function post({ params }) {
             })}
 
             <h1 className="text-center text-5xl">{job.title}</h1>
-            <p className="flex items-center gap-1 text-[10px] justify-center mt-3">
-              <MdOutlineWatchLater />
-              POSTED 2 DAYS AGO
-            </p>
+
             <div className="flex justify-around items-center my-3">
               <div className="h-[77px] w-2/6 border border-[#BF5F82] flex flex-col justify-center items-center rounded-lg  p-2 bg-white">
                 <h2 className="text-base text-[#616161]">Category</h2>
