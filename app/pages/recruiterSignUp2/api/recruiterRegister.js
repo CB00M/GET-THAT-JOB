@@ -15,20 +15,10 @@ export async function register(prevState, formData) {
     const about = formData.get("aboutCompany");
     const companyLogo = formData.get("attachment");
     const fileName = uuidv4();
-    console.log("attachment:", companyLogo);
 
-    const { errorAttachments } = await supabase.storage
-      .from("attachments")
-      .upload(fileName, companyLogo);
-    if (errorAttachments) {
-      console.log("error:", error);
-      return { message: "Upload Error" };
-    }
     const publicAttachmentUrl = supabase.storage
       .from("attachments")
       .getPublicUrl(fileName);
-
-    console.log("Upload Successful:", publicAttachmentUrl);
 
     const { dataAuth, errorAuth } = await supabase.auth.signUp({
       email,
@@ -56,14 +46,17 @@ export async function register(prevState, formData) {
       return { message: "Register Fail" };
     }
     console.log("Register successful!!");
-    console.log(
-      company,
-      email,
-      password,
-      website,
-      about,
-      publicAttachmentUrl.data.publicUrl
-    );
+
+    const { uploadError } = await supabase.storage
+      .from("attachments")
+      .upload(fileName, companyLogo);
+    if (error) {
+      console.log("error:", uploadError);
+      return { message: "Upload company logo Error" };
+    }
+    console.log("Upload Successful:", publicAttachmentUrl);
+
+    console.log(company, email, password, website, about);
     return { success: true };
   } catch (error) {
     console.log("error", error);

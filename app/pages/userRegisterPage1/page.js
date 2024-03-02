@@ -24,7 +24,7 @@ export default function RegisterPage() {
     password: yup
       .string()
       .required()
-      .min(4, "Please Enter password at least 4 letters")
+      .min(5, "Please Enter password at least 5 letters")
       .max(12, "Please Enter less than 12 letters"),
     confirmPassword: yup
       .string()
@@ -39,19 +39,16 @@ export default function RegisterPage() {
       password: password,
       confirmPassword: confirmPassword,
     };
-    console.log(formData);
 
     const isValid = await userSchema.isValid(formData);
-    //console.log(formData);
+    console.log(formData);
     console.log(isValid);
 
     if (formData.password.length <= 5) {
       alert("Please Enter password at least 5 letters");
     } else if (password !== confirmPassword) {
       alert("Passwords do not match.");
-    }
-
-    if (isValid) {
+    } else if (isValid) {
       setContextState();
       router.push("/pages/userRegisterPage2");
     }

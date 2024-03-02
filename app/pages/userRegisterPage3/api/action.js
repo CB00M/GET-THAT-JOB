@@ -60,7 +60,7 @@ export async function register(prevState, formData) {
       .upload(fileName, CVFile);
     if (error) {
       console.log("error:", uploadError);
-      return { message: "Upload Error" };
+      return { message: "Upload CV Error" };
     }
 
     console.log("Upload CV Successful:", publicAttachmentUrl);
