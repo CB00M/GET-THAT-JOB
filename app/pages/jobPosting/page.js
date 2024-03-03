@@ -310,7 +310,7 @@ export default function page() {
                       <AccordionItem className="mt-4 rounded-lg " key={job.id}>
                         <div className="border border-slate-300 shadow-lg shadow-slate-300 rounded-lg bg-white">
                           <div className=" warpper flex relative">
-                            <AccordionButton className=" h-[80px] rounded-lg relative">
+                            <AccordionButton className=" h-[80px] rounded-lg relative ">
                               {/*job title */}
                               <p className=" absolute top-2 text-[20px] font-medium ">
                                 {job.title}
@@ -319,9 +319,9 @@ export default function page() {
                               {/* main-information */}
                               <div
                                 id="main-information"
-                                className="  absolute flex flex-row top-[50px] left-[10px] ml-[6px]"
+                                className="  absolute flex flex-row top-[50px] left-[10px] ml-[6px] "
                               >
-                                <div className="flex flex-row">
+                                <div className="flex flex-row ">
                                   <Image
                                     src="/images/manufactory-pic.svg"
                                     alt="manufactory-pic"
@@ -364,7 +364,7 @@ export default function page() {
                                 return (
                                   <>
                                     <div
-                                      className="flex flex-row   absolute top-[15px] left-[400px] text-[12px] text-[#616161]"
+                                      className="flex flex-row   absolute top-[15px] left-[350px] text-[12px] text-[#616161] "
                                       key={item.id}
                                     >
                                       <div className="flex flex-col justify-center items-center">
@@ -409,11 +409,13 @@ export default function page() {
                                               height={12.5}
                                             />
                                             <p className="ml-[2px] ">
-                                              {candidate.filter(
-                                                (item) =>
-                                                  item.job_following_id ===
-                                                  job.id
-                                              ).length || 0}
+                                              {
+                                                candidate.filter(
+                                                  (data) =>
+                                                    data.review_status !==
+                                                    "Decline"
+                                                ).length
+                                              }
                                             </p>
                                           </div>
                                         ) : null}
