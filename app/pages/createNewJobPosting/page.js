@@ -376,7 +376,7 @@ export default function page() {
               <button
                 onClick={handleSubmit}
                 type="submit"
-                className="border-2 bg-[#F48FB1] hover:bg-pink-500 active:bg-pink-700 text-white rounded-2xl bg-[#F48FB1] mt-5 mb-5 py-1 px-3 "
+                className="border-2 bg-[#F48FB1] hover:bg-pink-500 active:bg-pink-700 text-white rounded-2xl  mt-5 mb-5 py-1 px-3 "
               >
                 POST THIS JOB
               </button>
