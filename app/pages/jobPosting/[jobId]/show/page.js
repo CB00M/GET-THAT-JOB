@@ -12,6 +12,7 @@ import {
   AccordionIcon,
 } from "@chakra-ui/react";
 import { createClient } from "@/utils/supabase/client.js";
+import { handleLogout } from "@/app/login/actions";
 import { data } from "autoprefixer";
 
 const inter = Inter({ weight: "400", preload: false });
@@ -133,6 +134,12 @@ export default function page({ params }) {
     }
   };
 
+  //ออกจากระบบ
+  const handleLogoutClick = () => {
+    handleLogout();
+    alert("You have been logged out.");
+  };
+
   console.log(selectedFilter);
   console.log("data candidate:", candidates);
   console.log("job data :", jobs);
@@ -173,22 +180,26 @@ export default function page({ params }) {
                 Create New Job
               </div>
             </Link>
-            <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
-              <Image src="/images/profile.png" width={24} height={24} />
-              <div
-                className="grow text-zinc-600 leading-normal"
-                style={inter.style}
-              >
-                Profile
+            <Link href={`/pages/editProfileRecruiter`}>
+              <div className="w-60 h-10 px-4 p-[26px] gap-2 bg-neutral-200 justify-center items-center flex">
+                <Image src="/images/profile.png" width={24} height={24} />
+
+                <div
+                  className="grow text-zinc-600 leading-normal"
+                  style={inter.style}
+                >
+                  Profile
+                </div>
               </div>
-            </div>
+            </Link>
+
             <div className="w-60 px-4 py-3 bg-neutral-200 justify-start items-start gap-2 inline-flex">
               <Image src="/images/logout.png" width={24} height={24} />
               <div
                 className=" text-zinc-600 leading-normal"
                 style={inter.style}
               >
-                Log out
+                <button onClick={handleLogoutClick}>Log out</button>
               </div>
             </div>
           </div>
@@ -235,7 +246,7 @@ export default function page({ params }) {
                         <div className=" warpper flex relative">
                           <AccordionButton>
                             <span className="flex flex-row w-[1020px] h-[70px] mb-3">
-                              <div className=" w-[300px] p-2">
+                              <div className=" w-[360px] p-2 ">
                                 {/*left-container*/}
                                 <h2
                                   className="  text-neutral-700 text-[22px] font-medium text-left"
@@ -279,7 +290,7 @@ export default function page({ params }) {
                                   </div>
                                 </div>
                               </div>
-                              <div className="flex flex-row">
+                              <div className="flex flex-row ">
                                 {/* middle-container */}
                                 <div className="flex flex-col justify-center items-center m-2">
                                   <Image
@@ -298,7 +309,7 @@ export default function page({ params }) {
                                       width={20}
                                       height={20}
                                     />
-                                    <p className="ml-1">5</p>
+                                    <p className="ml-1">{candidates.length}</p>
                                   </div>
                                   <p>Total</p>
                                   <p>Candidates</p>
@@ -310,13 +321,20 @@ export default function page({ params }) {
                                       width={20}
                                       height={20}
                                     />
-                                    <p className="text-[#f495b5] ml-1">3</p>
+                                    <p className="text-[#f495b5] ml-1">
+                                      {
+                                        candidates.filter(
+                                          (data) =>
+                                            data.review_status !== "Decline"
+                                        ).length
+                                      }
+                                    </p>
                                   </div>
                                   <p className="text-[#f495b5]">Candidates</p>
                                   <p className="text-[#f495b5]">on track</p>
                                 </div>
                               </div>
-                              <div className="flex flex-row justify-center items-center ml-[50px]">
+                              <div className="flex flex-row justify-center items-center ml-[10px]">
                                 {/* showjob-container */}
                                 <Image
                                   src="/search-line.svg"
@@ -446,7 +464,7 @@ export default function page({ params }) {
               className="  text-neutral-700 text-[22px] font-medium text-left mt-[30px] mb-[10px]"
               style={montserrat.style}
             >
-              5 candidates found
+              {candidates.length} candidates found
             </h2>
           </div>
           {/* <----------------------------------------------------candidate boxs--------------------------------------------------> */}
