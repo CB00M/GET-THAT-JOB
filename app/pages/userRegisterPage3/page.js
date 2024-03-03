@@ -31,7 +31,7 @@ export default function RegisterPage() {
 
     setTimeout(() => {
       router.push("/pages/userLogin");
-    }, 6000);
+    }, 8000);
   };
 
   return (
@@ -215,12 +215,12 @@ export default function RegisterPage() {
             </button>
 
             {state.message && (
-              <div className="bg-red-500 text-white ml-32  p-4 w-fit rounded-xl">
+              <div className="bg-red-400 text-xl text-white ml-32  p-5 w-fit rounded-xl">
                 Error:{state.message}
               </div>
             )}
             {state.success && (
-              <div className="bg-green-600 text-white ml-32 p-4 w-28 rounded-xl">
+              <div className="bg-green-400 text-xl text-white ml-32 p-5 w-fit rounded-xl">
                 Register Successful
               </div>
             )}
