@@ -24,6 +24,7 @@ let Main = () => {
   const [application, setApplication] = useState([]);
   const [jobs, setJobs] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState("all");
+  const [companyData, setCompanydata] = useState([]);
 
   //ดึงemailจากหน้าlogin
   const [userEmail, setUserEmail] = useState("");
@@ -33,17 +34,8 @@ let Main = () => {
 
   console.log("jobs :", jobs);
   console.log("app :", application);
-  /*useEffect(() => {
-    if (email) {
-      setUserEmail(email);
-    }
-    if (keepUserDataD) {
-      fetchApplication(keepUserDataD);
-    }
-    if (application.length > 0) {
-      fetchJobs(application);
-    }
-  }, [userEmail, keepUserDataD]);*/
+  console.log("company data :", companyData);
+
   useEffect(() => {
     if (email) {
       setUserEmail(email);
@@ -60,6 +52,8 @@ let Main = () => {
     if (application.length > 0) {
       fetchJobs(application);
     }
+
+    fetchCompanyData();
   }, [application, userEmail]); // เพิ่ม userEmail เป็น dependency ที่ useEffect นี้
   //console.log("keepUserDataD", keepUserDataD);
   //console.log("application", application);
@@ -148,6 +142,15 @@ let Main = () => {
     }
   };
 
+  const fetchCompanyData = async () => {
+    let { data, error } = await supabase.from("Recruiterusers").select("*");
+    console.log(data);
+    if (error || !data) {
+      console.log("error:", error);
+    }
+    setCompanydata(data);
+  };
+
   return (
     <>
       <div className=" py-[10px] px-[20px] ml-[150px] h-full ">
@@ -164,7 +167,7 @@ let Main = () => {
             className="text-zinc-600 text-[10px] uppercase relative top-[3px] tracking-[.10em] "
             style={inter.style}
           >
-            4 filter your applications
+            {jobs.length} filter your applications
           </div>
           <div
             className="pt-2 inline-flex gap-4 text-zinc-600 text-sm leading-tight tracking-[.01em] "
@@ -292,27 +295,34 @@ let Main = () => {
                             <div className="warpper flex relative">
                               <AccordionButton>
                                 <span className="flex flex-row w-[1020px] h-[70px]  ml-[10px]">
-                                  <div className=" w-[350px] p-2 flex flex-row">
-                                    {/*left-container*/}
-                                    <Image
-                                      src="/logo.png"
-                                      width={64}
-                                      height={64}
-                                    />
+                                  {companyData.map((data) => {
+                                    if (data.email === job.company_email) {
+                                      return (
+                                        <div className=" w-[350px] p-2 flex flex-row">
+                                          {/*left-container*/}
+                                          <Image
+                                            src={data.companyLogo}
+                                            width={64}
+                                            height={64}
+                                          />
 
-                                    <div className="flex flex-col ml-4">
-                                      <h2
-                                        className="   text-[20px] font-medium text-left"
-                                        style={montserrat.style}
-                                      >
-                                        {job.title}
-                                      </h2>
+                                          <div className="flex flex-col ml-4">
+                                            <h2
+                                              className="   text-[20px] font-medium text-left"
+                                              style={montserrat.style}
+                                            >
+                                              {job.title}
+                                            </h2>
 
-                                      <p className="  text-[#616161] text-[14px] font-medium">
-                                        The Company Name SA
-                                      </p>
-                                    </div>
-                                  </div>
+                                            <p className="  text-[#616161] text-[14px] font-medium">
+                                              {data.company}
+                                            </p>
+                                          </div>
+                                        </div>
+                                      );
+                                    }
+                                  })}
+
                                   <div className="flex flex-row  ">
                                     {/* middle-container */}
                                     <div className="text-[#8e8e8e] text-[12px] mr-[50px]">
