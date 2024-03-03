@@ -24,6 +24,7 @@ export default function ApplyPage({ params }) {
   const [experience, setExperience] = useState("");
   const [companyData, setCompanyData] = useState("");
   const [companyName, setCompanyName] = useState([]);
+  const [companyLogo, setCompanyLogo] = useState([]);
 
   console.log("user data :", userData);
   console.log("user email :", userEmail);
@@ -87,7 +88,7 @@ export default function ApplyPage({ params }) {
       console.log("error:", error);
       NotFound(); // แก้เป็น router.push("/404") หรือหน้าที่เหมาะสมสำหรับการแสดงผลเมื่อไม่พบข้อมูลบริษัท
     }
-
+    setCompanyLogo(data[0].companyLogo);
     setCompanyName(data[0].company);
   };
 
@@ -243,7 +244,7 @@ export default function ApplyPage({ params }) {
               <header className="flex justify-between items-center">
                 <div className="flex gap-2">
                   <Image
-                    src="/images/logo-web/Web-logo.svg"
+                    src={companyLogo}
                     alt="logo web"
                     width={80}
                     height={80}

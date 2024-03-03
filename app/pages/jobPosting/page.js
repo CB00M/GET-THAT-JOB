@@ -391,7 +391,10 @@ export default function page() {
                                             height={12.5}
                                           />
                                           <p className="font-light  ml-[2px] ">
-                                            {candidate.length || 0}
+                                            {candidate.filter(
+                                              (item) =>
+                                                item.job_following_id === job.id
+                                            ).length || 0}
                                           </p>
                                         </div>
 
@@ -409,13 +412,13 @@ export default function page() {
                                               height={12.5}
                                             />
                                             <p className="ml-[2px] ">
-                                              {
-                                                candidate.filter(
-                                                  (data) =>
-                                                    data.review_status !==
+                                              {candidate.filter(
+                                                (item) =>
+                                                  item.job_following_id ===
+                                                    job.id &&
+                                                  item.review_status !==
                                                     "Decline"
-                                                ).length
-                                              }
+                                              ).length || 0}
                                             </p>
                                           </div>
                                         ) : null}

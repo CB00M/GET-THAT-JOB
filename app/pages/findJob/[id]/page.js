@@ -20,7 +20,6 @@ export default function post({ params }) {
   const supabase = createClient();
 
   const [job, setJob] = useState([]);
-  const [logoCompany, setLogoCompany] = useState("");
 
   // ดึงข้อมูลบริษัท
   const [companyData, setCompanyData] = useState([]);
@@ -170,7 +169,7 @@ export default function post({ params }) {
                   <header className="flex justify-between items-center">
                     <div className="flex gap-2">
                       <Image
-                        src="/images/logo-web/Web-logo.svg"
+                        src={item.companyLogo}
                         width={80}
                         height={80}
                       ></Image>

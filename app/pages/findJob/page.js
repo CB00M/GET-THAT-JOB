@@ -25,6 +25,7 @@ export default function page() {
   const [companyData, setCompanydata] = useState([]);
 
   console.log("companyData :", companyData);
+  console.log("findjobs :", findJobs);
 
   const fetchCompanyData = async () => {
     let { data, error } = await supabase.from("Recruiterusers").select("*");
@@ -338,12 +339,18 @@ export default function page() {
                   >
                     <div className="mt-4 flex gap-2 justify-center items-center">
                       <div>
-                        <Image
-                          src="/images/logo-web/Web-logo.svg"
-                          alt="logoweb"
-                          width={74}
-                          height={74}
-                        ></Image>
+                        {companyData.map((data) => {
+                          if (data.email === item.company_email) {
+                            return (
+                              <Image
+                                src={data.companyLogo}
+                                alt="logoweb"
+                                width={74}
+                                height={74}
+                              />
+                            );
+                          }
+                        })}
                       </div>
                       <div>
                         <p className="text-neutral-400 text-[12px] flex gap-1 items-center">
