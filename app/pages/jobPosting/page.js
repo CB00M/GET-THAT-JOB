@@ -414,10 +414,14 @@ export default function page() {
                                             <p className="ml-[2px] ">
                                               {candidate.filter(
                                                 (item) =>
-                                                  item.job_following_id ===
+                                                  (item.job_following_id ===
                                                     job.id &&
-                                                  item.review_status !==
-                                                    "Decline"
+                                                    item.review_status ===
+                                                      "Review in progress") ||
+                                                  (item.job_following_id ===
+                                                    job.id &&
+                                                    item.review_status ===
+                                                      "Waiting for review")
                                               ).length || 0}
                                             </p>
                                           </div>
@@ -470,7 +474,7 @@ export default function page() {
                               <button
                                 className={`flex flex-row py-[8px] px-[16px] rounded-full ${
                                   job.closed_status === true
-                                    ? "bg-[#a28f96]"
+                                    ? "bg-[#BF5F82]"
                                     : job.closed_status === false
                                     ? "bg-gray-500"
                                     : job.closed_status === true
