@@ -2,6 +2,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import { v4 as uuidv4 } from "uuid";
+import bcrypt from "bcrypt";
 
 export async function register(prevState, formData) {
   try {
@@ -10,7 +11,7 @@ export async function register(prevState, formData) {
 
     const company = formData.get("company-name");
     const email = formData.get("email");
-    const password = formData.get("password");
+    let password = formData.get("password");
     const website = formData.get("website");
     const about = formData.get("aboutCompany");
     const companyLogo = formData.get("attachment");
@@ -19,6 +20,9 @@ export async function register(prevState, formData) {
     const publicAttachmentUrl = supabase.storage
       .from("attachments")
       .getPublicUrl(fileName);
+
+    const salt = await bcrypt.genSalt(10);
+    password = await bcrypt.hash(password, salt);
 
     const { dataAuth, errorAuth } = await supabase.auth.signUp({
       email,

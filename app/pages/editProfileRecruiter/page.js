@@ -38,12 +38,12 @@ export default function page() {
         .from("Recruiterusers")
         .select("*")
         .eq("email", companyEmail);
-
+      console.log(data);
       if (error) {
         console.error("Error fetching jobs:", error.message);
       } else {
         setProfile(data);
-        //console.log(data);
+        console.log(data);
       }
     } catch (error) {
       console.error("Error fetching jobs:", error.message);
@@ -212,39 +212,46 @@ export default function page() {
                     Profile
                   </p>
                   {/* Company logo */}
+
                   <div>
-                    <div>
-                      <Image />
-                    </div>
-                    <div>
-                      <p
-                        className=" pt-[10px]
+                    <div className="flex gap-3">
+                      <Image
+                        src={item.companyLogo}
+                        alt="logoweb"
+                        width={74}
+                        height={74}
+                      />
+                      <div>
+                        <p
+                          className=" pt-[10px]
               text-[10px] "
-                        style={inter.style}
-                      >
-                        COMPANY LOGO
-                      </p>
-                      <div className="relative">
-                        <Image
-                          src="/images/uplode-icon.svg"
-                          width={20}
-                          height={20}
-                          alt="arrow"
-                          className="absolute left-[15px] top-[8px]"
-                        />
-                        <input
-                          type="file"
-                          name="file_cv"
-                          className="customfile text-sm  "
-                        />
+                          style={inter.style}
+                        >
+                          COMPANY LOGO
+                        </p>
+                        <div className="relative">
+                          <Image
+                            src="/images/uplode-icon.svg"
+                            width={20}
+                            height={20}
+                            alt="arrow"
+                            className="absolute left-[15px] top-[8px]"
+                          />
+                          <input
+                            type="file"
+                            name="file_cv"
+                            className="customfile text-sm  "
+                          />
+                        </div>
+                        <p
+                          style={inter.style}
+                          className="text-[12px] text-[#8E8E8E]"
+                        >
+                          PNG, JPEG, IMG
+                        </p>
                       </div>
-                      <p
-                        style={inter.style}
-                        className="text-[12px] text-[#8E8E8E]"
-                      >
-                        PNG, JPEG, IMG
-                      </p>
                     </div>
+
                     {/* company email */}
                     <p
                       className=" pt-[10px]
@@ -324,7 +331,7 @@ export default function page() {
                     <br />
                     <Link href={"/pages/jobPosting"}>
                       <button
-                        className="border-2 bg-[#F48FB1] hover:bg-pink-500 active:bg-pink-700 text-white rounded-2xl bg-[#F48FB1] mt-5 mb-5 py-1 px-3"
+                        className="border-2 hover:bg-pink-500 active:bg-pink-700 text-white rounded-2xl bg-[#F48FB1] mt-5 mb-5 py-1 px-3"
                         onClick={() => updateJobInSupabase()}
                       >
                         UPDATE PROFILE
