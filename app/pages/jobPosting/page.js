@@ -403,7 +403,7 @@ export default function page() {
                                         </p>
                                       </div>
                                       <div className="flex flex-col items-center ml-[10px] text-[#f495b5]">
-                                        {job.closed_status ? (
+                                        {job.closed_status && (
                                           <div className="flex flex-row">
                                             <Image
                                               src="/man-icon-pink.svg"
@@ -421,7 +421,7 @@ export default function page() {
                                               ).length || 0}
                                             </p>
                                           </div>
-                                        ) : null}
+                                        )}
                                         <p className="">
                                           {job.closed_status
                                             ? "Candidates"
@@ -470,7 +470,7 @@ export default function page() {
                               <button
                                 className={`flex flex-row py-[8px] px-[16px] rounded-full ${
                                   job.closed_status === true
-                                    ? "bg-[#BF5F82]"
+                                    ? "bg-[#a28f96]"
                                     : job.closed_status === false
                                     ? "bg-gray-500"
                                     : job.closed_status === true
