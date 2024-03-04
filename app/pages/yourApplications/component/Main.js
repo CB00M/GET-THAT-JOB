@@ -327,7 +327,7 @@ let Main = () => {
                                     {/* middle-container */}
                                     <div className="text-[#8e8e8e] text-[12px] mr-[50px]">
                                       <div className="flex justify-start ">
-                                        <div className="flex flex-row ml-1 ">
+                                        <div className="flex flex-row ml-1  w-[150px]">
                                           <Image
                                             src="/factory.svg"
                                             width={15}
@@ -349,7 +349,7 @@ let Main = () => {
                                         </div>
                                       </div>
                                       <div className="flex flex-row   relative bottom-3">
-                                        <div className="flex flex-row ml-1 ">
+                                        <div className="flex flex-row ml-1 w-[150px] ">
                                           <Image
                                             src="/dollar.svg"
                                             width={15}
@@ -366,7 +366,10 @@ let Main = () => {
                                             height={15}
                                           />
                                           <p className=" py-[10px] text-[#8e8e8e] text-[12px] mx-2">
-                                            Posted 2 days ago
+                                            Posted
+                                            {new Date(
+                                              job.created_at
+                                            ).toLocaleDateString("en-GB")}
                                           </p>
                                         </div>
                                       </div>
@@ -384,10 +387,13 @@ let Main = () => {
                                                 width={15}
                                                 height={15}
                                               />
+
                                               <p className="text-[12px]">
-                                                Sent 1 day
+                                                Sent <br />{" "}
+                                                {new Date(
+                                                  app.timestampt
+                                                ).toLocaleDateString("en-GB")}
                                               </p>
-                                              <p className="text-[12px]">ago</p>
                                             </div>
 
                                             <div className="flex flex-col justify-center items-center m-2">

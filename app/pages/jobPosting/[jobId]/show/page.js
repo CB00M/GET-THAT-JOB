@@ -140,6 +140,8 @@ export default function page({ params }) {
     alert("You have been logged out.");
   };
 
+  const handleDownloadCv = (id) => {};
+
   console.log(selectedFilter);
   console.log("data candidate:", candidates);
   console.log("job data :", jobs);
@@ -298,8 +300,13 @@ export default function page({ params }) {
                                     width={20}
                                     height={20}
                                   />
-                                  <p>Open on</p>
-                                  <p>07/11/20</p>
+
+                                  <p>
+                                    open on <br />{" "}
+                                    {new Date(job.update_at).toLocaleDateString(
+                                      "en-GB"
+                                    )}
+                                  </p>
                                 </div>
 
                                 <div className="flex flex-col justify-center items-center m-2">
@@ -547,8 +554,12 @@ export default function page({ params }) {
                                         width={20}
                                         height={20}
                                       />
-                                      <p>Sent 5 days</p>
-                                      <p>ago</p>
+                                      <p>Sent</p>
+                                      <p>
+                                        {new Date(
+                                          data.timestampt
+                                        ).toLocaleDateString("en-GB")}
+                                      </p>
                                     </div>
                                     <div className="flex flex-col justify-center items-center m-2">
                                       <Image
@@ -615,7 +626,12 @@ export default function page({ params }) {
                                 height={20}
                                 className="absolute left-[10px] top-[10px]"
                               />
-                              <button className=" w-[180px] h-[40px] border-[1px] border-[#f495b5]   rounded-2xl text-[16px] text-right pr-[15px]  uppercase ">
+                              <button
+                                className=" w-[180px] h-[40px] border-[1px] border-[#f495b5]   rounded-2xl text-[16px] text-right pr-[15px]  uppercase "
+                                onClick={() => {
+                                  window.open(data.file_cv);
+                                }}
+                              >
                                 download cv
                               </button>
                             </div>
