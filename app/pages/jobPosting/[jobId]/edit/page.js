@@ -358,7 +358,7 @@ export default function Page({ params }) {
                     onClick={() => updateJobInSupabase(job.id, job)}
                     className="border-2 border-[#F48FB1] text-white rounded-2xl bg-[#F48FB1] mt-5 mb-5 py-1 px-3 "
                   >
-                    EDITE THIS JOB
+                    EDIT THIS JOB
                   </button>
                 </Link>
               </div>
