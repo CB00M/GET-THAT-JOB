@@ -433,8 +433,7 @@ let Main = () => {
                                       {app.experience}
                                     </p>
                                     <h2 className=" py-2 text-[#BF5F82] text-[16px] ml-[10px]">
-                                      Why are you interested in working at the
-                                      company name SA
+                                      Why are you interested in applying ?
                                     </h2>
                                     <p className=" py-2 text-[14px] ml-[10px]">
                                       {" "}
