@@ -366,7 +366,7 @@ export default function ApplyPage({ params }) {
               className="text-[#373737] text-[10px] pt-[10px] font-medium tracking-wide"
               style={montserrat.style}
             >
-              SEND YOUR CV UPDATED
+              SEND YOUR CV
               <div className="text-[#616161] text-[14px] flex gap-5 pt-[3px]">
                 <span>
                   <input
@@ -451,7 +451,7 @@ export default function ApplyPage({ params }) {
                       className="font-medium mb-[-15px] text-[#373737]"
                       style={inter.style}
                     >
-                      WHY ARE YOU INTERESTED IN WORKING AT THE COMPANY NAME SA
+                      WHY ARE YOU INTERESTED IN APPLAYING ?
                     </p>
                     <br />
                     <textarea
